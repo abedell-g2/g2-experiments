@@ -37,6 +37,9 @@ def transform(content, slug, product_name):
     content = re.sub(r'src="/assets/', 'src="https://www.g2.com/assets/', content)
     content = re.sub(r'href="/assets/', 'href="https://www.g2.com/assets/', content)
 
+    # Fix product images: dev CloudFront -> production CDN
+    content = content.replace('https://d3cat1s0n6zlx1.cloudfront.net', 'https://images.g2crowd.com')
+
     # Fix CSS references to use local copies
     content = re.sub(r'href="https://www\.g2\.com/assets/nessy_app[^"]*"', 'href="../assets/nessy_app.css"', content)
     content = re.sub(r'href="/elevate-assets/application[^"]*"', 'href="../assets/elevate.css"', content)

@@ -46,6 +46,15 @@ def transform(content, slug, product_name):
     content = re.sub(r'href="https://www\.g2\.test/assets/nessy_app[^"]*"', 'href="../assets/nessy_app.css"', content)
     content = re.sub(r'href="https://www\.g2\.test/elevate-assets[^"]*"', 'href="../assets/elevate.css"', content)
 
+    # Fix elevate JS to load from g2.com CDN instead of broken root-relative path
+    content = content.replace('src="/elevate-assets/application.js"',
+                              'src="https://www.g2.com/elevate-assets/application.js"')
+
+    # Resolve deferred images: replace placeholder GIFs with real src from data-deferred-image-src
+    # G2's deferred-image Stimulus controller sets src from data-deferred-image-src on load;
+    # without elevate.js this never fires, leaving all images as transparent GIFs.
+    content = _fix_deferred_images(content)
+
     # Rewrite remaining g2.test URLs to github pages
     content = re.sub(r'https://www\.g2\.test/', f'{GITHUB_BASE}/', content)
     content = re.sub(r'https://g2\.test/', f'{GITHUB_BASE}/', content)
@@ -61,8 +70,50 @@ def transform(content, slug, product_name):
 
     # Remove scripts that would fail (analytics, live reloaders, etc.)
     content = re.sub(r'<script[^>]*data-turbo-track[^>]*>.*?</script>', '', content, flags=re.DOTALL)
+    # Remove browsersync dev artifact
+    content = re.sub(r'<script[^>]*browsersync[^>]*></script>', '', content)
 
     return content
+
+
+def _fix_deferred_images(content):
+    """Replace placeholder transparent GIFs with real URLs from data-deferred-image-src.
+
+    G2 uses a deferred-image Stimulus controller that sets img.src from
+    data-deferred-image-src after the page loads. On a static page without
+    elevate.js, this never fires, leaving every logo/screenshot as a transparent
+    GIF. This function bakes the real src in at capture time.
+    """
+    PLACEHOLDERS = ('transparent-ad5be28fb', 'ffffff-68c7675')
+    new_content = content
+    offset = 0
+
+    for m in re.finditer(r'data-deferred-image-src="([^"]+)"', content):
+        real_src = m.group(1)
+        pos = m.start() + offset
+
+        # Scan back up to 2000 chars for the last placeholder src= before this attr
+        search_start = max(0, pos - 2000)
+        chunk = new_content[search_start:pos]
+
+        placeholder_m = None
+        for pm in re.finditer(r'src="[^"]*(?:' + '|'.join(PLACEHOLDERS) + r')[^"]*"', chunk):
+            placeholder_m = pm
+
+        if placeholder_m:
+            abs_start = search_start + placeholder_m.start()
+            abs_end = search_start + placeholder_m.end()
+            new_src = f'src="{real_src}"'
+            new_content = new_content[:abs_start] + new_src + new_content[abs_end:]
+            offset += len(new_src) - (placeholder_m.end() - placeholder_m.start())
+
+    # Remove the now-redundant deferred attributes
+    new_content = re.sub(r'\s*data-deferred-image-src="[^"]*"', '', new_content)
+    new_content = re.sub(r'\s*ue="\s*deferred-image\s*"', '', new_content)
+    new_content = re.sub(r'(?<=ue=") ?deferred-image ?', '', new_content)
+    new_content = new_content.replace(' ue=""', '')
+
+    return new_content
 
 def main():
     parser = argparse.ArgumentParser()

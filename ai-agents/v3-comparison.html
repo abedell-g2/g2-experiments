@@ -54,11 +54,11 @@
     .table-container { max-width: 1200px; margin: 0 auto; padding: 0 32px 48px; }
 
     /* ── Comparison Table ── */
-    .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; background: white; border: 1.5px solid #e5e3f0; border-radius: 12px; overflow: hidden; }
+    .comparison-table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; background: white; border: 1.5px solid #e5e3f0; border-radius: 12px; overflow: hidden; }
 
     /* Header */
     .comparison-table thead tr { background: #faf9ff; }
-    .comparison-table th { padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b8fa8; border-bottom: 1.5px solid #e5e3f0; white-space: nowrap; position: relative; cursor: pointer; }
+    .comparison-table th { padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b8fa8; border-bottom: 1.5px solid #e5e3f0; position: relative; cursor: pointer; }
     .comparison-table th:hover { color: #5746b2; }
     .comparison-table th:first-child { border-radius: 12px 0 0 0; }
     .comparison-table th:last-child { border-radius: 0 12px 0 0; }
@@ -102,8 +102,8 @@
 
     /* Completion cell */
     .completion-cell { display: flex; flex-direction: column; gap: 4px; }
-    .completion-num { font-size: 15px; font-weight: 800; }
-    .completion-bar-track { width: 80px; height: 5px; background: #e5e3f0; border-radius: 3px; overflow: hidden; }
+    .completion-num { font-size: 14px; font-weight: 800; }
+    .completion-bar-track { width: 80px; height: 4px; background: #e5e3f0; border-radius: 3px; overflow: hidden; }
     .completion-bar-fill { height: 100%; border-radius: 3px; }
     .bar-high { background: #5746b2; }
     .bar-mid { background: #d97706; }
@@ -118,7 +118,7 @@
 
     /* Ramp cell */
     .ramp-cell { }
-    .ramp-val { font-size: 15px; font-weight: 800; }
+    .ramp-val { font-size: 14px; font-weight: 800; }
     .ramp-label { font-size: 11px; color: #8b8fa8; }
     .ramp-badge { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; margin-top: 2px; }
     .ramp-fast { background: #f0eeff; color: #5746b2; }
@@ -126,7 +126,7 @@
 
     /* ROI cell */
     .roi-cell { }
-    .roi-val { font-size: 13px; font-weight: 700; color: #1a1a2e; }
+    .roi-val { font-size: 14px; font-weight: 800; color: #1a1a2e; }
     .roi-pct { font-size: 11px; color: #8b8fa8; margin-top: 2px; }
 
     /* Stars cell */
@@ -264,31 +264,31 @@
   <table class="comparison-table">
     <thead>
       <tr>
-        <th style="width:220px;">
+        <th style="width:21%;">
           <div class="th-inner">Product</div>
         </th>
-        <th class="th-ai-score" style="width:110px;">
+        <th class="th-ai-score" style="width:11%;">
           <div class="th-inner" style="flex-direction:column;align-items:flex-start;gap:2px;">
-            <div style="display:flex;align-items:center;gap:6px;">G2 Agentic Score <span class="th-new">NEW</span> <span class="sort-icon asc">▼</span></div>
-            <div style="font-size:10px;font-weight:400;color:#8b8fa8;white-space:nowrap;">Completion · Reliability · Impact</div>
+            <div style="display:flex;align-items:center;gap:6px;">G2 Agentic Score <span class="sort-icon asc">▼</span></div>
+            <div style="font-size:10px;font-weight:400;color:#8b8fa8;">Completion · Reliability · Impact</div>
           </div>
         </th>
-        <th style="width:130px;">
-          <div class="th-inner">Completion Rate <span class="th-new">NEW</span> <span class="sort-icon">↕</span></div>
+        <th style="width:12%;">
+          <div class="th-inner">Completion Rate <span class="sort-icon">↕</span></div>
         </th>
-        <th style="width:140px;">
-          <div class="th-inner">Autonomy Level <span class="th-new">NEW</span></div>
+        <th style="width:14%;">
+          <div class="th-inner">Autonomy Level</div>
         </th>
-        <th style="width:100px;">
-          <div class="th-inner">Ramp Time <span class="th-new">NEW</span> <span class="sort-icon">↕</span></div>
+        <th style="width:9%;">
+          <div class="th-inner">Ramp Time <span class="sort-icon">↕</span></div>
         </th>
-        <th style="width:120px;">
-          <div class="th-inner">Time-to-ROI <span class="th-new">NEW</span></div>
+        <th style="width:11%;">
+          <div class="th-inner">Time-to-ROI</div>
         </th>
-        <th style="width:120px;">
+        <th style="width:10%;">
           <div class="th-inner">Star Rating <span class="sort-icon">↕</span></div>
         </th>
-        <th style="width:130px;">
+        <th style="width:12%;">
           <div class="th-inner">Actions</div>
         </th>
       </tr>
@@ -695,7 +695,7 @@
       </div>
       <div>
         <div class="pcard-metric-label">Time-to-ROI</div>
-        <div class="pcard-metric-val" style="font-size:13px;">&lt; 30 days</div>
+        <div class="pcard-metric-val">&lt; 30 days</div>
         <div class="pcard-metric-sub">68% of users</div>
       </div>
     </div>
@@ -745,7 +745,7 @@
       </div>
       <div>
         <div class="pcard-metric-label">Time-to-ROI</div>
-        <div class="pcard-metric-val" style="font-size:13px;">1–3 months</div>
+        <div class="pcard-metric-val">1–3 months</div>
         <div class="pcard-metric-sub">71% of users</div>
       </div>
     </div>
@@ -795,7 +795,7 @@
       </div>
       <div>
         <div class="pcard-metric-label">Time-to-ROI</div>
-        <div class="pcard-metric-val" style="font-size:13px;">1–3 months</div>
+        <div class="pcard-metric-val">1–3 months</div>
         <div class="pcard-metric-sub">62% of users</div>
       </div>
     </div>
@@ -845,7 +845,7 @@
       </div>
       <div>
         <div class="pcard-metric-label">Time-to-ROI</div>
-        <div class="pcard-metric-val" style="font-size:13px;">1–3 months</div>
+        <div class="pcard-metric-val">1–3 months</div>
         <div class="pcard-metric-sub">55% of users</div>
       </div>
     </div>
@@ -895,7 +895,7 @@
       </div>
       <div>
         <div class="pcard-metric-label">Time-to-ROI</div>
-        <div class="pcard-metric-val" style="font-size:13px;">1–3 months</div>
+        <div class="pcard-metric-val">1–3 months</div>
         <div class="pcard-metric-sub">58% of users</div>
       </div>
     </div>
@@ -945,7 +945,7 @@
       </div>
       <div>
         <div class="pcard-metric-label">Time-to-ROI</div>
-        <div class="pcard-metric-val" style="font-size:13px;">3–6 months</div>
+        <div class="pcard-metric-val">3–6 months</div>
         <div class="pcard-metric-sub">60% of users</div>
       </div>
     </div>

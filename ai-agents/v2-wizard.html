@@ -167,7 +167,7 @@
     .autonomy-tile:hover { border-color: #c4bbf0; }
     .autonomy-tile.selected { border-color: #5746b2; background: #f8f7ff; }
     .autonomy-dots-row { display: flex; gap: 4px; margin-bottom: 10px; }
-    .a-dot { width: 10px; height: 10px; border-radius: 50%; background: #e5e3f0; }
+    .a-dot { width: 28px; height: 8px; border-radius: 4px; background: #e5e3f0; }
     .a-dot.on { background: #5746b2; }
     .autonomy-tile-name { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
     .autonomy-tile.selected .autonomy-tile-name { color: #5746b2; }
@@ -382,21 +382,21 @@
       <div class="autonomy-grid">
         <div class="autonomy-tile" onclick="selectAutonomy(this)">
           <div class="autonomy-dots-row">
-            <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div>
+            <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div>
           </div>
           <div class="autonomy-tile-name">Fully Autonomous</div>
           <div class="autonomy-tile-desc">The agent researches, decides, and acts — you only review outcomes. Good for teams that want to scale without adding headcount.</div>
         </div>
         <div class="autonomy-tile selected" onclick="selectAutonomy(this)">
           <div class="autonomy-dots-row">
-            <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot"></div>
+            <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot"></div>
           </div>
           <div class="autonomy-tile-name">Mostly Autonomous</div>
           <div class="autonomy-tile-desc">Handles execution but surfaces key decisions for your approval. Best for teams wanting AI efficiency with human judgment on important calls.</div>
         </div>
         <div class="autonomy-tile" onclick="selectAutonomy(this)">
           <div class="autonomy-dots-row">
-            <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot"></div><div class="a-dot"></div>
+            <div class="a-dot on"></div><div class="a-dot"></div><div class="a-dot"></div>
           </div>
           <div class="autonomy-tile-name">Supervised</div>
           <div class="autonomy-tile-desc">The agent drafts and recommends; humans approve before anything is sent. Ideal for regulated industries or teams new to AI agents.</div>

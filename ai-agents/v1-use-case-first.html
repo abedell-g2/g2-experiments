@@ -79,8 +79,8 @@
     }
     .autonomy-pill:hover { border-color: #5746b2; }
     .autonomy-pill.selected { border-color: #5746b2; background: #f0eeff; }
-    .autonomy-pill .dot-group { display: flex; gap: 2px; }
-    .autonomy-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: #d1d5db; }
+    .autonomy-pill .dot-group { display: flex; gap: 3px; }
+    .autonomy-pill .dot { width: 18px; height: 6px; border-radius: 3px; background: #d1d5db; }
     .autonomy-pill .dot.on { background: #5746b2; }
     .autonomy-pill span { font-size: 12px; color: #1a1a2e; }
 
@@ -156,7 +156,7 @@
     .completion-bar-fill { height: 100%; border-radius: 3px; background: #5746b2; }
 
     .autonomy-dots { display: flex; gap: 3px; margin-top: 4px; }
-    .autonomy-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .autonomy-dot { width: 18px; height: 6px; border-radius: 3px; background: #e5e3f0; }
     .autonomy-dot.on { background: #5746b2; }
     .autonomy-dot.off { background: #e5e3f0; }
 
@@ -244,15 +244,15 @@
 
       <div class="filter-label">Autonomy Level</div>
       <div class="autonomy-pill selected">
-        <div class="dot-group"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div>
+        <div class="dot-group"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div>
         <span>Fully Autonomous</span>
       </div>
       <div class="autonomy-pill">
-        <div class="dot-group"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot off"></div></div>
+        <div class="dot-group"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
         <span>Mostly Autonomous</span>
       </div>
       <div class="autonomy-pill">
-        <div class="dot-group"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot off"></div><div class="dot off"></div></div>
+        <div class="dot-group"><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
         <span>Requires Oversight</span>
       </div>
 
@@ -369,7 +369,6 @@
           <div class="metric-item">
             <div class="metric-name">Autonomy</div>
             <div class="autonomy-dots">
-              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
               <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
             </div>
             <div class="metric-sub" style="margin-top:4px;">Fully Autonomous</div>
@@ -448,7 +447,6 @@
           <div class="metric-item">
             <div class="metric-name">Autonomy</div>
             <div class="autonomy-dots">
-              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
               <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot off"></div>
             </div>
             <div class="metric-sub" style="margin-top:4px;">Mostly Autonomous</div>
@@ -527,7 +525,6 @@
           <div class="metric-item">
             <div class="metric-name">Autonomy</div>
             <div class="autonomy-dots">
-              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
               <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot off"></div>
             </div>
             <div class="metric-sub" style="margin-top:4px;">Mostly Autonomous</div>
@@ -606,7 +603,6 @@
           <div class="metric-item">
             <div class="metric-name">Autonomy</div>
             <div class="autonomy-dots">
-              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
               <div class="autonomy-dot on"></div><div class="autonomy-dot off"></div><div class="autonomy-dot off"></div>
             </div>
             <div class="metric-sub" style="margin-top:4px;">Requires Oversight</div>
@@ -685,8 +681,7 @@
           <div class="metric-item">
             <div class="metric-name">Autonomy</div>
             <div class="autonomy-dots">
-              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
-              <div class="autonomy-dot off"></div><div class="autonomy-dot off"></div><div class="autonomy-dot off"></div>
+              <div class="autonomy-dot on"></div><div class="autonomy-dot off"></div><div class="autonomy-dot off"></div>
             </div>
             <div class="metric-sub" style="margin-top:4px;">Requires Oversight</div>
           </div>
@@ -765,8 +760,7 @@
           <div class="metric-item">
             <div class="metric-name">Autonomy</div>
             <div class="autonomy-dots">
-              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
-              <div class="autonomy-dot on"></div><div class="autonomy-dot off"></div><div class="autonomy-dot off"></div>
+              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot off"></div>
             </div>
             <div class="metric-sub" style="margin-top:4px;">Mostly Autonomous</div>
           </div>

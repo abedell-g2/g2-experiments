@@ -190,38 +190,35 @@
     .new-metrics-banner {
       background: #5746b2; color: white;
       border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;
-      display: flex; align-items: flex-start; gap: 16px;
+      display: flex; flex-direction: column;
     }
+    .banner-main { display: flex; align-items: flex-start; gap: 16px; }
+    .banner-footer { display: flex; justify-content: flex-end; margin-top: 10px; }
     .new-metrics-banner h4 { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
     .new-metrics-banner p { font-size: 12px; opacity: 0.9; line-height: 1.5; }
     .new-metrics-banner .metrics-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
     .new-metrics-banner .chip { background: rgba(255,255,255,0.2); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; }
 
-    /* ── Customize Panel ── */
+    /* ── Customize (expands inside banner) ── */
     .customize-toggle {
-      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 6px; color: white; font-family: Figtree, sans-serif;
-      font-size: 11px; font-weight: 700; padding: 4px 12px;
-      cursor: pointer; white-space: nowrap; flex-shrink: 0; margin-left: 16px;
+      background: none; border: none;
+      color: rgba(255,255,255,0.65); font-family: Figtree, sans-serif;
+      font-size: 11px; font-weight: 600; padding: 0; cursor: pointer;
     }
-    .customize-toggle:hover { background: rgba(255,255,255,0.3); }
-    .customize-toggle.active { background: white; color: #5746b2; border-color: white; }
-    .customize-panel {
-      background: white; border: 1.5px solid #ddd8f8; border-radius: 12px;
-      padding: 20px 24px; margin-bottom: 20px; display: none;
+    .customize-toggle:hover { color: white; }
+    .banner-customize {
+      display: none; margin-top: 16px; padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.2);
     }
-    .customize-panel.open { display: block; }
-    .cw-header { margin-bottom: 16px; }
-    .cw-title { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 2px; }
-    .cw-subtitle { font-size: 12px; color: #8b8fa8; }
+    .banner-customize.open { display: block; }
     .cw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; }
-    .cw-label { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600; color: #49495a; margin-bottom: 6px; }
-    .cw-weight { font-size: 12px; font-weight: 800; color: #5746b2; }
-    .cw-slider { width: 100%; accent-color: #5746b2; cursor: pointer; }
-    .cw-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 14px; border-top: 1px solid #f0eeff; }
-    .cw-info { font-size: 11px; color: #8b8fa8; }
-    .cw-reset { font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; color: #5746b2; background: none; border: none; cursor: pointer; padding: 0; }
-    .cw-reset:hover { text-decoration: underline; }
+    .cw-label { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 6px; }
+    .cw-weight { font-size: 12px; font-weight: 800; color: white; }
+    .cw-slider { width: 100%; accent-color: white; cursor: pointer; }
+    .cw-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+    .cw-info { font-size: 11px; color: rgba(255,255,255,0.55); }
+    .cw-reset { font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); background: none; border: none; cursor: pointer; padding: 0; }
+    .cw-reset:hover { color: white; }
   </style>
 </head>
 <body>
@@ -326,49 +323,49 @@
 
     <!-- New Metrics Banner -->
     <div class="new-metrics-banner">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <div style="flex:1;">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+      <div class="banner-main">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <div>
           <h4>Introducing G2 Agentic Score</h4>
-          <button class="customize-toggle" id="customizeToggle" onclick="toggleCustomize()">Customize ↓</button>
-        </div>
-        <p>Traditional star ratings miss what matters for AI agents. G2 now collects completion rates, ramp time, and autonomy level from verified users.</p>
-        <div class="metrics-chips">
-          <span class="chip">Task Completion Rate</span>
-          <span class="chip">Ramp Time</span>
-          <span class="chip">Autonomy Level</span>
-          <span class="chip">Time-to-First-Value</span>
+          <p>Traditional star ratings miss what matters for AI agents. G2 now collects completion rates, ramp time, and autonomy level from verified users.</p>
+          <div class="metrics-chips">
+            <span class="chip">Task Completion Rate</span>
+            <span class="chip">Ramp Time</span>
+            <span class="chip">Autonomy Level</span>
+            <span class="chip">Time-to-First-Value</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Customize Panel -->
-    <div class="customize-panel" id="customizePanel">
-      <div class="cw-header">
-        <div class="cw-title">Customize ranking weights</div>
-        <div class="cw-subtitle">Adjust what matters most to you — the list re-ranks instantly.</div>
+      <!-- Sliders expand inside the purple card -->
+      <div class="banner-customize" id="bannerCustomize">
+        <div class="cw-grid">
+          <div class="cw-item">
+            <div class="cw-label">Task Completion Rate <span class="cw-weight" id="wComp">35%</span></div>
+            <input type="range" class="cw-slider" id="slComp" min="0" max="100" value="35" oninput="updateWeights()">
+          </div>
+          <div class="cw-item">
+            <div class="cw-label">Ramp Time <span class="cw-weight" id="wRamp">20%</span></div>
+            <input type="range" class="cw-slider" id="slRamp" min="0" max="100" value="20" oninput="updateWeights()">
+          </div>
+          <div class="cw-item">
+            <div class="cw-label">Autonomy Level <span class="cw-weight" id="wAut">20%</span></div>
+            <input type="range" class="cw-slider" id="slAut" min="0" max="100" value="20" oninput="updateWeights()">
+          </div>
+          <div class="cw-item">
+            <div class="cw-label">Time-to-ROI <span class="cw-weight" id="wROI">25%</span></div>
+            <input type="range" class="cw-slider" id="slROI" min="0" max="100" value="25" oninput="updateWeights()">
+          </div>
+        </div>
+        <div class="cw-footer">
+          <span class="cw-info">Scores are normalized relative to all listed products.</span>
+          <button class="cw-reset" onclick="resetWeights()">Reset to defaults</button>
+        </div>
       </div>
-      <div class="cw-grid">
-        <div class="cw-item">
-          <div class="cw-label">Task Completion Rate <span class="cw-weight" id="wComp">35%</span></div>
-          <input type="range" class="cw-slider" id="slComp" min="0" max="100" value="35" oninput="updateWeights()">
-        </div>
-        <div class="cw-item">
-          <div class="cw-label">Ramp Time <span class="cw-weight" id="wRamp">20%</span></div>
-          <input type="range" class="cw-slider" id="slRamp" min="0" max="100" value="20" oninput="updateWeights()">
-        </div>
-        <div class="cw-item">
-          <div class="cw-label">Autonomy Level <span class="cw-weight" id="wAut">20%</span></div>
-          <input type="range" class="cw-slider" id="slAut" min="0" max="100" value="20" oninput="updateWeights()">
-        </div>
-        <div class="cw-item">
-          <div class="cw-label">Time-to-ROI <span class="cw-weight" id="wROI">25%</span></div>
-          <input type="range" class="cw-slider" id="slROI" min="0" max="100" value="25" oninput="updateWeights()">
-        </div>
-      </div>
-      <div class="cw-footer">
-        <span class="cw-info">Scores are normalized relative to all listed products.</span>
-        <button class="cw-reset" onclick="resetWeights()">Reset to defaults</button>
+
+      <!-- Customize link bottom-right -->
+      <div class="banner-footer">
+        <button class="customize-toggle" id="customizeToggle" onclick="toggleCustomize()">Customize weights ↓</button>
       </div>
     </div>
 
@@ -889,12 +886,11 @@
   const DEFAULT_ORDER = ['card-11x', 'card-artisan', 'card-aisdr', 'card-salesforge', 'card-reply', 'card-regie'];
 
   function toggleCustomize() {
-    const panel = document.getElementById('customizePanel');
+    const panel = document.getElementById('bannerCustomize');
     const btn = document.getElementById('customizeToggle');
     const isOpen = panel.classList.contains('open');
     panel.classList.toggle('open');
-    btn.classList.toggle('active');
-    btn.textContent = isOpen ? 'Customize ↓' : 'Customize ↑';
+    btn.textContent = isOpen ? 'Customize weights ↓' : 'Customize weights ↑';
     if (isOpen) {
       restoreOriginalOrder();
     } else {

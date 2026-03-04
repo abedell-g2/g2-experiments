@@ -11,7 +11,7 @@
     body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
 
     /* ── Page Header ── */
-    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 24px 32px 20px; }
+    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 24px 32px 0; }
     .page-header-inner { max-width: 1200px; margin: 0 auto; }
 
     .header-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
@@ -23,10 +23,15 @@
     .toggle-btn { padding: 6px 14px; border-radius: 6px; border: none; background: none; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; color: #8b8fa8; display: flex; align-items: center; gap: 5px; }
     .toggle-btn.active { background: white; color: #5746b2; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
 
-    /* Use Case Tabs */
-    .uc-tabs { display: flex; gap: 2px; margin-top: 16px; }
-    .uc-tab { padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid transparent; border-bottom: none; border-radius: 6px 6px 0 0; color: #49495a; background: #f5f4fb; text-decoration: none; margin-bottom: -1px; }
-    .uc-tab.active { background: white; color: #5746b2; border-color: #e5e3f0; border-bottom-color: white; font-weight: 700; }
+    /* Category Tab Bar */
+    .cat-tabs-wrap { margin: 16px -32px 0; border-top: 1px solid #e5e3f0; overflow: visible; }
+    .cat-tabs { display: flex; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+    .cat-tab { padding: 12px 14px; font-size: 13px; font-weight: 600; color: #8b8fa8; white-space: nowrap; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.12s, border-color 0.12s; display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; margin-bottom: -1px; text-decoration: none; }
+    .cat-tab:hover { color: #5746b2; }
+    .cat-tab.active { color: #5746b2; border-bottom-color: #5746b2; font-weight: 700; }
+    .cat-tab .tab-icon { display: inline-flex; }
+    .cat-tab .tab-count { font-size: 10px; font-weight: 700; background: #f0eeff; color: #5746b2; padding: 1px 6px; border-radius: 10px; }
+    .cat-tab.active .tab-count { background: #5746b2; color: white; }
 
     /* ── Filter Row ── */
     .filter-row { max-width: 1200px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -206,12 +211,14 @@
       </div>
     </div>
 
-    <div class="uc-tabs">
-      <a class="uc-tab active" href="#">SDR &amp; Outbound</a>
-      <a class="uc-tab" href="#">Customer Support</a>
-      <a class="uc-tab" href="#">DevOps &amp; Code</a>
-      <a class="uc-tab" href="#">Research &amp; Analysis</a>
-      <a class="uc-tab" href="#">Internal Ops</a>
+  </div>
+  <div class="cat-tabs-wrap">
+    <div class="cat-tabs">
+      <div class="cat-tab active" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span> SDR &amp; Outbound <span class="tab-count">6</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Customer Support <span class="tab-count">11</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> DevOps &amp; Code <span class="tab-count">8</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span> Research &amp; Analysis <span class="tab-count">7</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span> Internal Ops <span class="tab-count">12</span></div>
     </div>
   </div>
 </div>
@@ -937,6 +944,11 @@
 </div>
 
 <script>
+  function switchCat(el) {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
   function setView(v) {
     document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
     event.target.closest('.toggle-btn').classList.add('active');

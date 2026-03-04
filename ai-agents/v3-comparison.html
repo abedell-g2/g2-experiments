@@ -54,7 +54,7 @@
     .table-container { max-width: 1200px; margin: 0 auto; padding: 0 32px 48px; }
 
     /* ── Comparison Table ── */
-    .comparison-table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; background: white; border: 1.5px solid #e5e3f0; border-radius: 12px; overflow: hidden; }
+    .comparison-table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; background: white; border: 1.5px solid #e5e3f0; border-radius: 12px; overflow: visible; }
 
     /* Header */
     .comparison-table thead tr { background: #faf9ff; }
@@ -62,6 +62,8 @@
     .comparison-table th:hover { color: #5746b2; }
     .comparison-table th:first-child { border-radius: 12px 0 0 0; }
     .comparison-table th:last-child { border-radius: 0 12px 0 0; }
+    .comparison-table tbody tr:last-child td:first-child { border-radius: 0 0 0 10px; }
+    .comparison-table tbody tr:last-child td:last-child { border-radius: 0 0 10px 0; }
     .th-inner { display: flex; align-items: center; gap: 5px; }
     .th-new { background: #5746b2; color: white; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; letter-spacing: 0.05em; }
     .sort-icon { color: #c4c0e0; font-size: 10px; }
@@ -90,15 +92,34 @@
     .best-tag { background: #5746b2; color: white; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.05em; margin-left: 6px; vertical-align: middle; }
 
     /* G2 AI Score cell */
-    .score-cell { display: flex; align-items: center; gap: 8px; }
+    .score-cell { position: relative; display: inline-flex; align-items: center; }
     .score-hex {
       width: 42px; height: 42px;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       color: white; font-size: 14px; font-weight: 800; flex-shrink: 0;
+      cursor: default;
     }
     .score-hex.top { background: #5746b2; }
     .score-hex.mid { background: #9ca3af; }
+    .score-popover {
+      position: absolute; left: calc(100% + 10px); top: 50%;
+      transform: translateY(-50%);
+      background: #1a1a2e; color: white;
+      border-radius: 8px; padding: 10px 14px;
+      font-size: 11px; line-height: 1.8; white-space: nowrap;
+      z-index: 500; pointer-events: none;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.15s, visibility 0.15s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+    .score-popover::before {
+      content: ''; position: absolute; right: 100%; top: 50%;
+      transform: translateY(-50%);
+      border: 5px solid transparent; border-right-color: #1a1a2e;
+    }
+    .score-popover strong { font-weight: 800; color: white; margin-left: 4px; float: right; padding-left: 16px; }
+    .score-cell:hover .score-popover { opacity: 1; visibility: visible; }
 
     /* Completion cell */
     .completion-cell { display: flex; flex-direction: column; gap: 4px; }
@@ -264,31 +285,28 @@
   <table class="comparison-table">
     <thead>
       <tr>
-        <th style="width:21%;">
+        <th style="width:22%;">
           <div class="th-inner">Product</div>
         </th>
-        <th class="th-ai-score" style="width:11%;">
-          <div class="th-inner" style="flex-direction:column;align-items:flex-start;gap:2px;">
-            <div style="display:flex;align-items:center;gap:6px;">G2 Agentic Score <span class="sort-icon asc">▼</span></div>
-            <div style="font-size:10px;font-weight:400;color:#8b8fa8;">Completion · Reliability · Impact</div>
-          </div>
+        <th class="th-ai-score" style="width:8%;">
+          <div class="th-inner">G2 Agentic Score <span class="sort-icon asc">▼</span></div>
         </th>
-        <th style="width:12%;">
+        <th style="width:13%;">
           <div class="th-inner">Completion Rate <span class="sort-icon">↕</span></div>
         </th>
         <th style="width:14%;">
           <div class="th-inner">Autonomy Level</div>
         </th>
-        <th style="width:9%;">
+        <th style="width:10%;">
           <div class="th-inner">Ramp Time <span class="sort-icon">↕</span></div>
         </th>
-        <th style="width:11%;">
+        <th style="width:12%;">
           <div class="th-inner">Time-to-ROI</div>
         </th>
         <th style="width:10%;">
           <div class="th-inner">Star Rating <span class="sort-icon">↕</span></div>
         </th>
-        <th style="width:12%;">
+        <th style="width:11%;">
           <div class="th-inner">Actions</div>
         </th>
       </tr>
@@ -309,9 +327,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex top">84</div>
-            <div>
-              <div class="score-breakdown">Performance 36<br>Reliability 26<br>Impact 22</div>
-            </div>
+            <div class="score-popover">Performance <strong>36</strong><br>Reliability <strong>26</strong><br>Impact <strong>22</strong></div>
           </div>
         </td>
         <td>
@@ -369,9 +385,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex top">79</div>
-            <div>
-              <div class="score-breakdown">Performance 32<br>Reliability 24<br>Impact 23</div>
-            </div>
+            <div class="score-popover">Performance <strong>32</strong><br>Reliability <strong>24</strong><br>Impact <strong>23</strong></div>
           </div>
         </td>
         <td>
@@ -429,9 +443,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex top">76</div>
-            <div>
-              <div class="score-breakdown">Performance 31<br>Reliability 23<br>Impact 22</div>
-            </div>
+            <div class="score-popover">Performance <strong>31</strong><br>Reliability <strong>23</strong><br>Impact <strong>22</strong></div>
           </div>
         </td>
         <td>
@@ -489,9 +501,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex mid">71</div>
-            <div>
-              <div class="score-breakdown">Performance 27<br>Reliability 22<br>Impact 22</div>
-            </div>
+            <div class="score-popover">Performance <strong>27</strong><br>Reliability <strong>22</strong><br>Impact <strong>22</strong></div>
           </div>
         </td>
         <td>
@@ -549,9 +559,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex mid">68</div>
-            <div>
-              <div class="score-breakdown">Performance 25<br>Reliability 22<br>Impact 21</div>
-            </div>
+            <div class="score-popover">Performance <strong>25</strong><br>Reliability <strong>22</strong><br>Impact <strong>21</strong></div>
           </div>
         </td>
         <td>
@@ -609,9 +617,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex mid">65</div>
-            <div>
-              <div class="score-breakdown">Performance 23<br>Reliability 21<br>Impact 21</div>
-            </div>
+            <div class="score-popover">Performance <strong>23</strong><br>Reliability <strong>21</strong><br>Impact <strong>21</strong></div>
           </div>
         </td>
         <td>

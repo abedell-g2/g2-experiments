@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Agents Category Page — G2 Design Experiments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; }
+    header { background: #5746b2; color: white; padding: 32px 48px; }
+    header a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 20px; }
+    header a:hover { color: white; }
+    header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    header .subtitle { font-size: 15px; opacity: 0.85; line-height: 1.6; max-width: 680px; }
+    main { max-width: 1000px; margin: 48px auto; padding: 0 24px; }
+
+    .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #5746b2; margin-bottom: 8px; }
+    .section-title { font-size: 18px; font-weight: 800; color: #1a1a2e; margin-bottom: 4px; }
+    .section-desc { font-size: 13px; color: #49495a; line-height: 1.6; margin-bottom: 24px; max-width: 600px; }
+
+    /* Variant cards */
+    .variants { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 56px; }
+    .variant-card { background: white; border: 1.5px solid #e5e3f0; border-radius: 14px; overflow: hidden; text-decoration: none; color: inherit; display: block; transition: border-color 0.15s, box-shadow 0.15s; }
+    .variant-card:hover { border-color: #5746b2; box-shadow: 0 6px 24px rgba(87,70,178,0.14); }
+    .variant-preview { height: 140px; display: flex; align-items: center; justify-content: center; padding: 16px; position: relative; overflow: hidden; }
+    .variant-body { padding: 20px; }
+    .variant-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: #f0eeff; color: #5746b2; border-radius: 20px; padding: 3px 10px; margin-bottom: 10px; }
+    .variant-card:hover .variant-tag { background: #5746b2; color: white; }
+    .variant-title { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .variant-desc { font-size: 13px; color: #49495a; line-height: 1.5; margin-bottom: 14px; }
+    .variant-features { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .variant-features li { font-size: 12px; color: #49495a; display: flex; align-items: flex-start; gap: 7px; }
+    .variant-features li::before { content: '→'; color: #5746b2; font-weight: 700; flex-shrink: 0; }
+    .variant-cta { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 14px; border-top: 1px solid #f0eeff; }
+    .variant-cta span { font-size: 12px; font-weight: 700; color: #5746b2; }
+    .variant-cta svg { color: #5746b2; }
+
+    /* Mini preview mockups */
+    .mock-card { background: white; border: 1px solid #e5e3f0; border-radius: 8px; padding: 10px 12px; width: 100%; }
+    .mock-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+    .mock-logo { width: 22px; height: 22px; border-radius: 4px; flex-shrink: 0; }
+    .mock-name { height: 7px; background: #1a1a2e; border-radius: 3px; width: 60px; }
+    .mock-badge { height: 7px; background: #ff492c; border-radius: 3px; width: 28px; opacity: 0.7; }
+    .mock-score { width: 26px; height: 30px; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); background: linear-gradient(160deg,#5746b2,#7c3aed); margin-left: auto; }
+    .mock-metric-row { display: flex; gap: 4px; margin-top: 6px; }
+    .mock-metric { background: #f0eeff; border-radius: 4px; flex: 1; height: 20px; }
+    .mock-bar-track { background: #e5e3f0; height: 3px; border-radius: 2px; margin-top: 5px; }
+    .mock-bar { background: #5746b2; height: 100%; border-radius: 2px; }
+
+    .mock-wizard { background: white; border: 1px solid #e5e3f0; border-radius: 8px; padding: 10px 12px; width: 100%; }
+    .mock-steps { display: flex; gap: 4px; align-items: center; margin-bottom: 10px; }
+    .mock-step-circle { width: 14px; height: 14px; border-radius: 50%; }
+    .mock-step-line { flex: 1; height: 2px; background: #e5e3f0; }
+    .mock-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-bottom: 8px; }
+    .mock-tile { border: 1px solid #e5e3f0; border-radius: 4px; height: 28px; }
+    .mock-tile.sel { border-color: #5746b2; background: #f0eeff; }
+    .mock-match-row { display: flex; gap: 4px; }
+    .mock-match { flex: 1; border: 1.5px solid #5746b2; border-radius: 6px; height: 28px; background: #f8f7ff; }
+
+    .mock-table { background: white; border: 1px solid #e5e3f0; border-radius: 8px; overflow: hidden; width: 100%; }
+    .mock-thead { background: #faf9ff; display: flex; gap: 2px; padding: 5px 8px; border-bottom: 1px solid #e5e3f0; }
+    .mock-th { height: 6px; background: #e5e3f0; border-radius: 2px; }
+    .mock-trow { display: flex; align-items: center; gap: 4px; padding: 6px 8px; border-bottom: 1px solid #f0eeff; }
+    .mock-trow:last-child { border-bottom: none; }
+    .mock-trow.highlight { background: #faf9ff; border-left: 2px solid #5746b2; }
+    .mock-cell { height: 6px; background: #e5e3f0; border-radius: 2px; }
+    .mock-hex-sm { width: 14px; height: 16px; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); background: linear-gradient(160deg,#5746b2,#7c3aed); flex-shrink: 0; }
+
+    /* Context box */
+    .context-box { background: white; border: 1.5px solid #e5e3f0; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
+    .context-box h3 { font-size: 15px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .context-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .context-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; margin-bottom: 8px; }
+    .context-col ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .context-col li { font-size: 13px; color: #49495a; display: flex; align-items: flex-start; gap: 6px; line-height: 1.4; }
+    .context-col li::before { content: '•'; color: #5746b2; font-weight: 900; flex-shrink: 0; }
+
+    footer { text-align: center; padding: 32px; font-size: 13px; color: #999; border-top: 1px solid #e5e3f0; margin-top: 32px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    All Experiments
+  </a>
+  <h1>AI Agents — Category Page Redesign</h1>
+  <p class="subtitle">Three design concepts for a new AI Agents category page — built around use-case-first navigation, proprietary G2 Agentic Metrics, and buyer-stage awareness. Use case: AI SDR &amp; Outbound Agents.</p>
+</header>
+
+<main>
+
+  <!-- Context -->
+  <div class="context-box">
+    <h3>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5746b2" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      Why this page needed a complete rethink
+    </h3>
+    <div class="context-grid">
+      <div class="context-col">
+        <h4>What's broken about the current design</h4>
+        <ul>
+          <li>Star ratings don't capture what matters for autonomous AI — they rate UX, not production reliability</li>
+          <li>"Best AI Agents" ranking is meaningless without use case context — the best SDR agent is not the best DevOps agent</li>
+          <li>No way to surface autonomy level, ramp time, or task completion — the dimensions buyers actually care about</li>
+          <li>Buyers who already have a shortlist are forced through a discovery flow they don't need</li>
+        </ul>
+      </div>
+      <div class="context-col">
+        <h4>G2 Agentic Score — new proprietary metrics</h4>
+        <ul>
+          <li><strong>Task Completion Rate:</strong> % of workflows completed without human rescue (40% weight)</li>
+          <li><strong>Reliability &amp; Error Recovery:</strong> Behavior under failure; consistency over time (30%)</li>
+          <li><strong>Business Impact:</strong> Time-to-ROI and reviewer-reported outcome quality (30%)</li>
+          <li>Composite = G2 Agentic Score (0–100), collected from structured review questions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variants -->
+  <div class="section-label">Design Variants</div>
+  <div class="section-title">Three approaches to the same problem</div>
+  <p class="section-desc">Each variant takes a different primary entry point, but all share the same product data, G2 Agentic Metrics, and design language. They're not mutually exclusive — elements can be combined.</p>
+
+  <div class="variants">
+
+    <!-- V1 -->
+    <a class="variant-card" href="./v1-use-case-first.html">
+      <div class="variant-preview" style="background:linear-gradient(135deg,#f8f7ff,#f0eeff);">
+        <!-- Mini card mockup -->
+        <div style="width:100%;">
+          <!-- Tabs mockup -->
+          <div style="display:flex;gap:3px;margin-bottom:8px;">
+            <div style="background:#5746b2;color:white;border-radius:4px 4px 0 0;padding:4px 8px;font-size:9px;font-weight:700;">SDR &amp; Outbound</div>
+            <div style="background:#e5e3f0;border-radius:4px 4px 0 0;padding:4px 8px;font-size:9px;color:#8b8fa8;font-weight:600;">Support</div>
+            <div style="background:#e5e3f0;border-radius:4px 4px 0 0;padding:4px 8px;font-size:9px;color:#8b8fa8;font-weight:600;">DevOps</div>
+          </div>
+          <div class="mock-card">
+            <div class="mock-row">
+              <div class="mock-logo" style="background:#0f172a;"></div>
+              <div>
+                <div class="mock-name"></div>
+                <div style="margin-top:3px;height:5px;background:#e5e3f0;border-radius:2px;width:100px;"></div>
+              </div>
+              <div class="mock-score"></div>
+            </div>
+            <div style="background:#f0eeff;border-radius:6px;padding:8px 10px;">
+              <div style="font-size:8px;font-weight:700;color:#5746b2;margin-bottom:5px;">G2 AGENTIC METRICS</div>
+              <div class="mock-metric-row">
+                <div class="mock-metric"></div>
+                <div class="mock-metric"></div>
+                <div class="mock-metric"></div>
+                <div class="mock-metric"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-body">
+        <div class="variant-tag">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+          Variant 1
+        </div>
+        <div class="variant-title">Use Case First</div>
+        <div class="variant-desc">The entire experience is organized around what you're trying to do. Use case tabs are the primary navigation. AI-specific filters replace the generic sidebar.</div>
+        <ul class="variant-features">
+          <li>Use case tabs (SDR, Support, DevOps, Research, Ops)</li>
+          <li>AI-specific sidebar filters (Autonomy, Time-to-ROI, Completion Rate)</li>
+          <li>Full G2 Agentic Metrics panel on every product card</li>
+          <li>Works for all buyer modes without forcing a wizard</li>
+        </ul>
+        <div class="variant-cta">
+          <span>Open Variant 1 →</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- V2 -->
+    <a class="variant-card" href="./v2-wizard.html">
+      <div class="variant-preview" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);">
+        <div style="width:100%;">
+          <div class="mock-wizard">
+            <div style="font-size:9px;font-weight:800;color:#1a1a2e;margin-bottom:6px;">Find the right AI Agent</div>
+            <div class="mock-steps">
+              <div class="mock-step-circle" style="background:#5746b2;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><span style="font-size:7px;color:white;font-weight:800;">✓</span></div>
+              <div class="mock-step-line" style="background:#5746b2;"></div>
+              <div class="mock-step-circle" style="background:#5746b2;"></div>
+              <div class="mock-step-line"></div>
+              <div class="mock-step-circle" style="background:#e5e3f0;"></div>
+            </div>
+            <div class="mock-tiles">
+              <div class="mock-tile sel"></div>
+              <div class="mock-tile"></div>
+              <div class="mock-tile"></div>
+            </div>
+            <div class="mock-match-row">
+              <div class="mock-match" style="border-color:#ff492c;background:#fff3f0;"></div>
+              <div class="mock-match"></div>
+              <div class="mock-match" style="border-color:#16a34a;background:#f0fdf4;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-body">
+        <div class="variant-tag">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          Variant 2
+        </div>
+        <div class="variant-title">Guided Wizard</div>
+        <div class="variant-desc">A 3-step guided flow surfaces personalized top matches before the full product list. Skippable at any step — works for both explorers and shortlisters.</div>
+        <ul class="variant-features">
+          <li>3-step wizard: use case → autonomy preference → tech stack</li>
+          <li>"Your Top Matches" section with AI-generated match reasoning</li>
+          <li>Full product list below with compact comparison cards</li>
+          <li>Wizard collapses into a summary chip after completion</li>
+        </ul>
+        <div class="variant-cta">
+          <span>Open Variant 2 →</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- V3 -->
+    <a class="variant-card" href="./v3-comparison.html">
+      <div class="variant-preview" style="background:linear-gradient(135deg,#fff7ed,#fef3c7);">
+        <div style="width:100%;">
+          <div class="mock-table">
+            <div class="mock-thead">
+              <div class="mock-th" style="width:50px;"></div>
+              <div class="mock-th" style="width:30px;background:#5746b2;opacity:0.4;"></div>
+              <div class="mock-th" style="width:35px;background:#5746b2;opacity:0.3;"></div>
+              <div class="mock-th" style="width:30px;background:#5746b2;opacity:0.2;"></div>
+              <div class="mock-th" style="flex:1;"></div>
+            </div>
+            <div class="mock-trow highlight">
+              <div style="width:20px;height:20px;background:#0f172a;border-radius:4px;flex-shrink:0;"></div>
+              <div class="mock-hex-sm"></div>
+              <div class="mock-cell" style="width:28px;background:#5746b2;opacity:0.5;"></div>
+              <div class="mock-cell" style="width:20px;"></div>
+              <div class="mock-cell" style="flex:1;"></div>
+              <div style="width:40px;height:14px;background:#ff492c;border-radius:3px;flex-shrink:0;"></div>
+            </div>
+            <div class="mock-trow">
+              <div style="width:20px;height:20px;background:#ede9fe;border-radius:4px;flex-shrink:0;"></div>
+              <div class="mock-hex-sm" style="background:linear-gradient(160deg,#6366f1,#818cf8);"></div>
+              <div class="mock-cell" style="width:25px;background:#6366f1;opacity:0.4;"></div>
+              <div class="mock-cell" style="width:20px;"></div>
+              <div class="mock-cell" style="flex:1;"></div>
+              <div style="width:40px;height:14px;background:#ff492c;border-radius:3px;flex-shrink:0;opacity:0.6;"></div>
+            </div>
+            <div class="mock-trow">
+              <div style="width:20px;height:20px;background:#e0f2fe;border-radius:4px;flex-shrink:0;"></div>
+              <div class="mock-hex-sm" style="background:linear-gradient(160deg,#0284c7,#38bdf8);"></div>
+              <div class="mock-cell" style="width:22px;background:#0284c7;opacity:0.4;"></div>
+              <div class="mock-cell" style="width:20px;"></div>
+              <div class="mock-cell" style="flex:1;"></div>
+              <div style="width:40px;height:14px;background:#ff492c;border-radius:3px;flex-shrink:0;opacity:0.4;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-body">
+        <div class="variant-tag">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M3 12h18M3 18h18M9 3v18M15 3v18"/></svg>
+          Variant 3
+        </div>
+        <div class="variant-title">Smart Comparison Table</div>
+        <div class="variant-desc">The primary UI is a structured comparison table. G2 Agentic Score columns replace the traditional list, letting buyers sort on the dimensions that matter to them.</div>
+        <ul class="variant-features">
+          <li>Table-first with sortable G2 Agentic Score columns</li>
+          <li>Card / Compare view toggle</li>
+          <li>Filter chips for autonomy level and integrations</li>
+          <li>Score breakdown (Performance / Reliability / Impact) visible inline</li>
+        </ul>
+        <div class="variant-cta">
+          <span>Open Variant 3 →</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Research context note -->
+  <div class="context-box">
+    <h3>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5746b2" stroke-width="2.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Research &amp; design notes
+    </h3>
+    <div class="context-grid">
+      <div class="context-col">
+        <h4>Use case: AI SDR &amp; Outbound Agents</h4>
+        <ul>
+          <li>A clean, specific, emerging category — distinct from general-purpose AI and established automation tools</li>
+          <li>Products: 11x (Alice), Artisan (Ava), AiSDR, Salesforge (Frank), Reply.io (Jason AI), Regie.ai</li>
+          <li>All product data is illustrative for prototype purposes — not sourced from live G2 reviews</li>
+          <li>G2 Agentic Score methodology is a design proposal, not an active G2 metric</li>
+        </ul>
+      </div>
+      <div class="context-col">
+        <h4>Key buyer insights (from research)</h4>
+        <ul>
+          <li>95% of buyers choose from their Day One shortlist — most are validating, not discovering</li>
+          <li>Buyers trust independent review data; vendor-provided metrics rank lowest in credibility</li>
+          <li>Human-in-loop deployments outperform fully autonomous ones 2:1 for ROI — autonomy level is a key purchase criterion</li>
+          <li>Reliability (not intelligence) is the #1 production concern — completion rate &gt; benchmark score</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>Internal use only — G2 Design Experiments</footer>
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI SDR Agents — Smart Comparison | G2 Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+
+    /* ── Nav ── */
+    .g2-nav { background: white; border-bottom: 1px solid #e5e3f0; padding: 0 32px; display: flex; align-items: center; height: 56px; position: sticky; top: 0; z-index: 200; gap: 32px; }
+    .g2-nav-links { display: flex; gap: 24px; flex: 1; }
+    .g2-nav-links a { color: #49495a; text-decoration: none; font-size: 13px; font-weight: 500; }
+    .g2-nav-right { display: flex; gap: 10px; align-items: center; }
+    .btn-ghost { padding: 6px 14px; border: 1.5px solid #e5e3f0; border-radius: 6px; background: white; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; color: #1a1a2e; }
+    .btn-orange { padding: 6px 14px; border: none; border-radius: 6px; background: #ff492c; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; color: white; }
+
+    /* ── Experiment Banner ── */
+    .exp-banner { background: #5746b2; color: white; text-align: center; padding: 8px 16px; font-size: 13px; font-weight: 600; position: sticky; top: 56px; z-index: 199; }
+    .exp-banner a { color: white; text-decoration: underline; }
+
+    /* ── Page Header ── */
+    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 24px 32px 20px; }
+    .page-header-inner { max-width: 1200px; margin: 0 auto; }
+    .breadcrumb { font-size: 12px; color: #8b8fa8; margin-bottom: 10px; }
+    .breadcrumb a { color: #8b8fa8; text-decoration: none; }
+    .header-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+    .header-row h1 { font-size: 26px; font-weight: 800; }
+    .header-row p { font-size: 13px; color: #49495a; max-width: 500px; line-height: 1.5; margin-top: 4px; }
+
+    /* View Toggle */
+    .view-toggle { display: flex; background: #f5f4fb; border: 1.5px solid #e5e3f0; border-radius: 8px; padding: 3px; gap: 2px; flex-shrink: 0; }
+    .toggle-btn { padding: 6px 14px; border-radius: 6px; border: none; background: none; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; color: #8b8fa8; display: flex; align-items: center; gap: 5px; }
+    .toggle-btn.active { background: white; color: #5746b2; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+
+    /* Use Case Tabs */
+    .uc-tabs { display: flex; gap: 2px; margin-top: 16px; }
+    .uc-tab { padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid transparent; border-bottom: none; border-radius: 6px 6px 0 0; color: #49495a; background: #f5f4fb; text-decoration: none; margin-bottom: -1px; }
+    .uc-tab.active { background: white; color: #5746b2; border-color: #e5e3f0; border-bottom-color: white; font-weight: 700; }
+
+    /* ── Filter Row ── */
+    .filter-row { max-width: 1200px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .filter-chip { display: flex; align-items: center; gap: 5px; padding: 5px 12px; border: 1.5px solid #e5e3f0; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; background: white; color: #49495a; }
+    .filter-chip:hover { border-color: #5746b2; color: #5746b2; }
+    .filter-chip.active { border-color: #5746b2; background: #f0eeff; color: #5746b2; }
+    .filter-divider { width: 1px; height: 20px; background: #e5e3f0; margin: 0 4px; }
+    .results-label { font-size: 12px; color: #8b8fa8; margin-left: auto; }
+
+    /* ── Main Table Container ── */
+    .table-container { max-width: 1200px; margin: 0 auto; padding: 0 32px 48px; }
+
+    /* ── Comparison Table ── */
+    .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; background: white; border: 1.5px solid #e5e3f0; border-radius: 12px; overflow: hidden; }
+
+    /* Header */
+    .comparison-table thead tr { background: #faf9ff; }
+    .comparison-table th { padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b8fa8; border-bottom: 1.5px solid #e5e3f0; white-space: nowrap; position: relative; cursor: pointer; }
+    .comparison-table th:hover { color: #5746b2; }
+    .comparison-table th:first-child { border-radius: 12px 0 0 0; }
+    .comparison-table th:last-child { border-radius: 0 12px 0 0; }
+    .th-inner { display: flex; align-items: center; gap: 5px; }
+    .th-new { background: #5746b2; color: white; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; letter-spacing: 0.05em; }
+    .sort-icon { color: #c4c0e0; font-size: 10px; }
+    .sort-icon.asc { color: #5746b2; }
+
+    /* G2 AI Score column header */
+    .th-ai-score { background: linear-gradient(135deg, #f8f7ff, #f0eeff); }
+    .th-ai-score .th-inner { flex-direction: column; align-items: flex-start; gap: 2px; }
+
+    /* Rows */
+    .comparison-table tbody tr { border-bottom: 1px solid #f0eeff; transition: background 0.1s; }
+    .comparison-table tbody tr:last-child { border-bottom: none; }
+    .comparison-table tbody tr:hover { background: #faf9ff; }
+    .comparison-table tbody tr.top-match { background: linear-gradient(90deg, #faf9ff 0%, white 100%); }
+    .comparison-table tbody tr.top-match td:first-child { border-left: 3px solid #5746b2; }
+
+    .comparison-table td { padding: 14px 16px; vertical-align: middle; border-bottom: 1px solid #f0eeff; }
+    .comparison-table tbody tr:last-child td { border-bottom: none; }
+
+    /* Product cell */
+    .product-cell { display: flex; align-items: center; gap: 12px; }
+    .product-cell-logo { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; flex-shrink: 0; }
+    .product-cell-info .name { font-size: 14px; font-weight: 700; }
+    .product-cell-info .tagline { font-size: 11px; color: #8b8fa8; margin-top: 1px; }
+    .best-tag { background: #5746b2; color: white; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.05em; margin-left: 6px; vertical-align: middle; }
+
+    /* G2 AI Score cell */
+    .score-cell { display: flex; align-items: center; gap: 8px; }
+    .score-hex {
+      width: 42px; height: 48px;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 14px; font-weight: 800; flex-shrink: 0;
+    }
+    .score-hex.top { background: linear-gradient(160deg, #5746b2, #7c3aed); }
+    .score-hex.mid { background: linear-gradient(160deg, #7c8fa8, #9ca3af); }
+
+    /* Completion cell */
+    .completion-cell { display: flex; flex-direction: column; gap: 4px; }
+    .completion-num { font-size: 15px; font-weight: 800; }
+    .completion-bar-track { width: 80px; height: 5px; background: #e5e3f0; border-radius: 3px; overflow: hidden; }
+    .completion-bar-fill { height: 100%; border-radius: 3px; }
+    .bar-high { background: linear-gradient(90deg, #5746b2, #7c3aed); }
+    .bar-mid { background: linear-gradient(90deg, #f59e0b, #d97706); }
+
+    /* Autonomy cell */
+    .autonomy-cell { }
+    .auto-dots { display: flex; gap: 3px; margin-bottom: 3px; }
+    .auto-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .auto-dot.on { background: #5746b2; }
+    .auto-dot.off { background: #e5e3f0; }
+    .auto-label { font-size: 11px; color: #49495a; white-space: nowrap; }
+
+    /* Ramp cell */
+    .ramp-cell { }
+    .ramp-val { font-size: 15px; font-weight: 800; }
+    .ramp-label { font-size: 11px; color: #8b8fa8; }
+    .ramp-badge { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; margin-top: 2px; }
+    .ramp-fast { background: #f0fdf4; color: #16a34a; }
+    .ramp-slow { background: #fff7ed; color: #ea580c; }
+
+    /* ROI cell */
+    .roi-cell { }
+    .roi-val { font-size: 13px; font-weight: 700; color: #1a1a2e; }
+    .roi-pct { font-size: 11px; color: #8b8fa8; margin-top: 2px; }
+
+    /* Stars cell */
+    .stars-cell { }
+    .stars { color: #ff492c; font-size: 13px; }
+    .star-num { font-size: 13px; font-weight: 700; margin-left: 4px; }
+    .review-count { font-size: 11px; color: #8b8fa8; display: block; margin-top: 2px; }
+
+    /* CTA cell */
+    .cta-cell { display: flex; flex-direction: column; gap: 6px; }
+    .btn-demo-sm { background: #ff492c; color: white; border: none; border-radius: 6px; padding: 6px 14px; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .btn-demo-sm:hover { background: #e03d22; }
+    .btn-profile-sm { background: white; color: #5746b2; border: 1.5px solid #5746b2; border-radius: 6px; padding: 6px 14px; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .btn-profile-sm:hover { background: #f0eeff; }
+
+    /* ── G2 AI Score Legend ── */
+    .score-legend { background: white; border: 1.5px solid #e5e3f0; border-radius: 10px; padding: 14px 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .score-legend-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; }
+    .score-legend-items { display: flex; gap: 20px; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #49495a; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    .g2-grid-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+    .g2-grid-badge.leader { background: #fff3f0; color: #ff492c; border: 1px solid #ffd5cc; }
+    .g2-grid-badge.high-performer { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .g2-grid-badge.niche { background: #f5f4fb; color: #5746b2; border: 1px solid #ddd8f8; }
+
+    /* ── Score breakdown tooltip ── */
+    .score-breakdown { font-size: 10px; color: #8b8fa8; margin-top: 3px; line-height: 1.3; }
+  </style>
+</head>
+<body>
+
+<!-- G2 Nav -->
+<nav class="g2-nav">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" height="28" style="flex-shrink:0;" aria-label="G2" role="img">
+    <circle cx="500" cy="500" r="500" fill="white"/>
+    <path fill="#5746b2" d="M716.4 383H631c2.3-13.4 10.6-20.9 27.4-29.4l15.7-8c28.1-14.4 43.1-30.7 43.1-57.3 0-16.7-6.5-29.9-19.4-39.4s-28.1-14.2-45.9-14.2a70.8 70.8 0 00-38.9 11.1c-11.7 7.2-20.4 16.5-25.8 28.1l24.7 24.8c9.6-19.4 23.5-28.9 41.8-28.9 15.5 0 25 8 25 19.1 0 9.3-4.6 17-22.4 26l-10.1 4.9c-21.9 11.1-37.1 23.8-45.9 38.2s-13.1 32.5-13.1 54.4v6h129.2zM705 459.2H563.6l-70.7 122.4h141.4L705 704.1l70.7-122.5L705 459.2z"/>
+    <path fill="#5746b2" d="M505.1 663.3c-90 0-163.3-73.3-163.3-163.3s73.3-163.3 163.3-163.3L561 219.8a286.4 286.4 0 00-55.9-5.5c-157.8 0-285.7 127.9-285.7 285.7s127.9 285.7 285.7 285.7a283.9 283.9 0 00168.2-54.8l-61.8-107.2a162.8 162.8 0 01-106.4 39.6z"/>
+  </svg>
+  <div class="g2-nav-links">
+    <a href="#">Software Categories</a>
+    <a href="#">For Sellers</a>
+    <a href="#">Research</a>
+    <a href="#">Community</a>
+  </div>
+  <div class="g2-nav-right">
+    <button class="btn-ghost">Sign in</button>
+    <button class="btn-orange">Get Listed</button>
+  </div>
+</nav>
+
+<div class="exp-banner">
+  🧪 G2 Experiment — Variant 3: Smart Comparison Table &nbsp;·&nbsp; <a href="./index.html">Back to AI Agents Hub</a> &nbsp;·&nbsp; <a href="../index.html">All Experiments</a>
+</div>
+
+<!-- Page Header -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb">
+      <a href="#">Software</a> › <a href="#">Artificial Intelligence</a> › <strong style="color:#1a1a2e;">AI Agents</strong>
+    </div>
+    <div class="header-row">
+      <div>
+        <h1>AI Agents</h1>
+        <p>Compare agents side-by-side on the metrics that actually predict production performance — sourced from verified G2 reviewers, not vendor claims.</p>
+      </div>
+      <div class="view-toggle">
+        <button class="toggle-btn" onclick="setView('card')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Cards
+        </button>
+        <button class="toggle-btn active" onclick="setView('table')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M3 12h18M3 18h18M9 3v18M15 3v18"/></svg>
+          Compare
+        </button>
+      </div>
+    </div>
+
+    <div class="uc-tabs">
+      <a class="uc-tab active" href="#">SDR &amp; Outbound</a>
+      <a class="uc-tab" href="#">Customer Support</a>
+      <a class="uc-tab" href="#">DevOps &amp; Code</a>
+      <a class="uc-tab" href="#">Research &amp; Analysis</a>
+      <a class="uc-tab" href="#">Internal Ops</a>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Row -->
+<div class="filter-row">
+  <span style="font-size:12px;font-weight:700;color:#49495a;">Filter:</span>
+  <div class="filter-chip active">All Autonomy Levels</div>
+  <div class="filter-chip">Fully Autonomous</div>
+  <div class="filter-chip">Mostly Autonomous</div>
+  <div class="filter-chip">Requires Oversight</div>
+  <div class="filter-divider"></div>
+  <div class="filter-chip">Salesforce</div>
+  <div class="filter-chip">HubSpot</div>
+  <div class="filter-chip">LinkedIn</div>
+  <div class="filter-chip">Outreach</div>
+  <span class="results-label">6 products</span>
+</div>
+
+<!-- Table -->
+<div class="table-container">
+
+  <!-- Score Legend -->
+  <div class="score-legend">
+    <span class="score-legend-label">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;color:#5746b2;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      G2 Agentic Score
+    </span>
+    <div class="score-legend-items">
+      <span style="font-size:12px;color:#49495a;">Composite of:</span>
+      <div class="legend-item"><div class="legend-dot" style="background:#5746b2;"></div> Task Completion Rate (40%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#7c3aed;"></div> Reliability &amp; Error Recovery (30%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a78bfa;"></div> Business Impact &amp; ROI (30%)</div>
+    </div>
+    <span style="font-size:11px;color:#8b8fa8;margin-left:auto;">All data sourced from verified G2 reviews</span>
+  </div>
+
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th style="width:220px;">
+          <div class="th-inner">Product</div>
+        </th>
+        <th class="th-ai-score" style="width:110px;">
+          <div class="th-inner" style="flex-direction:row;align-items:center;gap:6px;">
+            G2 Agentic Score
+            <span class="th-new">NEW</span>
+            <span class="sort-icon asc">▼</span>
+          </div>
+        </th>
+        <th style="width:130px;">
+          <div class="th-inner">Completion Rate <span class="th-new">NEW</span> <span class="sort-icon">↕</span></div>
+        </th>
+        <th style="width:140px;">
+          <div class="th-inner">Autonomy Level <span class="th-new">NEW</span></div>
+        </th>
+        <th style="width:100px;">
+          <div class="th-inner">Ramp Time <span class="th-new">NEW</span> <span class="sort-icon">↕</span></div>
+        </th>
+        <th style="width:120px;">
+          <div class="th-inner">Time-to-ROI <span class="th-new">NEW</span></div>
+        </th>
+        <th style="width:120px;">
+          <div class="th-inner">Star Rating <span class="sort-icon">↕</span></div>
+        </th>
+        <th style="width:130px;">
+          <div class="th-inner">Actions</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Row 1: 11x -->
+      <tr class="top-match">
+        <td>
+          <div class="product-cell">
+            <div class="product-cell-logo" style="background:#0f172a;color:white;font-size:10px;">11x</div>
+            <div class="product-cell-info">
+              <div class="name">11x <span class="best-tag">TOP</span></div>
+              <div class="tagline">Alice — AI SDR</div>
+              <span class="g2-grid-badge leader" style="margin-top:3px;">Leader</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="score-cell">
+            <div class="score-hex top">84</div>
+            <div>
+              <div class="score-breakdown">Performance 36<br>Reliability 26<br>Impact 22</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="completion-cell">
+            <span class="completion-num">91%</span>
+            <div class="completion-bar-track"><div class="completion-bar-fill bar-high" style="width:91%"></div></div>
+          </div>
+        </td>
+        <td>
+          <div class="autonomy-cell">
+            <div class="auto-dots">
+              <div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot on"></div>
+            </div>
+            <div class="auto-label">Fully Autonomous</div>
+          </div>
+        </td>
+        <td>
+          <div class="ramp-cell">
+            <div class="ramp-val">12 days</div>
+            <span class="ramp-badge ramp-fast">Fast</span>
+          </div>
+        </td>
+        <td>
+          <div class="roi-cell">
+            <div class="roi-val">&lt; 30 days</div>
+            <div class="roi-pct">68% of users</div>
+          </div>
+        </td>
+        <td>
+          <div class="stars-cell">
+            <span class="stars">★★★★★</span><span class="star-num">4.6</span>
+            <span class="review-count">47 reviews</span>
+          </div>
+        </td>
+        <td>
+          <div class="cta-cell">
+            <button class="btn-demo-sm">Get a Demo</button>
+            <button class="btn-profile-sm">View Profile</button>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 2: Artisan -->
+      <tr>
+        <td>
+          <div class="product-cell">
+            <div class="product-cell-logo" style="background:#ede9fe;color:#7c3aed;font-size:16px;font-weight:900;">A</div>
+            <div class="product-cell-info">
+              <div class="name">Artisan</div>
+              <div class="tagline">Ava — multichannel AI SDR</div>
+              <span class="g2-grid-badge high-performer" style="margin-top:3px;">High Performer</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="score-cell">
+            <div class="score-hex top" style="background:linear-gradient(160deg,#6366f1,#818cf8);">79</div>
+            <div>
+              <div class="score-breakdown">Performance 32<br>Reliability 24<br>Impact 23</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="completion-cell">
+            <span class="completion-num">87%</span>
+            <div class="completion-bar-track"><div class="completion-bar-fill bar-high" style="width:87%"></div></div>
+          </div>
+        </td>
+        <td>
+          <div class="autonomy-cell">
+            <div class="auto-dots">
+              <div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot off"></div>
+            </div>
+            <div class="auto-label">Mostly Autonomous</div>
+          </div>
+        </td>
+        <td>
+          <div class="ramp-cell">
+            <div class="ramp-val">8 days</div>
+            <span class="ramp-badge ramp-fast">Fastest</span>
+          </div>
+        </td>
+        <td>
+          <div class="roi-cell">
+            <div class="roi-val">1–3 months</div>
+            <div class="roi-pct">71% of users</div>
+          </div>
+        </td>
+        <td>
+          <div class="stars-cell">
+            <span class="stars">★★★★½</span><span class="star-num">4.4</span>
+            <span class="review-count">63 reviews</span>
+          </div>
+        </td>
+        <td>
+          <div class="cta-cell">
+            <button class="btn-demo-sm">Get a Demo</button>
+            <button class="btn-profile-sm">View Profile</button>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 3: AiSDR -->
+      <tr>
+        <td>
+          <div class="product-cell">
+            <div class="product-cell-logo" style="background:#e0f2fe;color:#0369a1;font-size:11px;">Ai</div>
+            <div class="product-cell-info">
+              <div class="name">AiSDR</div>
+              <div class="tagline">Hyper-personalized outbound</div>
+              <span class="g2-grid-badge high-performer" style="margin-top:3px;">High Performer</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="score-cell">
+            <div class="score-hex top" style="background:linear-gradient(160deg,#0284c7,#38bdf8);">76</div>
+            <div>
+              <div class="score-breakdown">Performance 31<br>Reliability 23<br>Impact 22</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="completion-cell">
+            <span class="completion-num">84%</span>
+            <div class="completion-bar-track"><div class="completion-bar-fill bar-high" style="width:84%"></div></div>
+          </div>
+        </td>
+        <td>
+          <div class="autonomy-cell">
+            <div class="auto-dots">
+              <div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot off"></div>
+            </div>
+            <div class="auto-label">Mostly Autonomous</div>
+          </div>
+        </td>
+        <td>
+          <div class="ramp-cell">
+            <div class="ramp-val">6 days</div>
+            <span class="ramp-badge ramp-fast">Fastest</span>
+          </div>
+        </td>
+        <td>
+          <div class="roi-cell">
+            <div class="roi-val">1–3 months</div>
+            <div class="roi-pct">62% of users</div>
+          </div>
+        </td>
+        <td>
+          <div class="stars-cell">
+            <span class="stars">★★★★½</span><span class="star-num">4.5</span>
+            <span class="review-count">38 reviews</span>
+          </div>
+        </td>
+        <td>
+          <div class="cta-cell">
+            <button class="btn-demo-sm">Get a Demo</button>
+            <button class="btn-profile-sm">View Profile</button>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 4: Salesforge -->
+      <tr>
+        <td>
+          <div class="product-cell">
+            <div class="product-cell-logo" style="background:#fef3c7;color:#b45309;font-size:10px;font-weight:900;">SF</div>
+            <div class="product-cell-info">
+              <div class="name">Salesforge</div>
+              <div class="tagline">Frank — volume cold email</div>
+              <span class="g2-grid-badge niche" style="margin-top:3px;">Niche</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="score-cell">
+            <div class="score-hex mid">71</div>
+            <div>
+              <div class="score-breakdown">Performance 27<br>Reliability 22<br>Impact 22</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="completion-cell">
+            <span class="completion-num">79%</span>
+            <div class="completion-bar-track"><div class="completion-bar-fill bar-mid" style="width:79%"></div></div>
+          </div>
+        </td>
+        <td>
+          <div class="autonomy-cell">
+            <div class="auto-dots">
+              <div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot off"></div><div class="auto-dot off"></div>
+            </div>
+            <div class="auto-label">Requires Oversight</div>
+          </div>
+        </td>
+        <td>
+          <div class="ramp-cell">
+            <div class="ramp-val">14 days</div>
+            <span class="ramp-badge ramp-slow">Slower</span>
+          </div>
+        </td>
+        <td>
+          <div class="roi-cell">
+            <div class="roi-val">1–3 months</div>
+            <div class="roi-pct">55% of users</div>
+          </div>
+        </td>
+        <td>
+          <div class="stars-cell">
+            <span class="stars">★★★★</span><span class="star-num">4.3</span>
+            <span class="review-count">29 reviews</span>
+          </div>
+        </td>
+        <td>
+          <div class="cta-cell">
+            <button class="btn-demo-sm">Get a Demo</button>
+            <button class="btn-profile-sm">View Profile</button>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 5: Reply.io -->
+      <tr>
+        <td>
+          <div class="product-cell">
+            <div class="product-cell-logo" style="background:#dcfce7;color:#16a34a;font-size:14px;font-weight:900;">R</div>
+            <div class="product-cell-info">
+              <div class="name">Reply.io</div>
+              <div class="tagline">Jason AI — established platform</div>
+              <span class="g2-grid-badge leader" style="margin-top:3px;">Leader</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="score-cell">
+            <div class="score-hex mid">68</div>
+            <div>
+              <div class="score-breakdown">Performance 25<br>Reliability 22<br>Impact 21</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="completion-cell">
+            <span class="completion-num">76%</span>
+            <div class="completion-bar-track"><div class="completion-bar-fill bar-mid" style="width:76%"></div></div>
+          </div>
+        </td>
+        <td>
+          <div class="autonomy-cell">
+            <div class="auto-dots">
+              <div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot off"></div><div class="auto-dot off"></div><div class="auto-dot off"></div>
+            </div>
+            <div class="auto-label">Requires Oversight</div>
+          </div>
+        </td>
+        <td>
+          <div class="ramp-cell">
+            <div class="ramp-val">5 days</div>
+            <span class="ramp-badge ramp-fast">Fastest</span>
+          </div>
+        </td>
+        <td>
+          <div class="roi-cell">
+            <div class="roi-val">1–3 months</div>
+            <div class="roi-pct">58% of users</div>
+          </div>
+        </td>
+        <td>
+          <div class="stars-cell">
+            <span class="stars">★★★★★</span><span class="star-num">4.6</span>
+            <span class="review-count">142 reviews</span>
+          </div>
+        </td>
+        <td>
+          <div class="cta-cell">
+            <button class="btn-demo-sm">Get a Demo</button>
+            <button class="btn-profile-sm">View Profile</button>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 6: Regie.ai -->
+      <tr>
+        <td>
+          <div class="product-cell">
+            <div class="product-cell-logo" style="background:#fee2e2;color:#dc2626;font-size:12px;font-weight:900;">Re</div>
+            <div class="product-cell-info">
+              <div class="name">Regie.ai</div>
+              <div class="tagline">CRM-signal sequences</div>
+              <span class="g2-grid-badge niche" style="margin-top:3px;">Niche</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="score-cell">
+            <div class="score-hex mid">65</div>
+            <div>
+              <div class="score-breakdown">Performance 23<br>Reliability 21<br>Impact 21</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="completion-cell">
+            <span class="completion-num">73%</span>
+            <div class="completion-bar-track"><div class="completion-bar-fill bar-mid" style="width:73%"></div></div>
+          </div>
+        </td>
+        <td>
+          <div class="autonomy-cell">
+            <div class="auto-dots">
+              <div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot on"></div><div class="auto-dot off"></div><div class="auto-dot off"></div>
+            </div>
+            <div class="auto-label">Mostly Autonomous</div>
+          </div>
+        </td>
+        <td>
+          <div class="ramp-cell">
+            <div class="ramp-val">10 days</div>
+            <span class="ramp-badge" style="background:#f5f4fb;color:#8b8fa8;">Average</span>
+          </div>
+        </td>
+        <td>
+          <div class="roi-cell">
+            <div class="roi-val">3–6 months</div>
+            <div class="roi-pct">60% of users</div>
+          </div>
+        </td>
+        <td>
+          <div class="stars-cell">
+            <span class="stars">★★★★</span><span class="star-num">4.2</span>
+            <span class="review-count">22 reviews</span>
+          </div>
+        </td>
+        <td>
+          <div class="cta-cell">
+            <button class="btn-demo-sm">Get a Demo</button>
+            <button class="btn-profile-sm">View Profile</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<script>
+  function setView(v) {
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    event.target.closest('.toggle-btn').classList.add('active');
+    // In a real implementation, this would switch between card and table view
+    if (v === 'card') {
+      alert('Card view → see Variant 1 for the card-based layout');
+    }
+  }
+</script>
+
+</body>
+</html>

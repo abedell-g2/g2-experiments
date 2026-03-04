@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI SDR Agents — Use Case First | G2 Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+
+    /* ── Nav ── */
+    .g2-nav {
+      background: white; border-bottom: 1px solid #e5e3f0; padding: 0 32px;
+      display: flex; align-items: center; height: 56px; position: sticky; top: 0; z-index: 200;
+      gap: 32px;
+    }
+    .g2-nav-logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .g2-nav-links { display: flex; gap: 24px; flex: 1; }
+    .g2-nav-links a { color: #49495a; text-decoration: none; font-size: 13px; font-weight: 500; }
+    .g2-nav-links a:hover { color: #5746b2; }
+    .g2-nav-right { display: flex; gap: 10px; align-items: center; }
+    .btn-ghost { padding: 6px 14px; border: 1.5px solid #e5e3f0; border-radius: 6px; background: white; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; color: #1a1a2e; }
+    .btn-ghost:hover { border-color: #5746b2; color: #5746b2; }
+    .btn-orange { padding: 6px 14px; border: none; border-radius: 6px; background: #ff492c; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; color: white; }
+    .btn-orange:hover { background: #e03d22; }
+
+    /* ── Experiment Banner ── */
+    .exp-banner {
+      background: #5746b2; color: white; text-align: center; padding: 8px 16px;
+      font-size: 13px; font-weight: 600; position: sticky; top: 56px; z-index: 199;
+    }
+    .exp-banner a { color: white; text-decoration: underline; }
+
+    /* ── Page Header ── */
+    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 24px 32px 0; }
+    .breadcrumb { font-size: 12px; color: #8b8fa8; margin-bottom: 12px; }
+    .breadcrumb a { color: #8b8fa8; text-decoration: none; }
+    .breadcrumb a:hover { color: #5746b2; }
+    .breadcrumb span { margin: 0 6px; }
+    .page-header h1 { font-size: 26px; font-weight: 800; color: #1a1a2e; margin-bottom: 6px; }
+    .page-header .subtitle { font-size: 14px; color: #49495a; max-width: 600px; line-height: 1.5; margin-bottom: 20px; }
+
+    /* ── Use Case Tabs ── */
+    .uc-tabs { display: flex; gap: 2px; border-bottom: none; }
+    .uc-tab {
+      padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+      border: 1.5px solid transparent; border-bottom: none; border-radius: 8px 8px 0 0;
+      color: #49495a; background: #f5f4fb; text-decoration: none; display: flex; align-items: center; gap: 6px;
+      margin-bottom: -1px;
+    }
+    .uc-tab:hover { background: #ede9ff; color: #5746b2; }
+    .uc-tab.active {
+      background: white; color: #5746b2; border-color: #e5e3f0;
+      border-bottom-color: white; font-weight: 700;
+    }
+    .uc-tab .tab-count { background: #f0eeff; color: #5746b2; border-radius: 20px; padding: 1px 7px; font-size: 11px; font-weight: 700; }
+    .uc-tab.active .tab-count { background: #5746b2; color: white; }
+
+    /* ── Layout ── */
+    .page-body { max-width: 1200px; margin: 0 auto; padding: 24px 32px; display: flex; gap: 24px; align-items: flex-start; }
+    .sidebar { width: 210px; flex-shrink: 0; }
+    .main { flex: 1; min-width: 0; }
+
+    /* ── Sidebar ── */
+    .sidebar-section { background: white; border: 1.5px solid #e5e3f0; border-radius: 10px; padding: 18px; margin-bottom: 14px; }
+    .sidebar-section h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b8fa8; margin-bottom: 14px; }
+    .sidebar-badge { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #5746b2; background: #f0eeff; border-radius: 4px; padding: 4px 8px; margin-bottom: 14px; }
+    .filter-option { display: flex; align-items: center; gap: 8px; padding: 5px 0; cursor: pointer; }
+    .filter-option label { font-size: 13px; color: #1a1a2e; cursor: pointer; flex: 1; }
+    .filter-option .count { font-size: 12px; color: #8b8fa8; }
+    .filter-option input[type="checkbox"], .filter-option input[type="radio"] { accent-color: #5746b2; }
+    .filter-divider { height: 1px; background: #f0eeff; margin: 12px 0; }
+    .filter-label { font-size: 12px; font-weight: 600; color: #1a1a2e; margin-bottom: 8px; }
+
+    .autonomy-pill {
+      display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 8px;
+      border: 1.5px solid #e5e3f0; cursor: pointer; margin-bottom: 6px; transition: all 0.1s;
+    }
+    .autonomy-pill:hover { border-color: #5746b2; }
+    .autonomy-pill.selected { border-color: #5746b2; background: #f0eeff; }
+    .autonomy-pill .dot-group { display: flex; gap: 2px; }
+    .autonomy-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: #d1d5db; }
+    .autonomy-pill .dot.on { background: #5746b2; }
+    .autonomy-pill span { font-size: 12px; color: #1a1a2e; }
+
+    /* ── Sort Bar ── */
+    .sort-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .sort-bar .results-count { font-size: 13px; color: #49495a; }
+    .sort-bar .results-count strong { color: #1a1a2e; }
+    .sort-select { font-family: Figtree, sans-serif; font-size: 13px; font-weight: 500; color: #1a1a2e; border: 1.5px solid #e5e3f0; border-radius: 6px; padding: 5px 10px; background: white; cursor: pointer; }
+    .sort-select:focus { outline: none; border-color: #5746b2; }
+
+    /* ── G2 Agentic Score Badge ── */
+    .g2-ai-badge-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
+    .g2-ai-hex {
+      width: 60px; height: 68px;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      background: linear-gradient(160deg, #5746b2 0%, #7c3aed 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
+      color: white;
+    }
+    .g2-ai-hex .score-num { font-size: 18px; font-weight: 800; line-height: 1; }
+    .g2-ai-hex .score-denom { font-size: 9px; font-weight: 600; opacity: 0.75; }
+    .g2-ai-badge-wrap .badge-label { font-size: 10px; font-weight: 700; color: #5746b2; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+
+    /* ── G2 Grid Badge ── */
+    .g2-grid-badge {
+      display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px;
+      border-radius: 20px; font-size: 11px; font-weight: 700;
+    }
+    .g2-grid-badge.leader { background: #fff3f0; color: #ff492c; border: 1px solid #ffd5cc; }
+    .g2-grid-badge.high-performer { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .g2-grid-badge.niche { background: #f5f4fb; color: #5746b2; border: 1px solid #ddd8f8; }
+
+    /* ── Product Card ── */
+    .product-card {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 12px;
+      padding: 22px 24px; margin-bottom: 14px; transition: border-color 0.15s, box-shadow 0.15s;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .product-card:hover { border-color: #5746b2; box-shadow: 0 4px 24px rgba(87,70,178,0.1); }
+
+    .card-top { display: flex; gap: 16px; align-items: flex-start; }
+    .product-logo {
+      width: 48px; height: 48px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800; border: 1.5px solid #e5e3f0;
+    }
+    .card-meta { flex: 1; min-width: 0; }
+    .card-name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+    .card-name { font-size: 17px; font-weight: 800; color: #1a1a2e; }
+    .card-tagline { font-size: 13px; color: #49495a; line-height: 1.4; }
+    .card-desc { font-size: 13px; color: #49495a; line-height: 1.6; }
+
+    /* ── G2 Agentic Metrics Block ── */
+    .agentic-metrics {
+      background: linear-gradient(135deg, #f8f7ff 0%, #f0eeff 100%);
+      border: 1.5px solid #ddd8f8; border-radius: 10px; padding: 14px 16px;
+    }
+    .agentic-metrics-label {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: #5746b2; margin-bottom: 12px;
+    }
+    .agentic-metrics-label svg { flex-shrink: 0; }
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+    .metric-item { }
+    .metric-name { font-size: 11px; font-weight: 600; color: #8b8fa8; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .metric-value { font-size: 15px; font-weight: 800; color: #1a1a2e; line-height: 1; margin-bottom: 4px; }
+    .metric-sub { font-size: 11px; color: #49495a; }
+
+    .completion-bar-wrap { margin-top: 4px; }
+    .completion-bar-track { height: 5px; background: #e5e3f0; border-radius: 3px; overflow: hidden; }
+    .completion-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #5746b2, #7c3aed); }
+
+    .autonomy-dots { display: flex; gap: 3px; margin-top: 4px; }
+    .autonomy-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .autonomy-dot.on { background: #5746b2; }
+    .autonomy-dot.off { background: #e5e3f0; }
+
+    /* ── Card Bottom ── */
+    .card-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid #f0eeff; }
+    .card-bottom-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .stars-row { display: flex; align-items: center; gap: 5px; }
+    .stars { color: #ff492c; font-size: 14px; letter-spacing: 1px; }
+    .stars-score { font-size: 14px; font-weight: 700; color: #1a1a2e; }
+    .stars-count { font-size: 12px; color: #8b8fa8; }
+    .integration-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+    .int-tag { background: #f5f4fb; border: 1px solid #e5e3f0; border-radius: 4px; padding: 2px 7px; font-size: 11px; font-weight: 500; color: #49495a; }
+    .card-bottom-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .btn-view { background: white; border: 1.5px solid #5746b2; color: #5746b2; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; padding: 7px 16px; border-radius: 7px; cursor: pointer; }
+    .btn-view:hover { background: #5746b2; color: white; }
+    .btn-demo { background: #ff492c; border: none; color: white; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; padding: 7px 16px; border-radius: 7px; cursor: pointer; }
+    .btn-demo:hover { background: #e03d22; }
+
+    /* ── Rank Badge ── */
+    .rank-badge { width: 22px; height: 22px; border-radius: 50%; background: #5746b2; color: white; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .rank-badge.rank-1 { background: #ff492c; }
+    .rank-badge.rank-2 { background: #5746b2; }
+    .rank-badge.rank-3 { background: #5746b2; }
+
+    /* ── What's new callout ── */
+    .new-metrics-banner {
+      background: linear-gradient(135deg, #5746b2, #7c3aed); color: white;
+      border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .new-metrics-banner h4 { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .new-metrics-banner p { font-size: 12px; opacity: 0.9; line-height: 1.5; }
+    .new-metrics-banner .metrics-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .new-metrics-banner .chip { background: rgba(255,255,255,0.2); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<!-- G2 Nav -->
+<nav class="g2-nav">
+  <div class="g2-nav-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" height="28" aria-label="G2" role="img">
+      <circle cx="500" cy="500" r="500" fill="white"/>
+      <path fill="#5746b2" d="M716.4 383H631c2.3-13.4 10.6-20.9 27.4-29.4l15.7-8c28.1-14.4 43.1-30.7 43.1-57.3 0-16.7-6.5-29.9-19.4-39.4s-28.1-14.2-45.9-14.2a70.8 70.8 0 00-38.9 11.1c-11.7 7.2-20.4 16.5-25.8 28.1l24.7 24.8c9.6-19.4 23.5-28.9 41.8-28.9 15.5 0 25 8 25 19.1 0 9.3-4.6 17-22.4 26l-10.1 4.9c-21.9 11.1-37.1 23.8-45.9 38.2s-13.1 32.5-13.1 54.4v6h129.2zM705 459.2H563.6l-70.7 122.4h141.4L705 704.1l70.7-122.5L705 459.2z"/>
+      <path fill="#5746b2" d="M505.1 663.3c-90 0-163.3-73.3-163.3-163.3s73.3-163.3 163.3-163.3L561 219.8a286.4 286.4 0 00-55.9-5.5c-157.8 0-285.7 127.9-285.7 285.7s127.9 285.7 285.7 285.7a283.9 283.9 0 00168.2-54.8l-61.8-107.2a162.8 162.8 0 01-106.4 39.6z"/>
+    </svg>
+  </div>
+  <div class="g2-nav-links">
+    <a href="#">Software Categories</a>
+    <a href="#">For Sellers</a>
+    <a href="#">Research</a>
+    <a href="#">Community</a>
+  </div>
+  <div class="g2-nav-right">
+    <button class="btn-ghost">Sign in</button>
+    <button class="btn-orange">Get Listed</button>
+  </div>
+</nav>
+
+<!-- Experiment Banner -->
+<div class="exp-banner">
+  🧪 G2 Experiment — Variant 1: Use Case First &nbsp;·&nbsp; <a href="./index.html">Back to AI Agents Hub</a> &nbsp;·&nbsp; <a href="../index.html">All Experiments</a>
+</div>
+
+<!-- Page Header -->
+<div class="page-header">
+  <div style="max-width:1200px;margin:0 auto;padding:0;">
+    <div class="breadcrumb">
+      <a href="#">Software</a><span>›</span>
+      <a href="#">Artificial Intelligence</a><span>›</span>
+      <strong style="color:#1a1a2e;">AI Agents</strong>
+    </div>
+    <h1>AI Agents</h1>
+    <p class="subtitle">AI Agents autonomously complete multi-step workflows — researching, deciding, and acting without continuous human instruction. Choose your use case to see the agents built for your workflow.</p>
+
+    <!-- Use Case Tabs -->
+    <div class="uc-tabs">
+      <a class="uc-tab active" href="#">
+        SDR &amp; Outbound <span class="tab-count">6</span>
+      </a>
+      <a class="uc-tab" href="#">
+        Customer Support <span class="tab-count">11</span>
+      </a>
+      <a class="uc-tab" href="#">
+        DevOps &amp; Code <span class="tab-count">8</span>
+      </a>
+      <a class="uc-tab" href="#">
+        Research &amp; Analysis <span class="tab-count">9</span>
+      </a>
+      <a class="uc-tab" href="#">
+        Internal Ops <span class="tab-count">7</span>
+      </a>
+      <a class="uc-tab" href="#">
+        Finance &amp; Legal <span class="tab-count">5</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Body -->
+<div class="page-body">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-badge">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polygon points="6,0 12,3 12,9 6,12 0,9 0,3" fill="#5746b2"/></svg>
+        G2 AI Filters
+      </div>
+
+      <div class="filter-label">Autonomy Level</div>
+      <div class="autonomy-pill selected">
+        <div class="dot-group"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div>
+        <span>Fully Autonomous</span>
+      </div>
+      <div class="autonomy-pill">
+        <div class="dot-group"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot off"></div></div>
+        <span>Mostly Autonomous</span>
+      </div>
+      <div class="autonomy-pill">
+        <div class="dot-group"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot off"></div><div class="dot off"></div></div>
+        <span>Requires Oversight</span>
+      </div>
+
+      <div class="filter-divider"></div>
+      <div class="filter-label">Time-to-First-Value</div>
+      <div class="filter-option"><input type="radio" name="ttfv" id="ttfv1" checked><label for="ttfv1">Under 30 days</label></div>
+      <div class="filter-option"><input type="radio" name="ttfv" id="ttfv2"><label for="ttfv2">1–3 months</label></div>
+      <div class="filter-option"><input type="radio" name="ttfv" id="ttfv3"><label for="ttfv3">3–6 months</label></div>
+
+      <div class="filter-divider"></div>
+      <div class="filter-label">Task Completion Rate</div>
+      <div class="filter-option"><input type="radio" name="tcr" id="tcr1" checked><label for="tcr1">85%+ (highly reliable)</label></div>
+      <div class="filter-option"><input type="radio" name="tcr" id="tcr2"><label for="tcr2">70–84% (reliable)</label></div>
+      <div class="filter-option"><input type="radio" name="tcr" id="tcr3"><label for="tcr3">All</label></div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Integrations</h3>
+      <div class="filter-option"><input type="checkbox" id="sf" checked><label for="sf">Salesforce <span class="count">5</span></label></div>
+      <div class="filter-option"><input type="checkbox" id="hs"><label for="hs">HubSpot <span class="count">4</span></label></div>
+      <div class="filter-option"><input type="checkbox" id="li"><label for="li">LinkedIn <span class="count">3</span></label></div>
+      <div class="filter-option"><input type="checkbox" id="out"><label for="out">Outreach <span class="count">3</span></label></div>
+      <div class="filter-option"><input type="checkbox" id="sl"><label for="sl">Salesloft <span class="count">2</span></label></div>
+      <div class="filter-option"><input type="checkbox" id="gm"><label for="gm">Gmail / Outlook <span class="count">4</span></label></div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Traditional Filters</h3>
+      <div class="filter-label">Min. Star Rating</div>
+      <div class="filter-option"><input type="radio" name="rating" id="r45" checked><label for="r45">4.5+ ★ <span class="count">3</span></label></div>
+      <div class="filter-option"><input type="radio" name="rating" id="r4"><label for="r4">4.0+ ★ <span class="count">5</span></label></div>
+      <div class="filter-option"><input type="radio" name="rating" id="rall"><label for="rall">All ratings <span class="count">6</span></label></div>
+      <div class="filter-divider"></div>
+      <div class="filter-label">Pricing Model</div>
+      <div class="filter-option"><input type="checkbox" id="ub"><label for="ub">Usage-based</label></div>
+      <div class="filter-option"><input type="checkbox" id="sb"><label for="sb">Seat-based</label></div>
+      <div class="filter-option"><input type="checkbox" id="pa"><label for="pa">Per-agent</label></div>
+    </div>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- New Metrics Banner -->
+    <div class="new-metrics-banner">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <div>
+        <h4>Introducing G2 Agentic Score</h4>
+        <p>Traditional star ratings don't capture what matters for AI agents. G2 now collects performance data directly from verified users — completion rates, ramp time, and autonomy level — to help you evaluate what actually works in production.</p>
+        <div class="metrics-chips">
+          <span class="chip">Task Completion Rate</span>
+          <span class="chip">Ramp Time</span>
+          <span class="chip">Autonomy Level</span>
+          <span class="chip">Time-to-First-Value</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sort Bar -->
+    <div class="sort-bar">
+      <div class="results-count"><strong>6 products</strong> for AI SDR &amp; Outbound</div>
+      <select class="sort-select">
+        <option>Sort: G2 Agentic Score</option>
+        <option>Sort: Task Completion Rate</option>
+        <option>Sort: Ramp Time</option>
+        <option>Sort: Most Reviews</option>
+        <option>Sort: Star Rating</option>
+      </select>
+    </div>
+
+    <!-- ── CARD 1: 11x ── -->
+    <div class="product-card">
+      <div class="card-top">
+        <div class="product-logo" style="background:#0f172a;color:white;font-size:12px;font-weight:900;">11x</div>
+        <div class="card-meta">
+          <div class="card-name-row">
+            <div class="rank-badge rank-1">1</div>
+            <span class="card-name">11x</span>
+            <span class="g2-grid-badge leader">⬡ Leader</span>
+          </div>
+          <div class="card-tagline">Alice — the fully autonomous AI SDR that prospects, personalizes, and books meetings without human prompting.</div>
+        </div>
+        <div class="g2-ai-badge-wrap">
+          <div class="g2-ai-hex">
+            <span class="score-num">84</span>
+            <span class="score-denom">/100</span>
+          </div>
+          <span class="badge-label">G2 AI Score</span>
+        </div>
+      </div>
+
+      <div class="card-desc">11x deploys Alice, a fully autonomous AI SDR that researches prospects using LinkedIn, company news, and intent signals — then writes individualized outreach and books meetings with no human input required. Built for teams wanting to scale outbound without scaling headcount.</div>
+
+      <div class="agentic-metrics">
+        <div class="agentic-metrics-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          G2 Agentic Metrics · Sourced from 47 verified reviews
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-name">Completion Rate</div>
+            <div class="metric-value">91%</div>
+            <div class="completion-bar-wrap">
+              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:91%"></div></div>
+            </div>
+            <div class="metric-sub">tasks without rescue</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Ramp Time</div>
+            <div class="metric-value">12 days</div>
+            <div class="metric-sub">median to first booking</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Autonomy</div>
+            <div class="autonomy-dots">
+              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
+              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
+            </div>
+            <div class="metric-sub" style="margin-top:4px;">Fully Autonomous</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Time-to-ROI</div>
+            <div class="metric-value" style="font-size:12px;line-height:1.3;">&lt; 30 days</div>
+            <div class="metric-sub">reported by 68% of users</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-bottom">
+        <div class="card-bottom-left">
+          <div class="stars-row">
+            <span class="stars">★★★★★</span>
+            <span class="stars-score">4.6</span>
+            <span class="stars-count">· 47 reviews</span>
+          </div>
+          <div class="integration-tags">
+            <span class="int-tag">Salesforce</span>
+            <span class="int-tag">HubSpot</span>
+            <span class="int-tag">LinkedIn</span>
+            <span class="int-tag">Apollo</span>
+          </div>
+        </div>
+        <div class="card-bottom-right">
+          <button class="btn-view">View Profile</button>
+          <button class="btn-demo">Get a Demo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 2: Artisan ── -->
+    <div class="product-card">
+      <div class="card-top">
+        <div class="product-logo" style="background:#ede9fe;color:#7c3aed;font-size:18px;font-weight:900;">A</div>
+        <div class="card-meta">
+          <div class="card-name-row">
+            <div class="rank-badge rank-2">2</div>
+            <span class="card-name">Artisan</span>
+            <span class="g2-grid-badge high-performer">⬡ High Performer</span>
+          </div>
+          <div class="card-tagline">Ava handles your entire outbound pipeline — prospecting, research, email, and LinkedIn — start to finish.</div>
+        </div>
+        <div class="g2-ai-badge-wrap">
+          <div class="g2-ai-hex">
+            <span class="score-num">79</span>
+            <span class="score-denom">/100</span>
+          </div>
+          <span class="badge-label">G2 AI Score</span>
+        </div>
+      </div>
+
+      <div class="card-desc">Artisan's Ava combines B2B data enrichment, email sequencing, and LinkedIn outreach into a single AI-native workflow. Strong at multichannel personalization — reviewers highlight email quality and the speed of getting first campaigns live.</div>
+
+      <div class="agentic-metrics">
+        <div class="agentic-metrics-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          G2 Agentic Metrics · Sourced from 63 verified reviews
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-name">Completion Rate</div>
+            <div class="metric-value">87%</div>
+            <div class="completion-bar-wrap">
+              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:87%"></div></div>
+            </div>
+            <div class="metric-sub">tasks without rescue</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Ramp Time</div>
+            <div class="metric-value">8 days</div>
+            <div class="metric-sub">median to first booking</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Autonomy</div>
+            <div class="autonomy-dots">
+              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
+              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot off"></div>
+            </div>
+            <div class="metric-sub" style="margin-top:4px;">Mostly Autonomous</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Time-to-ROI</div>
+            <div class="metric-value" style="font-size:12px;line-height:1.3;">1–3 months</div>
+            <div class="metric-sub">reported by 71% of users</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-bottom">
+        <div class="card-bottom-left">
+          <div class="stars-row">
+            <span class="stars">★★★★½</span>
+            <span class="stars-score">4.4</span>
+            <span class="stars-count">· 63 reviews</span>
+          </div>
+          <div class="integration-tags">
+            <span class="int-tag">HubSpot</span>
+            <span class="int-tag">Salesforce</span>
+            <span class="int-tag">Gmail</span>
+            <span class="int-tag">LinkedIn</span>
+          </div>
+        </div>
+        <div class="card-bottom-right">
+          <button class="btn-view">View Profile</button>
+          <button class="btn-demo">Get a Demo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 3: AiSDR ── -->
+    <div class="product-card">
+      <div class="card-top">
+        <div class="product-logo" style="background:#e0f2fe;color:#0369a1;font-size:13px;font-weight:900;">Ai</div>
+        <div class="card-meta">
+          <div class="card-name-row">
+            <div class="rank-badge rank-3">3</div>
+            <span class="card-name">AiSDR</span>
+            <span class="g2-grid-badge high-performer">⬡ High Performer</span>
+          </div>
+          <div class="card-tagline">Hyper-personalized outreach at the scale of a full SDR team — powered by live CRM and LinkedIn signals.</div>
+        </div>
+        <div class="g2-ai-badge-wrap">
+          <div class="g2-ai-hex">
+            <span class="score-num">76</span>
+            <span class="score-denom">/100</span>
+          </div>
+          <span class="badge-label">G2 AI Score</span>
+        </div>
+      </div>
+
+      <div class="card-desc">AiSDR researches each prospect using LinkedIn activity, company news, and CRM history to write outreach that converts. Sequences run autonomously; the agent escalates only when a prospect replies. Fastest ramp time in this category.</div>
+
+      <div class="agentic-metrics">
+        <div class="agentic-metrics-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          G2 Agentic Metrics · Sourced from 38 verified reviews
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-name">Completion Rate</div>
+            <div class="metric-value">84%</div>
+            <div class="completion-bar-wrap">
+              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:84%"></div></div>
+            </div>
+            <div class="metric-sub">tasks without rescue</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Ramp Time</div>
+            <div class="metric-value">6 days</div>
+            <div class="metric-sub">median to first booking</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Autonomy</div>
+            <div class="autonomy-dots">
+              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
+              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot off"></div>
+            </div>
+            <div class="metric-sub" style="margin-top:4px;">Mostly Autonomous</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Time-to-ROI</div>
+            <div class="metric-value" style="font-size:12px;line-height:1.3;">1–3 months</div>
+            <div class="metric-sub">reported by 62% of users</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-bottom">
+        <div class="card-bottom-left">
+          <div class="stars-row">
+            <span class="stars">★★★★½</span>
+            <span class="stars-score">4.5</span>
+            <span class="stars-count">· 38 reviews</span>
+          </div>
+          <div class="integration-tags">
+            <span class="int-tag">Salesforce</span>
+            <span class="int-tag">Slack</span>
+            <span class="int-tag">Gmail</span>
+            <span class="int-tag">Outreach</span>
+          </div>
+        </div>
+        <div class="card-bottom-right">
+          <button class="btn-view">View Profile</button>
+          <button class="btn-demo">Get a Demo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 4: Salesforge ── -->
+    <div class="product-card">
+      <div class="card-top">
+        <div class="product-logo" style="background:#fef3c7;color:#b45309;font-size:11px;font-weight:900;">SF</div>
+        <div class="card-meta">
+          <div class="card-name-row">
+            <div class="rank-badge" style="background:#8b8fa8;">4</div>
+            <span class="card-name">Salesforge</span>
+            <span class="g2-grid-badge niche">⬡ Niche Player</span>
+          </div>
+          <div class="card-tagline">Frank, the AI cold email agent built for volume-focused outbound at enterprise scale.</div>
+        </div>
+        <div class="g2-ai-badge-wrap">
+          <div class="g2-ai-hex" style="background:linear-gradient(160deg,#6b7280,#9ca3af);">
+            <span class="score-num">71</span>
+            <span class="score-denom">/100</span>
+          </div>
+          <span class="badge-label">G2 AI Score</span>
+        </div>
+      </div>
+
+      <div class="card-desc">Salesforge's Frank manages cold email deliverability, A/B tests subject lines, and personalizes messages based on real-time company signals. Best for high-volume outbound where deliverability and inbox placement are the primary concern.</div>
+
+      <div class="agentic-metrics">
+        <div class="agentic-metrics-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          G2 Agentic Metrics · Sourced from 29 verified reviews
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-name">Completion Rate</div>
+            <div class="metric-value">79%</div>
+            <div class="completion-bar-wrap">
+              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:79%;background:linear-gradient(90deg,#f59e0b,#d97706);"></div></div>
+            </div>
+            <div class="metric-sub">tasks without rescue</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Ramp Time</div>
+            <div class="metric-value">14 days</div>
+            <div class="metric-sub">median to first booking</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Autonomy</div>
+            <div class="autonomy-dots">
+              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
+              <div class="autonomy-dot on"></div><div class="autonomy-dot off"></div><div class="autonomy-dot off"></div>
+            </div>
+            <div class="metric-sub" style="margin-top:4px;">Requires Oversight</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Time-to-ROI</div>
+            <div class="metric-value" style="font-size:12px;line-height:1.3;">1–3 months</div>
+            <div class="metric-sub">reported by 55% of users</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-bottom">
+        <div class="card-bottom-left">
+          <div class="stars-row">
+            <span class="stars">★★★★½</span>
+            <span class="stars-score">4.3</span>
+            <span class="stars-count">· 29 reviews</span>
+          </div>
+          <div class="integration-tags">
+            <span class="int-tag">Gmail</span>
+            <span class="int-tag">Outlook</span>
+            <span class="int-tag">HubSpot</span>
+            <span class="int-tag">Pipedrive</span>
+          </div>
+        </div>
+        <div class="card-bottom-right">
+          <button class="btn-view">View Profile</button>
+          <button class="btn-demo">Get a Demo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 5: Reply.io ── -->
+    <div class="product-card">
+      <div class="card-top">
+        <div class="product-logo" style="background:#dcfce7;color:#16a34a;font-size:18px;font-weight:900;">R</div>
+        <div class="card-meta">
+          <div class="card-name-row">
+            <div class="rank-badge" style="background:#8b8fa8;">5</div>
+            <span class="card-name">Reply.io</span>
+            <span class="g2-grid-badge leader">⬡ Leader</span>
+          </div>
+          <div class="card-tagline">Jason AI: the SDR agent layered onto the industry's most established outbound platform.</div>
+        </div>
+        <div class="g2-ai-badge-wrap">
+          <div class="g2-ai-hex" style="background:linear-gradient(160deg,#6b7280,#9ca3af);">
+            <span class="score-num">68</span>
+            <span class="score-denom">/100</span>
+          </div>
+          <span class="badge-label">G2 AI Score</span>
+        </div>
+      </div>
+
+      <div class="card-desc">Jason AI is Reply.io's SDR agent, built on top of one of the most widely adopted outbound platforms. The G2 Agentic Score is lower partly due to Reply.io's roots as a human-operated tool — but the breadth of integrations and volume of validated reviews makes it a strong choice for mature outbound orgs.</div>
+
+      <div class="agentic-metrics">
+        <div class="agentic-metrics-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          G2 Agentic Metrics · Sourced from 142 verified reviews
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-name">Completion Rate</div>
+            <div class="metric-value">76%</div>
+            <div class="completion-bar-wrap">
+              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:76%;background:linear-gradient(90deg,#f59e0b,#d97706);"></div></div>
+            </div>
+            <div class="metric-sub">tasks without rescue</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Ramp Time</div>
+            <div class="metric-value">5 days</div>
+            <div class="metric-sub">median to first booking</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Autonomy</div>
+            <div class="autonomy-dots">
+              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
+              <div class="autonomy-dot off"></div><div class="autonomy-dot off"></div><div class="autonomy-dot off"></div>
+            </div>
+            <div class="metric-sub" style="margin-top:4px;">Requires Oversight</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Time-to-ROI</div>
+            <div class="metric-value" style="font-size:12px;line-height:1.3;">1–3 months</div>
+            <div class="metric-sub">reported by 58% of users</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-bottom">
+        <div class="card-bottom-left">
+          <div class="stars-row">
+            <span class="stars">★★★★★</span>
+            <span class="stars-score">4.6</span>
+            <span class="stars-count">· 142 reviews</span>
+          </div>
+          <div class="integration-tags">
+            <span class="int-tag">Salesforce</span>
+            <span class="int-tag">HubSpot</span>
+            <span class="int-tag">Pipedrive</span>
+            <span class="int-tag">LinkedIn</span>
+            <span class="int-tag">Slack</span>
+          </div>
+        </div>
+        <div class="card-bottom-right">
+          <button class="btn-view">View Profile</button>
+          <button class="btn-demo">Get a Demo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 6: Regie.ai ── -->
+    <div class="product-card">
+      <div class="card-top">
+        <div class="product-logo" style="background:#fee2e2;color:#dc2626;font-size:13px;font-weight:900;">Re</div>
+        <div class="card-meta">
+          <div class="card-name-row">
+            <div class="rank-badge" style="background:#8b8fa8;">6</div>
+            <span class="card-name">Regie.ai</span>
+            <span class="g2-grid-badge niche">⬡ Niche Player</span>
+          </div>
+          <div class="card-tagline">AI-native prospecting sequences powered by CRM signals — built to complement your existing outbound stack.</div>
+        </div>
+        <div class="g2-ai-badge-wrap">
+          <div class="g2-ai-hex" style="background:linear-gradient(160deg,#6b7280,#9ca3af);">
+            <span class="score-num">65</span>
+            <span class="score-denom">/100</span>
+          </div>
+          <span class="badge-label">G2 AI Score</span>
+        </div>
+      </div>
+
+      <div class="card-desc">Regie.ai generates and executes prospecting sequences using intent signals from your CRM. Unlike the fully AI-native SDRs above, Regie.ai is designed to slot into existing stacks (Outreach, Salesloft) rather than replace them — ideal for RevOps-mature teams who want AI augmentation, not replacement.</div>
+
+      <div class="agentic-metrics">
+        <div class="agentic-metrics-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          G2 Agentic Metrics · Sourced from 22 verified reviews
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-name">Completion Rate</div>
+            <div class="metric-value">73%</div>
+            <div class="completion-bar-wrap">
+              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:73%;background:linear-gradient(90deg,#f59e0b,#d97706);"></div></div>
+            </div>
+            <div class="metric-sub">tasks without rescue</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Ramp Time</div>
+            <div class="metric-value">10 days</div>
+            <div class="metric-sub">median to first booking</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Autonomy</div>
+            <div class="autonomy-dots">
+              <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
+              <div class="autonomy-dot on"></div><div class="autonomy-dot off"></div><div class="autonomy-dot off"></div>
+            </div>
+            <div class="metric-sub" style="margin-top:4px;">Mostly Autonomous</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-name">Time-to-ROI</div>
+            <div class="metric-value" style="font-size:12px;line-height:1.3;">3–6 months</div>
+            <div class="metric-sub">reported by 60% of users</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-bottom">
+        <div class="card-bottom-left">
+          <div class="stars-row">
+            <span class="stars">★★★★</span>
+            <span class="stars-score">4.2</span>
+            <span class="stars-count">· 22 reviews</span>
+          </div>
+          <div class="integration-tags">
+            <span class="int-tag">Salesforce</span>
+            <span class="int-tag">Outreach</span>
+            <span class="int-tag">Salesloft</span>
+            <span class="int-tag">HubSpot</span>
+          </div>
+        </div>
+        <div class="card-bottom-right">
+          <button class="btn-view">View Profile</button>
+          <button class="btn-demo">Get a Demo</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

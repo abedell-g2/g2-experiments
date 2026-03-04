@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI SDR Agents — Guided Wizard | G2 Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+
+    /* ── Nav ── */
+    .g2-nav {
+      background: white; border-bottom: 1px solid #e5e3f0; padding: 0 32px;
+      display: flex; align-items: center; height: 56px; position: sticky; top: 0; z-index: 200; gap: 32px;
+    }
+    .g2-nav-links { display: flex; gap: 24px; flex: 1; }
+    .g2-nav-links a { color: #49495a; text-decoration: none; font-size: 13px; font-weight: 500; }
+    .g2-nav-right { display: flex; gap: 10px; align-items: center; }
+    .btn-ghost { padding: 6px 14px; border: 1.5px solid #e5e3f0; border-radius: 6px; background: white; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; color: #1a1a2e; }
+    .btn-orange { padding: 6px 14px; border: none; border-radius: 6px; background: #ff492c; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; color: white; }
+
+    /* ── Experiment Banner ── */
+    .exp-banner { background: #5746b2; color: white; text-align: center; padding: 8px 16px; font-size: 13px; font-weight: 600; position: sticky; top: 56px; z-index: 199; }
+    .exp-banner a { color: white; text-decoration: underline; }
+
+    /* ── Wizard Shell ── */
+    .wizard-shell {
+      background: white; border-bottom: 2px solid #e5e3f0;
+      padding: 0;
+    }
+    .wizard-header {
+      max-width: 1200px; margin: 0 auto; padding: 24px 32px 0;
+    }
+    .wizard-header h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+    .wizard-header p { font-size: 14px; color: #49495a; margin-bottom: 24px; max-width: 560px; line-height: 1.5; }
+
+    /* ── Wizard Progress ── */
+    .wizard-progress {
+      max-width: 1200px; margin: 0 auto; padding: 0 32px;
+      display: flex; align-items: center; gap: 0; margin-bottom: 28px;
+    }
+    .wizard-step {
+      display: flex; align-items: center; gap: 10px; flex: 1;
+    }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%; font-size: 12px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s;
+    }
+    .step-num.done { background: #5746b2; color: white; }
+    .step-num.active { background: #5746b2; color: white; box-shadow: 0 0 0 4px #ddd8f8; }
+    .step-num.pending { background: #f0eeff; color: #8b8fa8; }
+    .step-label { font-size: 12px; font-weight: 600; }
+    .step-label.active { color: #5746b2; }
+    .step-label.pending { color: #8b8fa8; }
+    .step-connector { flex: 1; height: 2px; background: #e5e3f0; margin: 0 8px; max-width: 48px; }
+    .step-connector.done { background: #5746b2; }
+
+    /* ── Wizard Content Area ── */
+    .wizard-content { max-width: 1200px; margin: 0 auto; padding: 0 32px 32px; }
+
+    /* ── Step Panels ── */
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    .step-question { font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e; }
+    .step-hint { font-size: 13px; color: #8b8fa8; margin-bottom: 20px; }
+
+    /* Use case tiles */
+    .uc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+    .uc-tile {
+      border: 2px solid #e5e3f0; border-radius: 12px; padding: 16px; cursor: pointer;
+      transition: all 0.15s; background: white;
+    }
+    .uc-tile:hover { border-color: #5746b2; }
+    .uc-tile.selected { border-color: #5746b2; background: #f8f7ff; }
+    .uc-tile-icon { font-size: 22px; margin-bottom: 8px; }
+    .uc-tile-name { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; }
+    .uc-tile-desc { font-size: 12px; color: #8b8fa8; line-height: 1.4; }
+    .uc-tile.selected .uc-tile-name { color: #5746b2; }
+
+    /* Autonomy tiles */
+    .autonomy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+    .autonomy-tile {
+      border: 2px solid #e5e3f0; border-radius: 12px; padding: 18px; cursor: pointer;
+      transition: all 0.15s; background: white;
+    }
+    .autonomy-tile:hover { border-color: #5746b2; }
+    .autonomy-tile.selected { border-color: #5746b2; background: #f8f7ff; }
+    .autonomy-dots-row { display: flex; gap: 4px; margin-bottom: 10px; }
+    .a-dot { width: 10px; height: 10px; border-radius: 50%; background: #e5e3f0; }
+    .a-dot.on { background: #5746b2; }
+    .autonomy-tile-name { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .autonomy-tile-desc { font-size: 12px; color: #8b8fa8; line-height: 1.4; }
+    .autonomy-tile.selected .autonomy-tile-name { color: #5746b2; }
+
+    /* Stack tiles */
+    .stack-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .stack-chip {
+      border: 2px solid #e5e3f0; border-radius: 8px; padding: 7px 14px; cursor: pointer;
+      font-size: 13px; font-weight: 600; color: #49495a; background: white; transition: all 0.15s;
+    }
+    .stack-chip:hover { border-color: #5746b2; color: #5746b2; }
+    .stack-chip.selected { border-color: #5746b2; background: #f0eeff; color: #5746b2; }
+
+    /* Wizard nav buttons */
+    .wizard-nav { display: flex; align-items: center; justify-content: space-between; }
+    .wizard-nav .skip { font-size: 13px; color: #8b8fa8; text-decoration: none; cursor: pointer; }
+    .wizard-nav .skip:hover { color: #5746b2; }
+    .btn-next { background: #5746b2; color: white; border: none; border-radius: 8px; padding: 10px 24px; font-family: Figtree, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .btn-next:hover { background: #4535a0; }
+    .btn-back { background: white; color: #5746b2; border: 1.5px solid #5746b2; border-radius: 8px; padding: 10px 20px; font-family: Figtree, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .btn-back:hover { background: #f0eeff; }
+
+    /* ── Collapsed Wizard State ── */
+    .wizard-summary {
+      display: none;
+      background: #f0eeff; border-bottom: 2px solid #ddd8f8; padding: 12px 32px;
+    }
+    .wizard-summary .inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+    .wizard-summary .prefs { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+    .pref-chip { background: white; border: 1.5px solid #ddd8f8; border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600; color: #5746b2; }
+    .btn-rewizard { font-size: 12px; font-weight: 600; color: #5746b2; background: none; border: none; cursor: pointer; text-decoration: underline; }
+
+    /* ── Results header ── */
+    .results-section { max-width: 1200px; margin: 0 auto; padding: 24px 32px; }
+
+    /* ── Top Matches Banner ── */
+    .matches-header { margin-bottom: 16px; }
+    .matches-header h2 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+    .matches-header p { font-size: 13px; color: #49495a; }
+
+    /* ── Match Cards (top 3, horizontal row) ── */
+    .match-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+    .match-card {
+      background: white; border: 2px solid #5746b2; border-radius: 12px; padding: 20px;
+      position: relative; overflow: hidden;
+    }
+    .match-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #5746b2, #7c3aed);
+    }
+    .match-rank-tag { position: absolute; top: 14px; right: 14px; background: #5746b2; color: white; font-size: 10px; font-weight: 700; border-radius: 20px; padding: 3px 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .match-card-logo { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; margin-bottom: 10px; }
+    .match-card-name { font-size: 16px; font-weight: 800; margin-bottom: 2px; }
+    .match-card-tagline { font-size: 12px; color: #49495a; margin-bottom: 14px; line-height: 1.4; }
+    .match-why { background: #f8f7ff; border-radius: 6px; padding: 10px 12px; margin-bottom: 14px; }
+    .match-why-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; margin-bottom: 4px; }
+    .match-why-text { font-size: 12px; color: #1a1a2e; line-height: 1.5; }
+    .match-scores { display: flex; gap: 8px; margin-bottom: 14px; }
+    .match-score-pill { background: #f0eeff; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-weight: 700; color: #5746b2; }
+    .match-score-pill span { font-size: 10px; font-weight: 500; color: #8b8fa8; display: block; }
+    .btn-match-demo { width: 100%; background: #ff492c; color: white; border: none; border-radius: 7px; padding: 9px; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .btn-match-demo:hover { background: #e03d22; }
+
+    /* ── Divider ── */
+    .section-divider { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .section-divider h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #8b8fa8; white-space: nowrap; }
+    .section-divider-line { flex: 1; height: 1px; background: #e5e3f0; }
+
+    /* ── Compact Product Cards (full list) ── */
+    .compact-card {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px; padding: 16px 20px;
+      margin-bottom: 10px; display: flex; gap: 14px; align-items: center; transition: all 0.15s;
+    }
+    .compact-card:hover { border-color: #5746b2; }
+    .compact-logo { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; flex-shrink: 0; }
+    .compact-info { flex: 1; min-width: 0; }
+    .compact-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+    .compact-name { font-size: 15px; font-weight: 700; }
+    .compact-desc { font-size: 12px; color: #49495a; }
+    .compact-metrics { display: flex; gap: 16px; align-items: center; flex-shrink: 0; }
+    .compact-metric { text-align: center; }
+    .compact-metric-val { font-size: 15px; font-weight: 800; color: #1a1a2e; }
+    .compact-metric-label { font-size: 10px; color: #8b8fa8; text-transform: uppercase; letter-spacing: 0.05em; }
+    .compact-stars { font-size: 12px; color: #ff492c; }
+    .compact-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .btn-sm-view { background: white; border: 1.5px solid #e5e3f0; border-radius: 6px; padding: 6px 12px; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; color: #49495a; }
+    .btn-sm-view:hover { border-color: #5746b2; color: #5746b2; }
+
+    /* ── G2 AI hex mini ── */
+    .g2-ai-hex-mini {
+      width: 38px; height: 44px;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      background: linear-gradient(160deg, #5746b2 0%, #7c3aed 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: white; flex-shrink: 0;
+    }
+    .g2-ai-hex-mini .snum { font-size: 13px; font-weight: 800; line-height: 1; }
+
+    .g2-grid-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+    .g2-grid-badge.leader { background: #fff3f0; color: #ff492c; border: 1px solid #ffd5cc; }
+    .g2-grid-badge.high-performer { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .g2-grid-badge.niche { background: #f5f4fb; color: #5746b2; border: 1px solid #ddd8f8; }
+  </style>
+</head>
+<body>
+
+<!-- G2 Nav -->
+<nav class="g2-nav">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" height="28" style="flex-shrink:0;" aria-label="G2" role="img">
+    <circle cx="500" cy="500" r="500" fill="white"/>
+    <path fill="#5746b2" d="M716.4 383H631c2.3-13.4 10.6-20.9 27.4-29.4l15.7-8c28.1-14.4 43.1-30.7 43.1-57.3 0-16.7-6.5-29.9-19.4-39.4s-28.1-14.2-45.9-14.2a70.8 70.8 0 00-38.9 11.1c-11.7 7.2-20.4 16.5-25.8 28.1l24.7 24.8c9.6-19.4 23.5-28.9 41.8-28.9 15.5 0 25 8 25 19.1 0 9.3-4.6 17-22.4 26l-10.1 4.9c-21.9 11.1-37.1 23.8-45.9 38.2s-13.1 32.5-13.1 54.4v6h129.2zM705 459.2H563.6l-70.7 122.4h141.4L705 704.1l70.7-122.5L705 459.2z"/>
+    <path fill="#5746b2" d="M505.1 663.3c-90 0-163.3-73.3-163.3-163.3s73.3-163.3 163.3-163.3L561 219.8a286.4 286.4 0 00-55.9-5.5c-157.8 0-285.7 127.9-285.7 285.7s127.9 285.7 285.7 285.7a283.9 283.9 0 00168.2-54.8l-61.8-107.2a162.8 162.8 0 01-106.4 39.6z"/>
+  </svg>
+  <div class="g2-nav-links">
+    <a href="#">Software Categories</a>
+    <a href="#">For Sellers</a>
+    <a href="#">Research</a>
+    <a href="#">Community</a>
+  </div>
+  <div class="g2-nav-right">
+    <button class="btn-ghost">Sign in</button>
+    <button class="btn-orange">Get Listed</button>
+  </div>
+</nav>
+
+<div class="exp-banner">
+  🧪 G2 Experiment — Variant 2: Guided Wizard &nbsp;·&nbsp; <a href="./index.html">Back to AI Agents Hub</a> &nbsp;·&nbsp; <a href="../index.html">All Experiments</a>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- WIZARD (active state — shown before results) -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="wizard-shell" id="wizardShell">
+  <div class="wizard-header">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+      <div>
+        <h1>Find the right AI Agent</h1>
+        <p>Answer 3 quick questions and we'll match you to the agents most likely to work for your situation — based on G2 Agentic Metrics from real deployments.</p>
+      </div>
+      <button onclick="skipWizard()" style="font-size:12px;color:#8b8fa8;background:none;border:none;cursor:pointer;margin-top:4px;font-family:Figtree,sans-serif;">Skip → show all</button>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="wizard-progress">
+    <div class="wizard-step">
+      <div class="step-num done" id="sn1">✓</div>
+      <span class="step-label active" id="sl1">Use Case</span>
+    </div>
+    <div class="step-connector done" id="sc1"></div>
+    <div class="wizard-step">
+      <div class="step-num active" id="sn2">2</div>
+      <span class="step-label active" id="sl2">Autonomy</span>
+    </div>
+    <div class="step-connector" id="sc2"></div>
+    <div class="wizard-step">
+      <div class="step-num pending" id="sn3">3</div>
+      <span class="step-label pending" id="sl3">Tech Stack</span>
+    </div>
+  </div>
+
+  <!-- Wizard Content -->
+  <div class="wizard-content">
+
+    <!-- Step 1: Use Case (already answered — SDR selected) -->
+    <div class="step-panel" id="step1">
+      <div class="step-question">What workflow are you trying to automate?</div>
+      <div class="step-hint">Your answer shapes which G2 Agentic Metrics we prioritize in your results.</div>
+      <div class="uc-grid">
+        <div class="uc-tile selected" onclick="selectUC(this)">
+          <div class="uc-tile-icon">📬</div>
+          <div class="uc-tile-name">SDR &amp; Outbound</div>
+          <div class="uc-tile-desc">Prospecting, personalized email, LinkedIn outreach, meeting booking</div>
+        </div>
+        <div class="uc-tile" onclick="selectUC(this)">
+          <div class="uc-tile-icon">💬</div>
+          <div class="uc-tile-name">Customer Support</div>
+          <div class="uc-tile-desc">Ticket resolution, escalation routing, knowledge base Q&amp;A</div>
+        </div>
+        <div class="uc-tile" onclick="selectUC(this)">
+          <div class="uc-tile-icon">⚙️</div>
+          <div class="uc-tile-name">DevOps &amp; Code</div>
+          <div class="uc-tile-desc">Code review, bug triage, CI/CD automation, documentation</div>
+        </div>
+        <div class="uc-tile" onclick="selectUC(this)">
+          <div class="uc-tile-icon">🔍</div>
+          <div class="uc-tile-name">Research &amp; Analysis</div>
+          <div class="uc-tile-desc">Web research, report generation, competitive intelligence</div>
+        </div>
+        <div class="uc-tile" onclick="selectUC(this)">
+          <div class="uc-tile-icon">🏢</div>
+          <div class="uc-tile-name">Internal Ops</div>
+          <div class="uc-tile-desc">HR workflows, procurement, IT helpdesk, scheduling</div>
+        </div>
+        <div class="uc-tile" onclick="selectUC(this)">
+          <div class="uc-tile-icon">⚖️</div>
+          <div class="uc-tile-name">Finance &amp; Legal</div>
+          <div class="uc-tile-desc">Contract review, compliance monitoring, financial reporting</div>
+        </div>
+      </div>
+      <div class="wizard-nav">
+        <span></span>
+        <button class="btn-next" onclick="goStep(2)">Next <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Step 2: Autonomy (active) -->
+    <div class="step-panel active" id="step2">
+      <div class="step-question">How much should the agent act on its own?</div>
+      <div class="step-hint">This determines the Autonomy Score threshold in your results. Lower autonomy = more control; higher autonomy = less oversight required.</div>
+      <div class="autonomy-grid">
+        <div class="autonomy-tile" onclick="selectAutonomy(this)">
+          <div class="autonomy-dots-row">
+            <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div>
+          </div>
+          <div class="autonomy-tile-name">Fully Autonomous</div>
+          <div class="autonomy-tile-desc">The agent researches, decides, and acts — you only review outcomes, not every step. Good for teams that want to scale without adding headcount.</div>
+        </div>
+        <div class="autonomy-tile selected" onclick="selectAutonomy(this)">
+          <div class="autonomy-dots-row">
+            <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot"></div>
+          </div>
+          <div class="autonomy-tile-name">Mostly Autonomous</div>
+          <div class="autonomy-tile-desc">The agent handles execution but surfaces key decisions for your approval. Best for teams that want AI efficiency with human judgment on important calls.</div>
+        </div>
+        <div class="autonomy-tile" onclick="selectAutonomy(this)">
+          <div class="autonomy-dots-row">
+            <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot"></div><div class="a-dot"></div>
+          </div>
+          <div class="autonomy-tile-name">Supervised</div>
+          <div class="autonomy-tile-desc">The agent drafts and recommends; humans approve and send. Ideal for regulated industries or teams new to AI agents who need confidence before scaling up.</div>
+        </div>
+      </div>
+      <div class="wizard-nav">
+        <button class="btn-back" onclick="goStep(1)">← Back</button>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <button onclick="skipWizard()" class="wizard-nav skip">Skip to results</button>
+          <button class="btn-next" onclick="goStep(3)">Next <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Tech Stack -->
+    <div class="step-panel" id="step3">
+      <div class="step-question">Which tools are you already using?</div>
+      <div class="step-hint">We'll surface agents with proven integrations for your stack. Select all that apply.</div>
+      <div class="stack-grid">
+        <div class="stack-chip selected" onclick="toggleStack(this)">Salesforce</div>
+        <div class="stack-chip" onclick="toggleStack(this)">HubSpot</div>
+        <div class="stack-chip" onclick="toggleStack(this)">Pipedrive</div>
+        <div class="stack-chip" onclick="toggleStack(this)">LinkedIn Sales Navigator</div>
+        <div class="stack-chip selected" onclick="toggleStack(this)">Outreach</div>
+        <div class="stack-chip" onclick="toggleStack(this)">Salesloft</div>
+        <div class="stack-chip" onclick="toggleStack(this)">Apollo.io</div>
+        <div class="stack-chip" onclick="toggleStack(this)">Gmail</div>
+        <div class="stack-chip" onclick="toggleStack(this)">Outlook</div>
+        <div class="stack-chip" onclick="toggleStack(this)">Slack</div>
+        <div class="stack-chip" onclick="toggleStack(this)">Gong</div>
+        <div class="stack-chip" onclick="toggleStack(this)">ZoomInfo</div>
+      </div>
+      <div class="wizard-nav">
+        <button class="btn-back" onclick="goStep(2)">← Back</button>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <button onclick="skipWizard()" class="wizard-nav skip">Skip to results</button>
+          <button class="btn-next" onclick="showResults()" style="background:#ff492c;">
+            Show My Matches
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- WIZARD COLLAPSED SUMMARY (shown after) -->
+<!-- ══════════════════════════════════════ -->
+<div class="wizard-summary" id="wizardSummary">
+  <div class="inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5746b2" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span style="font-size:12px;font-weight:700;color:#5746b2;">Your preferences:</span>
+    <div class="prefs">
+      <span class="pref-chip">SDR &amp; Outbound</span>
+      <span class="pref-chip">Mostly Autonomous</span>
+      <span class="pref-chip">Salesforce · Outreach</span>
+    </div>
+    <button class="btn-rewizard" onclick="reopenWizard()">Edit</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ -->
+<!-- RESULTS (hidden until wizard done) -->
+<!-- ═══════════════════════════════ -->
+<div id="resultsSection" style="display:none;">
+  <div class="results-section">
+
+    <!-- Top Matches -->
+    <div class="matches-header">
+      <h2>Your top matches</h2>
+      <p>Based on your use case, autonomy preference, and tech stack — ranked by G2 Agentic Score from verified deployments similar to yours.</p>
+    </div>
+
+    <div class="match-cards">
+      <!-- Match 1: 11x -->
+      <div class="match-card">
+        <span class="match-rank-tag">Best Match</span>
+        <div class="match-card-logo" style="background:#0f172a;color:white;font-size:11px;">11x</div>
+        <div class="match-card-name">11x</div>
+        <div class="match-card-tagline">Alice — fully autonomous AI SDR</div>
+        <div class="match-why">
+          <div class="match-why-label">Why this matches you</div>
+          <div class="match-why-text">Highest completion rate among Salesforce users. 8 of 10 reviewers with similar autonomy preferences recommend it as their top performer.</div>
+        </div>
+        <div class="match-scores">
+          <div class="match-score-pill"><span>G2 AI Score</span>84</div>
+          <div class="match-score-pill"><span>Completion</span>91%</div>
+          <div class="match-score-pill"><span>Ramp</span>12d</div>
+        </div>
+        <button class="btn-match-demo">Get a Demo</button>
+      </div>
+
+      <!-- Match 2: AiSDR -->
+      <div class="match-card" style="border-color:#7c3aed;">
+        <div class="match-rank-tag" style="background:#7c3aed;">Strong Fit</div>
+        <div class="match-card-logo" style="background:#e0f2fe;color:#0369a1;font-size:12px;">Ai</div>
+        <div class="match-card-name">AiSDR</div>
+        <div class="match-card-tagline">Hyper-personalized outbound at scale</div>
+        <div class="match-why">
+          <div class="match-why-label">Why this matches you</div>
+          <div class="match-why-text">Fastest ramp time (6 days) and strong Outreach integration. Reviewers with SDR+Salesforce setups report above-average reply rates.</div>
+        </div>
+        <div class="match-scores">
+          <div class="match-score-pill"><span>G2 AI Score</span>76</div>
+          <div class="match-score-pill"><span>Completion</span>84%</div>
+          <div class="match-score-pill"><span>Ramp</span>6d</div>
+        </div>
+        <button class="btn-match-demo" style="background:#7c3aed;">Get a Demo</button>
+      </div>
+
+      <!-- Match 3: Artisan -->
+      <div class="match-card" style="border-color:#e5e3f0;">
+        <div class="match-rank-tag" style="background:#16a34a;">Also Consider</div>
+        <div class="match-card-logo" style="background:#ede9fe;color:#7c3aed;font-size:16px;font-weight:900;">A</div>
+        <div class="match-card-name">Artisan</div>
+        <div class="match-card-tagline">Ava — multichannel outbound agent</div>
+        <div class="match-why">
+          <div class="match-why-label">Why this matches you</div>
+          <div class="match-why-text">Best multichannel coverage (email + LinkedIn) and fastest time-to-first-campaign. Good for teams still figuring out their outbound motion.</div>
+        </div>
+        <div class="match-scores">
+          <div class="match-score-pill"><span>G2 AI Score</span>79</div>
+          <div class="match-score-pill"><span>Completion</span>87%</div>
+          <div class="match-score-pill"><span>Ramp</span>8d</div>
+        </div>
+        <button class="btn-match-demo" style="background:#16a34a;">Get a Demo</button>
+      </div>
+    </div>
+
+    <!-- All Products -->
+    <div class="section-divider">
+      <h3>All AI SDR Agents</h3>
+      <div class="section-divider-line"></div>
+      <span style="font-size:12px;color:#8b8fa8;white-space:nowrap;">6 products · sorted by G2 AI Score</span>
+    </div>
+
+    <div class="compact-card">
+      <div class="compact-logo" style="background:#0f172a;color:white;font-size:10px;font-weight:900;">11x</div>
+      <div class="compact-info">
+        <div class="compact-name-row">
+          <span class="compact-name">11x</span>
+          <span class="g2-grid-badge leader">Leader</span>
+        </div>
+        <div class="compact-desc">Alice — fully autonomous AI SDR for outbound prospecting and meeting booking</div>
+      </div>
+      <div class="compact-metrics">
+        <div class="compact-metric"><div class="compact-metric-val">91%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">12d</div><div class="compact-metric-label">Ramp</div></div>
+        <div class="compact-metric"><div class="compact-stars">★★★★★</div><div class="compact-metric-label">4.6 · 47</div></div>
+      </div>
+      <div class="g2-ai-hex-mini"><span class="snum">84</span></div>
+      <div class="compact-actions"><button class="btn-sm-view">View</button></div>
+    </div>
+
+    <div class="compact-card">
+      <div class="compact-logo" style="background:#ede9fe;color:#7c3aed;font-size:14px;font-weight:900;">A</div>
+      <div class="compact-info">
+        <div class="compact-name-row">
+          <span class="compact-name">Artisan</span>
+          <span class="g2-grid-badge high-performer">High Performer</span>
+        </div>
+        <div class="compact-desc">Ava — multichannel outbound including email and LinkedIn sequencing</div>
+      </div>
+      <div class="compact-metrics">
+        <div class="compact-metric"><div class="compact-metric-val">87%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">8d</div><div class="compact-metric-label">Ramp</div></div>
+        <div class="compact-metric"><div class="compact-stars">★★★★½</div><div class="compact-metric-label">4.4 · 63</div></div>
+      </div>
+      <div class="g2-ai-hex-mini"><span class="snum">79</span></div>
+      <div class="compact-actions"><button class="btn-sm-view">View</button></div>
+    </div>
+
+    <div class="compact-card">
+      <div class="compact-logo" style="background:#e0f2fe;color:#0369a1;font-size:11px;font-weight:900;">Ai</div>
+      <div class="compact-info">
+        <div class="compact-name-row">
+          <span class="compact-name">AiSDR</span>
+          <span class="g2-grid-badge high-performer">High Performer</span>
+        </div>
+        <div class="compact-desc">Hyper-personalized sequences driven by LinkedIn and CRM signals</div>
+      </div>
+      <div class="compact-metrics">
+        <div class="compact-metric"><div class="compact-metric-val">84%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">6d</div><div class="compact-metric-label">Ramp</div></div>
+        <div class="compact-metric"><div class="compact-stars">★★★★½</div><div class="compact-metric-label">4.5 · 38</div></div>
+      </div>
+      <div class="g2-ai-hex-mini"><span class="snum">76</span></div>
+      <div class="compact-actions"><button class="btn-sm-view">View</button></div>
+    </div>
+
+    <div class="compact-card">
+      <div class="compact-logo" style="background:#fef3c7;color:#b45309;font-size:10px;font-weight:900;">SF</div>
+      <div class="compact-info">
+        <div class="compact-name-row">
+          <span class="compact-name">Salesforge</span>
+          <span class="g2-grid-badge niche">Niche</span>
+        </div>
+        <div class="compact-desc">Frank — volume cold email agent focused on deliverability and inbox placement</div>
+      </div>
+      <div class="compact-metrics">
+        <div class="compact-metric"><div class="compact-metric-val">79%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">14d</div><div class="compact-metric-label">Ramp</div></div>
+        <div class="compact-metric"><div class="compact-stars">★★★★</div><div class="compact-metric-label">4.3 · 29</div></div>
+      </div>
+      <div class="g2-ai-hex-mini" style="background:linear-gradient(160deg,#6b7280,#9ca3af);"><span class="snum">71</span></div>
+      <div class="compact-actions"><button class="btn-sm-view">View</button></div>
+    </div>
+
+    <div class="compact-card">
+      <div class="compact-logo" style="background:#dcfce7;color:#16a34a;font-size:14px;font-weight:900;">R</div>
+      <div class="compact-info">
+        <div class="compact-name-row">
+          <span class="compact-name">Reply.io</span>
+          <span class="g2-grid-badge leader">Leader</span>
+        </div>
+        <div class="compact-desc">Jason AI — SDR agent built into a mature, widely adopted outbound platform</div>
+      </div>
+      <div class="compact-metrics">
+        <div class="compact-metric"><div class="compact-metric-val">76%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">5d</div><div class="compact-metric-label">Ramp</div></div>
+        <div class="compact-metric"><div class="compact-stars">★★★★★</div><div class="compact-metric-label">4.6 · 142</div></div>
+      </div>
+      <div class="g2-ai-hex-mini" style="background:linear-gradient(160deg,#6b7280,#9ca3af);"><span class="snum">68</span></div>
+      <div class="compact-actions"><button class="btn-sm-view">View</button></div>
+    </div>
+
+    <div class="compact-card">
+      <div class="compact-logo" style="background:#fee2e2;color:#dc2626;font-size:12px;font-weight:900;">Re</div>
+      <div class="compact-info">
+        <div class="compact-name-row">
+          <span class="compact-name">Regie.ai</span>
+          <span class="g2-grid-badge niche">Niche</span>
+        </div>
+        <div class="compact-desc">AI-native prospecting sequences layered into your existing Outreach or Salesloft stack</div>
+      </div>
+      <div class="compact-metrics">
+        <div class="compact-metric"><div class="compact-metric-val">73%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">10d</div><div class="compact-metric-label">Ramp</div></div>
+        <div class="compact-metric"><div class="compact-stars">★★★★</div><div class="compact-metric-label">4.2 · 22</div></div>
+      </div>
+      <div class="g2-ai-hex-mini" style="background:linear-gradient(160deg,#6b7280,#9ca3af);"><span class="snum">65</span></div>
+      <div class="compact-actions"><button class="btn-sm-view">View</button></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function goStep(n) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('step' + n).classList.add('active');
+    // Update progress indicators
+    [1,2,3].forEach(i => {
+      const sn = document.getElementById('sn'+i);
+      const sl = document.getElementById('sl'+i);
+      const sc = document.getElementById('sc'+i);
+      if (i < n) {
+        sn.className = 'step-num done'; sn.textContent = '✓';
+        sl.className = 'step-label active';
+        if(sc) sc.className = 'step-connector done';
+      } else if (i === n) {
+        sn.className = 'step-num active'; sn.textContent = i;
+        sl.className = 'step-label active';
+      } else {
+        sn.className = 'step-num pending'; sn.textContent = i;
+        sl.className = 'step-label pending';
+      }
+    });
+  }
+  function selectUC(el) { document.querySelectorAll('.uc-tile').forEach(t => t.classList.remove('selected')); el.classList.add('selected'); }
+  function selectAutonomy(el) { document.querySelectorAll('.autonomy-tile').forEach(t => t.classList.remove('selected')); el.classList.add('selected'); }
+  function toggleStack(el) { el.classList.toggle('selected'); }
+  function showResults() {
+    document.getElementById('wizardShell').style.display = 'none';
+    document.getElementById('wizardSummary').style.display = 'block';
+    document.getElementById('resultsSection').style.display = 'block';
+  }
+  function skipWizard() {
+    document.getElementById('wizardShell').style.display = 'none';
+    document.getElementById('resultsSection').style.display = 'block';
+  }
+  function reopenWizard() {
+    document.getElementById('wizardShell').style.display = 'block';
+    document.getElementById('wizardSummary').style.display = 'none';
+    goStep(1);
+  }
+</script>
+
+</body>
+</html>

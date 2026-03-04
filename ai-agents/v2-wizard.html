@@ -224,9 +224,10 @@
     .match-why { background: #f8f7ff; border-radius: 6px; padding: 10px 12px; margin-bottom: 14px; }
     .match-why-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; margin-bottom: 4px; }
     .match-why-text { font-size: 12px; color: #1a1a2e; line-height: 1.5; }
-    .match-scores { display: flex; gap: 8px; margin-bottom: 14px; }
-    .match-score-pill { background: #f0eeff; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-weight: 700; color: #5746b2; }
-    .match-score-pill span { font-size: 10px; font-weight: 500; color: #8b8fa8; display: block; }
+    .match-scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 14px; }
+    .match-score-pill { background: #f0eeff; border-radius: 8px; padding: 12px 8px; text-align: center; }
+    .match-score-pill .mscore-val { font-size: 18px; font-weight: 800; color: #1a1a2e; line-height: 1; margin-bottom: 5px; }
+    .match-score-pill span { font-size: 10px; font-weight: 600; color: #8b8fa8; display: block; text-transform: uppercase; letter-spacing: 0.06em; }
     .btn-match-demo { width: 100%; background: #5746b2; color: white; border: none; border-radius: 7px; padding: 9px; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
     .btn-match-demo:hover { background: #4535a0; }
     .section-divider { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
@@ -254,6 +255,13 @@
     .g2-grid-badge.leader { background: #fff3f0; color: #ff492c; border: 1px solid #ffd5cc; }
     .g2-grid-badge.high-performer { background: #f0eeff; color: #5746b2; border: 1px solid #ddd8f8; }
     .g2-grid-badge.niche { background: #f5f4fb; color: #5746b2; border: 1px solid #ddd8f8; }
+    .pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid #e5e3f0; }
+    .page-info { font-size: 13px; color: #8b8fa8; }
+    .page-btns { display: flex; gap: 4px; }
+    .page-btn { width: 32px; height: 32px; border-radius: 6px; border: 1.5px solid #e5e3f0; background: white; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 600; color: #49495a; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.12s; }
+    .page-btn:hover { border-color: #5746b2; color: #5746b2; }
+    .page-btn.active { background: #5746b2; border-color: #5746b2; color: white; }
+    .page-btn:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
   </style>
 </head>
 <body>
@@ -489,9 +497,9 @@
           <div class="match-why-text">Highest completion rate among Salesforce users. 8 of 10 reviewers with similar autonomy preferences recommend it as their top performer.</div>
         </div>
         <div class="match-scores">
-          <div class="match-score-pill"><span>G2 AI Score</span>84</div>
-          <div class="match-score-pill"><span>Completion</span>91%</div>
-          <div class="match-score-pill"><span>Ramp</span>12d</div>
+          <div class="match-score-pill"><div class="mscore-val">84</div><span>G2 AI Score</span></div>
+          <div class="match-score-pill"><div class="mscore-val">91%</div><span>Completion</span></div>
+          <div class="match-score-pill"><div class="mscore-val">12 days</div><span>Ramp Time</span></div>
         </div>
         <button class="btn-match-demo">Get a Demo</button>
       </div>
@@ -506,9 +514,9 @@
           <div class="match-why-text">Fastest ramp time (6 days) and strong Outreach integration. Reviewers with SDR+Salesforce setups report above-average reply rates.</div>
         </div>
         <div class="match-scores">
-          <div class="match-score-pill"><span>G2 AI Score</span>76</div>
-          <div class="match-score-pill"><span>Completion</span>84%</div>
-          <div class="match-score-pill"><span>Ramp</span>6d</div>
+          <div class="match-score-pill"><div class="mscore-val">76</div><span>G2 AI Score</span></div>
+          <div class="match-score-pill"><div class="mscore-val">84%</div><span>Completion</span></div>
+          <div class="match-score-pill"><div class="mscore-val">6 days</div><span>Ramp Time</span></div>
         </div>
         <button class="btn-match-demo">Get a Demo</button>
       </div>
@@ -523,9 +531,9 @@
           <div class="match-why-text">Best multichannel coverage (email + LinkedIn). Good for teams still figuring out their outbound motion who want quick wins.</div>
         </div>
         <div class="match-scores">
-          <div class="match-score-pill"><span>G2 AI Score</span>79</div>
-          <div class="match-score-pill"><span>Completion</span>87%</div>
-          <div class="match-score-pill"><span>Ramp</span>8d</div>
+          <div class="match-score-pill"><div class="mscore-val">79</div><span>G2 AI Score</span></div>
+          <div class="match-score-pill"><div class="mscore-val">87%</div><span>Completion</span></div>
+          <div class="match-score-pill"><div class="mscore-val">8 days</div><span>Ramp Time</span></div>
         </div>
         <button class="btn-match-demo">Get a Demo</button>
       </div>
@@ -547,22 +555,11 @@
         <div class="compact-desc">Frank — AI SDR that writes and sends fully personalized emails at scale</div>
       </div>
       <div class="compact-metrics">
-        <div class="compact-metric">
-          <div class="compact-metric-val">72</div>
-          <div class="compact-metric-label">AI Score</div>
-        </div>
-        <div class="compact-metric">
-          <div class="compact-metric-val">81%</div>
-          <div class="compact-metric-label">Completion</div>
-        </div>
-        <div class="compact-metric">
-          <div class="compact-metric-val">14d</div>
-          <div class="compact-metric-label">Ramp</div>
-        </div>
+        <div class="compact-metric"><div class="compact-metric-val">72</div><div class="compact-metric-label">AI Score</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">81%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">14 days</div><div class="compact-metric-label">Ramp</div></div>
       </div>
-      <div class="compact-actions">
-        <button class="btn-sm-view">View Profile</button>
-      </div>
+      <div class="compact-actions"><button class="btn-sm-view">View Profile</button></div>
     </div>
 
     <div class="compact-card">
@@ -575,22 +572,11 @@
         <div class="compact-desc">Jason AI — multichannel sales outreach with AI-generated sequences</div>
       </div>
       <div class="compact-metrics">
-        <div class="compact-metric">
-          <div class="compact-metric-val">68</div>
-          <div class="compact-metric-label">AI Score</div>
-        </div>
-        <div class="compact-metric">
-          <div class="compact-metric-val">78%</div>
-          <div class="compact-metric-label">Completion</div>
-        </div>
-        <div class="compact-metric">
-          <div class="compact-metric-val">21d</div>
-          <div class="compact-metric-label">Ramp</div>
-        </div>
+        <div class="compact-metric"><div class="compact-metric-val">68</div><div class="compact-metric-label">AI Score</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">78%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">21 days</div><div class="compact-metric-label">Ramp</div></div>
       </div>
-      <div class="compact-actions">
-        <button class="btn-sm-view">View Profile</button>
-      </div>
+      <div class="compact-actions"><button class="btn-sm-view">View Profile</button></div>
     </div>
 
     <div class="compact-card">
@@ -603,21 +589,71 @@
         <div class="compact-desc">AI co-pilot for sales reps — drafts sequences, surfaces intent signals</div>
       </div>
       <div class="compact-metrics">
-        <div class="compact-metric">
-          <div class="compact-metric-val">61</div>
-          <div class="compact-metric-label">AI Score</div>
-        </div>
-        <div class="compact-metric">
-          <div class="compact-metric-val">74%</div>
-          <div class="compact-metric-label">Completion</div>
-        </div>
-        <div class="compact-metric">
-          <div class="compact-metric-val">28d</div>
-          <div class="compact-metric-label">Ramp</div>
-        </div>
+        <div class="compact-metric"><div class="compact-metric-val">61</div><div class="compact-metric-label">AI Score</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">74%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">28 days</div><div class="compact-metric-label">Ramp</div></div>
       </div>
-      <div class="compact-actions">
-        <button class="btn-sm-view">View Profile</button>
+      <div class="compact-actions"><button class="btn-sm-view">View Profile</button></div>
+    </div>
+
+    <div class="compact-card">
+      <img class="compact-logo" src="https://www.google.com/s2/favicons?domain=apollo.io&sz=128" alt="Apollo.io">
+      <div class="compact-info">
+        <div class="compact-name-row">
+          <span class="compact-name">Apollo.io</span>
+          <span class="g2-grid-badge leader">⬡ Leader</span>
+        </div>
+        <div class="compact-desc">Sales intelligence + AI-assisted outbound sequencing in one platform</div>
+      </div>
+      <div class="compact-metrics">
+        <div class="compact-metric"><div class="compact-metric-val">59</div><div class="compact-metric-label">AI Score</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">71%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">18 days</div><div class="compact-metric-label">Ramp</div></div>
+      </div>
+      <div class="compact-actions"><button class="btn-sm-view">View Profile</button></div>
+    </div>
+
+    <div class="compact-card">
+      <img class="compact-logo" src="https://www.google.com/s2/favicons?domain=outreach.io&sz=128" alt="Outreach">
+      <div class="compact-info">
+        <div class="compact-name-row">
+          <span class="compact-name">Outreach</span>
+          <span class="g2-grid-badge high-performer">⬡ High Performer</span>
+        </div>
+        <div class="compact-desc">AI-assisted sales execution — smart sequencing, call summaries, deal health</div>
+      </div>
+      <div class="compact-metrics">
+        <div class="compact-metric"><div class="compact-metric-val">55</div><div class="compact-metric-label">AI Score</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">69%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">30 days</div><div class="compact-metric-label">Ramp</div></div>
+      </div>
+      <div class="compact-actions"><button class="btn-sm-view">View Profile</button></div>
+    </div>
+
+    <div class="compact-card">
+      <img class="compact-logo" src="https://www.google.com/s2/favicons?domain=lavender.ai&sz=128" alt="Lavender">
+      <div class="compact-info">
+        <div class="compact-name-row">
+          <span class="compact-name">Lavender</span>
+          <span class="g2-grid-badge niche">⬡ Niche Player</span>
+        </div>
+        <div class="compact-desc">AI email coach that scores and rewrites cold emails in real time</div>
+      </div>
+      <div class="compact-metrics">
+        <div class="compact-metric"><div class="compact-metric-val">48</div><div class="compact-metric-label">AI Score</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">65%</div><div class="compact-metric-label">Completion</div></div>
+        <div class="compact-metric"><div class="compact-metric-val">7 days</div><div class="compact-metric-label">Ramp</div></div>
+      </div>
+      <div class="compact-actions"><button class="btn-sm-view">View Profile</button></div>
+    </div>
+
+    <div class="pagination">
+      <span class="page-info">Showing 1–6 of 12 products</span>
+      <div class="page-btns">
+        <button class="page-btn" disabled>←</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">→</button>
       </div>
     </div>
 

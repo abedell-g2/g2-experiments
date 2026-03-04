@@ -145,17 +145,20 @@
       color: #5746b2; margin-bottom: 12px;
     }
     .agentic-metrics-label svg { flex-shrink: 0; }
-    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
-    .metric-item { }
-    .metric-name { font-size: 11px; font-weight: 600; color: #8b8fa8; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .metric-value { font-size: 15px; font-weight: 800; color: #1a1a2e; line-height: 1; margin-bottom: 4px; }
-    .metric-sub { font-size: 11px; color: #49495a; }
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0; }
+    .metric-item { padding: 0 12px; border-right: 1px solid #ddd8f8; }
+    .metric-item:first-child { padding-left: 0; }
+    .metric-item:last-child { border-right: none; padding-right: 0; }
+    .metric-name { font-size: 11px; font-weight: 600; color: #8b8fa8; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .metric-value { font-size: 15px; font-weight: 800; color: #1a1a2e; line-height: 1.2; margin-bottom: 5px; }
+    .metric-value-sm { font-size: 12px; line-height: 1.3; }
+    .metric-sub { font-size: 11px; color: #49495a; line-height: 1.4; margin-top: 4px; }
 
-    .completion-bar-wrap { margin-top: 4px; }
-    .completion-bar-track { height: 5px; background: #e5e3f0; border-radius: 3px; overflow: hidden; }
+    .completion-bar-wrap { margin-bottom: 4px; }
+    .completion-bar-track { height: 3px; background: #e5e3f0; border-radius: 3px; overflow: hidden; }
     .completion-bar-fill { height: 100%; border-radius: 3px; background: #5746b2; }
 
-    .autonomy-dots { display: flex; gap: 3px; margin-top: 4px; }
+    .autonomy-dots { display: flex; gap: 3px; margin-bottom: 5px; }
     .autonomy-dot { width: 18px; height: 6px; border-radius: 3px; background: #e5e3f0; }
     .autonomy-dot.on { background: #5746b2; }
     .autonomy-dot.off { background: #e5e3f0; }
@@ -193,6 +196,32 @@
     .new-metrics-banner p { font-size: 12px; opacity: 0.9; line-height: 1.5; }
     .new-metrics-banner .metrics-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
     .new-metrics-banner .chip { background: rgba(255,255,255,0.2); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; }
+
+    /* ── Customize Panel ── */
+    .customize-toggle {
+      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 6px; color: white; font-family: Figtree, sans-serif;
+      font-size: 11px; font-weight: 700; padding: 4px 12px;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0; margin-left: 16px;
+    }
+    .customize-toggle:hover { background: rgba(255,255,255,0.3); }
+    .customize-toggle.active { background: white; color: #5746b2; border-color: white; }
+    .customize-panel {
+      background: white; border: 1.5px solid #ddd8f8; border-radius: 12px;
+      padding: 20px 24px; margin-bottom: 20px; display: none;
+    }
+    .customize-panel.open { display: block; }
+    .cw-header { margin-bottom: 16px; }
+    .cw-title { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 2px; }
+    .cw-subtitle { font-size: 12px; color: #8b8fa8; }
+    .cw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; }
+    .cw-label { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600; color: #49495a; margin-bottom: 6px; }
+    .cw-weight { font-size: 12px; font-weight: 800; color: #5746b2; }
+    .cw-slider { width: 100%; accent-color: #5746b2; cursor: pointer; }
+    .cw-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 14px; border-top: 1px solid #f0eeff; }
+    .cw-info { font-size: 11px; color: #8b8fa8; }
+    .cw-reset { font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; color: #5746b2; background: none; border: none; cursor: pointer; padding: 0; }
+    .cw-reset:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -298,8 +327,11 @@
     <!-- New Metrics Banner -->
     <div class="new-metrics-banner">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <div>
-        <h4>Introducing G2 Agentic Score</h4>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+          <h4>Introducing G2 Agentic Score</h4>
+          <button class="customize-toggle" id="customizeToggle" onclick="toggleCustomize()">Customize ↓</button>
+        </div>
         <p>Traditional star ratings miss what matters for AI agents. G2 now collects completion rates, ramp time, and autonomy level from verified users.</p>
         <div class="metrics-chips">
           <span class="chip">Task Completion Rate</span>
@@ -307,6 +339,36 @@
           <span class="chip">Autonomy Level</span>
           <span class="chip">Time-to-First-Value</span>
         </div>
+      </div>
+    </div>
+
+    <!-- Customize Panel -->
+    <div class="customize-panel" id="customizePanel">
+      <div class="cw-header">
+        <div class="cw-title">Customize ranking weights</div>
+        <div class="cw-subtitle">Adjust what matters most to you — the list re-ranks instantly.</div>
+      </div>
+      <div class="cw-grid">
+        <div class="cw-item">
+          <div class="cw-label">Task Completion Rate <span class="cw-weight" id="wComp">35%</span></div>
+          <input type="range" class="cw-slider" id="slComp" min="0" max="100" value="35" oninput="updateWeights()">
+        </div>
+        <div class="cw-item">
+          <div class="cw-label">Ramp Time <span class="cw-weight" id="wRamp">20%</span></div>
+          <input type="range" class="cw-slider" id="slRamp" min="0" max="100" value="20" oninput="updateWeights()">
+        </div>
+        <div class="cw-item">
+          <div class="cw-label">Autonomy Level <span class="cw-weight" id="wAut">20%</span></div>
+          <input type="range" class="cw-slider" id="slAut" min="0" max="100" value="20" oninput="updateWeights()">
+        </div>
+        <div class="cw-item">
+          <div class="cw-label">Time-to-ROI <span class="cw-weight" id="wROI">25%</span></div>
+          <input type="range" class="cw-slider" id="slROI" min="0" max="100" value="25" oninput="updateWeights()">
+        </div>
+      </div>
+      <div class="cw-footer">
+        <span class="cw-info">Scores are normalized relative to all listed products.</span>
+        <button class="cw-reset" onclick="resetWeights()">Reset to defaults</button>
       </div>
     </div>
 
@@ -322,8 +384,10 @@
       </select>
     </div>
 
+    <div id="cardsContainer">
+
     <!-- ── CARD 1: 11x ── -->
-    <div class="product-card">
+    <div class="product-card" id="card-11x">
       <div class="card-top">
         <img class="product-logo" src="https://www.google.com/s2/favicons?domain=11x.ai&sz=128" alt="11x">
         <div class="card-meta">
@@ -366,11 +430,11 @@
             <div class="autonomy-dots">
               <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot on"></div>
             </div>
-            <div class="metric-sub" style="margin-top:4px;">Fully Autonomous</div>
+            <div class="metric-sub">Fully Autonomous</div>
           </div>
           <div class="metric-item">
             <div class="metric-name">Time-to-ROI</div>
-            <div class="metric-value" style="font-size:12px;line-height:1.3;">&lt; 30 days</div>
+            <div class="metric-value metric-value-sm">&lt; 30 days</div>
             <div class="metric-sub">reported by 68% of users</div>
           </div>
         </div>
@@ -402,7 +466,7 @@
     </div>
 
     <!-- ── CARD 2: Artisan ── -->
-    <div class="product-card">
+    <div class="product-card" id="card-artisan">
       <div class="card-top">
         <img class="product-logo" src="https://www.google.com/s2/favicons?domain=artisan.co&sz=128" alt="Artisan">
         <div class="card-meta">
@@ -445,11 +509,11 @@
             <div class="autonomy-dots">
               <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot off"></div>
             </div>
-            <div class="metric-sub" style="margin-top:4px;">Mostly Autonomous</div>
+            <div class="metric-sub">Mostly Autonomous</div>
           </div>
           <div class="metric-item">
             <div class="metric-name">Time-to-ROI</div>
-            <div class="metric-value" style="font-size:12px;line-height:1.3;">1–3 months</div>
+            <div class="metric-value metric-value-sm">1–3 months</div>
             <div class="metric-sub">reported by 71% of users</div>
           </div>
         </div>
@@ -481,7 +545,7 @@
     </div>
 
     <!-- ── CARD 3: AiSDR ── -->
-    <div class="product-card">
+    <div class="product-card" id="card-aisdr">
       <div class="card-top">
         <img class="product-logo" src="https://www.google.com/s2/favicons?domain=aisdr.com&sz=128" alt="AiSDR">
         <div class="card-meta">
@@ -524,11 +588,11 @@
             <div class="autonomy-dots">
               <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot off"></div>
             </div>
-            <div class="metric-sub" style="margin-top:4px;">Mostly Autonomous</div>
+            <div class="metric-sub">Mostly Autonomous</div>
           </div>
           <div class="metric-item">
             <div class="metric-name">Time-to-ROI</div>
-            <div class="metric-value" style="font-size:12px;line-height:1.3;">1–3 months</div>
+            <div class="metric-value metric-value-sm">1–3 months</div>
             <div class="metric-sub">reported by 62% of users</div>
           </div>
         </div>
@@ -560,7 +624,7 @@
     </div>
 
     <!-- ── CARD 4: Salesforge ── -->
-    <div class="product-card">
+    <div class="product-card" id="card-salesforge">
       <div class="card-top">
         <img class="product-logo" src="https://www.google.com/s2/favicons?domain=salesforge.ai&sz=128" alt="Salesforge">
         <div class="card-meta">
@@ -603,11 +667,11 @@
             <div class="autonomy-dots">
               <div class="autonomy-dot on"></div><div class="autonomy-dot off"></div><div class="autonomy-dot off"></div>
             </div>
-            <div class="metric-sub" style="margin-top:4px;">Requires Oversight</div>
+            <div class="metric-sub">Requires Oversight</div>
           </div>
           <div class="metric-item">
             <div class="metric-name">Time-to-ROI</div>
-            <div class="metric-value" style="font-size:12px;line-height:1.3;">1–3 months</div>
+            <div class="metric-value metric-value-sm">1–3 months</div>
             <div class="metric-sub">reported by 55% of users</div>
           </div>
         </div>
@@ -639,7 +703,7 @@
     </div>
 
     <!-- ── CARD 5: Reply.io ── -->
-    <div class="product-card">
+    <div class="product-card" id="card-reply">
       <div class="card-top">
         <img class="product-logo" src="https://www.google.com/s2/favicons?domain=reply.io&sz=128" alt="Reply.io">
         <div class="card-meta">
@@ -682,11 +746,11 @@
             <div class="autonomy-dots">
               <div class="autonomy-dot on"></div><div class="autonomy-dot off"></div><div class="autonomy-dot off"></div>
             </div>
-            <div class="metric-sub" style="margin-top:4px;">Requires Oversight</div>
+            <div class="metric-sub">Requires Oversight</div>
           </div>
           <div class="metric-item">
             <div class="metric-name">Time-to-ROI</div>
-            <div class="metric-value" style="font-size:12px;line-height:1.3;">1–3 months</div>
+            <div class="metric-value metric-value-sm">1–3 months</div>
             <div class="metric-sub">reported by 58% of users</div>
           </div>
         </div>
@@ -719,7 +783,7 @@
     </div>
 
     <!-- ── CARD 6: Regie.ai ── -->
-    <div class="product-card">
+    <div class="product-card" id="card-regie">
       <div class="card-top">
         <img class="product-logo" src="https://www.google.com/s2/favicons?domain=regie.ai&sz=128" alt="Regie.ai">
         <div class="card-meta">
@@ -762,11 +826,11 @@
             <div class="autonomy-dots">
               <div class="autonomy-dot on"></div><div class="autonomy-dot on"></div><div class="autonomy-dot off"></div>
             </div>
-            <div class="metric-sub" style="margin-top:4px;">Mostly Autonomous</div>
+            <div class="metric-sub">Mostly Autonomous</div>
           </div>
           <div class="metric-item">
             <div class="metric-name">Time-to-ROI</div>
-            <div class="metric-value" style="font-size:12px;line-height:1.3;">3–6 months</div>
+            <div class="metric-value metric-value-sm">3–6 months</div>
             <div class="metric-sub">reported by 60% of users</div>
           </div>
         </div>
@@ -797,10 +861,94 @@
       </div>
     </div>
 
+    </div><!-- end cardsContainer -->
+
   </main>
 </div>
 
 <script>
+  // ── Product data for customizable ranking ──
+  // Scores normalized to 0-100 per metric
+  // Ramp: lower days = higher score. Range: 5d (best=100) → 14d (worst=0)
+  // Autonomy: 3/3=100, 2/3=67, 1/3=33
+  // ROI: <30d=100, 1-3mo=60, 3-6mo=20
+  const PRODUCTS = [
+    { id: 'card-11x',        completion: 91, ramp: 22,  autonomy: 100, roi: 100 },
+    { id: 'card-artisan',    completion: 87, ramp: 67,  autonomy: 67,  roi: 60  },
+    { id: 'card-aisdr',      completion: 84, ramp: 89,  autonomy: 67,  roi: 60  },
+    { id: 'card-salesforge', completion: 79, ramp: 0,   autonomy: 33,  roi: 60  },
+    { id: 'card-reply',      completion: 76, ramp: 100, autonomy: 33,  roi: 60  },
+    { id: 'card-regie',      completion: 73, ramp: 44,  autonomy: 67,  roi: 20  },
+  ];
+
+  const DEFAULT_SCORES = {
+    'card-11x': 84, 'card-artisan': 79, 'card-aisdr': 76,
+    'card-salesforge': 71, 'card-reply': 68, 'card-regie': 65
+  };
+
+  const DEFAULT_ORDER = ['card-11x', 'card-artisan', 'card-aisdr', 'card-salesforge', 'card-reply', 'card-regie'];
+
+  function toggleCustomize() {
+    const panel = document.getElementById('customizePanel');
+    const btn = document.getElementById('customizeToggle');
+    const isOpen = panel.classList.contains('open');
+    panel.classList.toggle('open');
+    btn.classList.toggle('active');
+    btn.textContent = isOpen ? 'Customize ↓' : 'Customize ↑';
+    if (isOpen) {
+      restoreOriginalOrder();
+    } else {
+      updateWeights();
+    }
+  }
+
+  function updateWeights() {
+    const wComp = parseInt(document.getElementById('slComp').value);
+    const wRamp = parseInt(document.getElementById('slRamp').value);
+    const wAut  = parseInt(document.getElementById('slAut').value);
+    const wROI  = parseInt(document.getElementById('slROI').value);
+    const total = wComp + wRamp + wAut + wROI || 1;
+
+    document.getElementById('wComp').textContent = Math.round(wComp / total * 100) + '%';
+    document.getElementById('wRamp').textContent = Math.round(wRamp / total * 100) + '%';
+    document.getElementById('wAut').textContent  = Math.round(wAut  / total * 100) + '%';
+    document.getElementById('wROI').textContent  = Math.round(wROI  / total * 100) + '%';
+
+    const scored = PRODUCTS.map(p => ({
+      id: p.id,
+      score: Math.round((p.completion * wComp + p.ramp * wRamp + p.autonomy * wAut + p.roi * wROI) / total)
+    }));
+    scored.sort((a, b) => b.score - a.score);
+
+    const container = document.getElementById('cardsContainer');
+    scored.forEach(item => {
+      const card = document.getElementById(item.id);
+      if (card) {
+        card.querySelector('.score-num').textContent = item.score;
+        container.appendChild(card);
+      }
+    });
+  }
+
+  function restoreOriginalOrder() {
+    const container = document.getElementById('cardsContainer');
+    DEFAULT_ORDER.forEach(id => {
+      const card = document.getElementById(id);
+      if (card) {
+        card.querySelector('.score-num').textContent = DEFAULT_SCORES[id];
+        container.appendChild(card);
+      }
+    });
+  }
+
+  function resetWeights() {
+    document.getElementById('slComp').value = 35;
+    document.getElementById('slRamp').value = 20;
+    document.getElementById('slAut').value  = 20;
+    document.getElementById('slROI').value  = 25;
+    updateWeights();
+  }
+
   // ── Responsive tab overflow ──
   let _updateTabs = null;
 

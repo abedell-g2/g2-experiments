@@ -24,7 +24,7 @@
     .v6-wrap { max-width: 920px; margin: 0 auto; padding: 52px 32px 80px; }
 
     /* ── Step Indicator ── */
-    .steps-bar { display: flex; align-items: center; margin-bottom: 56px; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .steps-bar { display: flex; align-items: center; max-width: 500px; margin: 0 auto 56px; }
     .step-item { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     .step-num {
       width: 36px; height: 36px; border-radius: 50%;
@@ -373,19 +373,19 @@
     </div>
 
     <div class="problem-card">
-      <textarea id="problemText" rows="3" placeholder="e.g. I need an AI that can find, research, and email prospects without my SDR team having to do manual work — ideally it books meetings too…"></textarea>
+      <textarea id="problemText" rows="3" placeholder="Describe the problem you need AI to solve…">Our SDR team spends most of their day on manual prospect research and writing first-touch emails. I want an AI agent that can identify prospects in our ICP, research them, write personalized outreach, send follow-ups, and only loop in a human rep once there's a real conversation — ideally it books the meeting too.</textarea>
       <div class="problem-card-footer">
         <span class="starter-label">Try:</span>
-        <button class="starter-chip" onclick="useStarter('Build and send personalized cold email sequences at scale without SDR manual research')">Build cold email sequences</button>
-        <button class="starter-chip" onclick="useStarter('Qualify and route inbound leads automatically — no SDR involvement until the meeting is booked')">Qualify inbound leads</button>
-        <button class="starter-chip" onclick="useStarter('Book meetings autonomously — prospect, reach out, handle objections, and get the calendar invite sent')">Book meetings autonomously</button>
+        <button class="starter-chip" onclick="useStarter('We\'re struggling with ')">We're struggling with…</button>
+        <button class="starter-chip" onclick="useStarter('Our biggest bottleneck is ')">Our biggest bottleneck is…</button>
+        <button class="starter-chip" onclick="useStarter('I want to automate ')">I want to automate…</button>
       </div>
     </div>
 
     <div class="step-footer">
       <div></div>
       <button class="btn-continue" onclick="goStep(2)">See matching tasks →</button>
-      <div class="step-count">1 / 4</div>
+      <div></div>
     </div>
   </div>
 
@@ -407,7 +407,7 @@
     <div class="step-footer">
       <button class="btn-back" onclick="goStep(1)">← Back</button>
       <button class="btn-continue" onclick="goStep(3)">Continue with <span id="s1SelCount">4</span> tasks →</button>
-      <div class="step-count">2 / 4</div>
+      <div></div>
     </div>
   </div>
 
@@ -424,7 +424,7 @@
     <div class="step-footer">
       <button class="btn-back" onclick="goStep(2)">← Back</button>
       <button class="btn-continue" onclick="goStep(4)">See my results →</button>
-      <div class="step-count">3 / 4</div>
+      <div></div>
     </div>
   </div>
 
@@ -653,8 +653,10 @@ function updateStepIndicator(current) {
 // ══════════════════════════════════════════════════════════════
 
 function useStarter(text) {
-  document.getElementById('problemText').value = text;
-  document.getElementById('problemText').focus();
+  const ta = document.getElementById('problemText');
+  ta.value = text;
+  ta.focus();
+  ta.setSelectionRange(text.length, text.length);
 }
 
 function renderJobsGrid() {

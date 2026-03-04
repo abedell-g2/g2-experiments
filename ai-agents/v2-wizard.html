@@ -217,6 +217,7 @@
     .match-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #5746b2; }
     .match-rank-tag { position: absolute; top: 14px; right: 14px; background: #5746b2; color: white; font-size: 10px; font-weight: 700; border-radius: 20px; padding: 3px 8px; text-transform: uppercase; letter-spacing: 0.05em; }
     .match-card-logo { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; margin-bottom: 10px; }
+    img.match-card-logo { object-fit: contain; background: white; padding: 6px; border: 1px solid #e5e3f0; }
     .match-card-name { font-size: 16px; font-weight: 800; margin-bottom: 2px; }
     .match-card-tagline { font-size: 12px; color: #49495a; margin-bottom: 14px; line-height: 1.4; }
     .match-why { background: #f8f7ff; border-radius: 6px; padding: 10px 12px; margin-bottom: 14px; }
@@ -233,6 +234,7 @@
     .compact-card { background: white; border: 1.5px solid #e5e3f0; border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; display: flex; gap: 14px; align-items: center; transition: all 0.15s; }
     .compact-card:hover { border-color: #5746b2; }
     .compact-logo { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; flex-shrink: 0; }
+    img.compact-logo { object-fit: contain; background: white; padding: 6px; border: 1px solid #e5e3f0; }
     .compact-info { flex: 1; min-width: 0; }
     .compact-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
     .compact-name { font-size: 15px; font-weight: 700; }
@@ -473,7 +475,7 @@
     <div class="match-cards">
       <div class="match-card">
         <span class="match-rank-tag">Best Match</span>
-        <div class="match-card-logo" style="background:#f0eeff;color:#5746b2;font-size:11px;">11x</div>
+        <img class="match-card-logo" src="https://logo.clearbit.com/11x.ai" alt="11x">
         <div class="match-card-name">11x</div>
         <div class="match-card-tagline">Alice — fully autonomous AI SDR</div>
         <div class="match-why">
@@ -490,7 +492,7 @@
 
       <div class="match-card">
         <div class="match-rank-tag">Strong Fit</div>
-        <div class="match-card-logo" style="background:#f0eeff;color:#5746b2;font-size:12px;">Ai</div>
+        <img class="match-card-logo" src="https://logo.clearbit.com/aisdr.com" alt="AiSDR">
         <div class="match-card-name">AiSDR</div>
         <div class="match-card-tagline">Hyper-personalized outbound at scale</div>
         <div class="match-why">
@@ -507,7 +509,7 @@
 
       <div class="match-card">
         <div class="match-rank-tag" style="background:#8b8fa8;">Also Consider</div>
-        <div class="match-card-logo" style="background:#f0eeff;color:#5746b2;font-size:16px;font-weight:900;">A</div>
+        <img class="match-card-logo" src="https://logo.clearbit.com/artisan.co" alt="Artisan">
         <div class="match-card-name">Artisan</div>
         <div class="match-card-tagline">Ava — multichannel outbound agent</div>
         <div class="match-why">
@@ -530,7 +532,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:10px;font-weight:900;">11x</div>
+      <img class="compact-logo" src="https://logo.clearbit.com/11x.ai" alt="11x">
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">11x</span><span class="g2-grid-badge leader">Leader</span></div>
         <div class="compact-desc">Alice — fully autonomous AI SDR for outbound prospecting and meeting booking</div>
@@ -545,7 +547,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:14px;font-weight:900;">A</div>
+      <img class="compact-logo" src="https://logo.clearbit.com/artisan.co" alt="Artisan">
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">Artisan</span><span class="g2-grid-badge high-performer">High Performer</span></div>
         <div class="compact-desc">Ava — multichannel outbound including email and LinkedIn sequencing</div>
@@ -560,7 +562,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:11px;font-weight:900;">Ai</div>
+      <img class="compact-logo" src="https://logo.clearbit.com/aisdr.com" alt="AiSDR">
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">AiSDR</span><span class="g2-grid-badge high-performer">High Performer</span></div>
         <div class="compact-desc">Hyper-personalized sequences driven by LinkedIn and CRM signals</div>
@@ -575,7 +577,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:10px;font-weight:900;">SF</div>
+      <img class="compact-logo" src="https://logo.clearbit.com/salesforge.ai" alt="Salesforge">
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">Salesforge</span><span class="g2-grid-badge niche">Niche</span></div>
         <div class="compact-desc">Frank — volume cold email agent focused on deliverability and inbox placement</div>
@@ -590,7 +592,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:14px;font-weight:900;">R</div>
+      <img class="compact-logo" src="https://logo.clearbit.com/reply.io" alt="Reply.io">
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">Reply.io</span><span class="g2-grid-badge leader">Leader</span></div>
         <div class="compact-desc">Jason AI — SDR agent built into a mature, widely adopted outbound platform</div>
@@ -605,7 +607,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:12px;font-weight:900;">Re</div>
+      <img class="compact-logo" src="https://logo.clearbit.com/regie.ai" alt="Regie.ai">
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">Regie.ai</span><span class="g2-grid-badge niche">Niche</span></div>
         <div class="compact-desc">AI-native prospecting sequences layered into your existing Outreach or Salesloft stack</div>

@@ -8,38 +8,38 @@
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #201f23; font-size: 14px; }
 
     /* ── Page Header ── */
-    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 24px 48px 0; }
+    .page-header { background: white; border-bottom: 1px solid #dfdfe2; padding: 24px 48px 0; }
 
     .header-title-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
     .header-title-row h1 { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
-    .header-title-row p { font-size: 14px; color: #49495a; line-height: 1.5; max-width: 540px; }
-    .skip-link { font-size: 12px; color: #8b8fa8; background: none; border: none; cursor: pointer; font-family: Figtree, sans-serif; flex-shrink: 0; margin-top: 4px; }
+    .header-title-row p { font-size: 14px; color: #6f6d78; line-height: 1.5; max-width: 540px; }
+    .skip-link { font-size: 12px; color: #6f6d78; background: none; border: none; cursor: pointer; font-family: Figtree, sans-serif; flex-shrink: 0; margin-top: 4px; }
     .skip-link:hover { color: #5746b2; }
 
     /* ── Progress Stepper ── */
-    .stepper-wrap { display: flex; align-items: flex-start; overflow: visible; margin: 0 -48px; padding: 0 48px; border-top: 1px solid #e5e3f0; }
+    .stepper-wrap { display: flex; align-items: flex-start; overflow: visible; margin: 0 -48px; padding: 0 48px; border-top: 1px solid #dfdfe2; }
     .stepper-step { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 12px; }
     .stepper-node {
       width: 26px; height: 26px; border-radius: 50%;
-      font-size: 11px; font-weight: 800;
+      font-size: 12px; font-weight: 800;
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
       transition: all 0.2s;
     }
     .stepper-node.done { background: #5746b2; color: white; }
     .stepper-node.active { background: #5746b2; color: white; box-shadow: 0 0 0 4px rgba(87,70,178,0.15); }
-    .stepper-node.pending { background: #f0eeff; color: #c4bbf0; border: 1.5px solid #e5e3f0; }
+    .stepper-node.pending { background: #f0eeff; color: #c4bbf0; border: 1.5px solid #dfdfe2; }
     .stepper-label {
-      font-size: 11px; font-weight: 700; white-space: nowrap;
+      font-size: 12px; font-weight: 700; white-space: nowrap;
       padding-bottom: 10px; border-bottom: 2px solid transparent; margin-bottom: -1px;
     }
     .stepper-label.active { color: #5746b2; border-bottom-color: #5746b2; }
     .stepper-label.done { color: #5746b2; }
     .stepper-label.pending { color: #c4bbf0; }
     .stepper-conn {
-      flex: 1; height: 2px; background: #e5e3f0; min-width: 48px; max-width: 96px;
+      flex: 1; height: 2px; background: #dfdfe2; min-width: 48px; max-width: 96px;
       margin-top: 25px; transition: background 0.2s;
     }
     .stepper-conn.done { background: #5746b2; }
@@ -48,7 +48,7 @@
     .wizard-wrap { padding: 36px 48px 64px; }
     .wizard-card {
       max-width: 720px; margin: 0 auto; background: white;
-      border: 1.5px solid #e5e3f0; border-radius: 16px; padding: 36px 40px;
+      border: 1.5px solid #dfdfe2; border-radius: 16px; padding: 36px 40px;
     }
 
     /* ── Step panels ── */
@@ -56,11 +56,11 @@
     .step-panel.active { display: block; }
 
     /* ── Step 1: AI Input ── */
-    .step-heading { font-size: 20px; font-weight: 800; color: #1a1a2e; margin-bottom: 4px; }
-    .step-sub { font-size: 13px; color: #8b8fa8; margin-bottom: 24px; line-height: 1.5; }
+    .step-heading { font-size: 20px; font-weight: 800; color: #201f23; margin-bottom: 4px; }
+    .step-sub { font-size: 13px; color: #6f6d78; margin-bottom: 24px; line-height: 1.5; }
 
     .ai-input-frame {
-      background: #fafafe; border: 2px solid #e5e3f0; border-radius: 14px;
+      background: #fafafe; border: 2px solid #dfdfe2; border-radius: 14px;
       padding: 18px 20px 14px; margin-bottom: 20px;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
@@ -72,13 +72,13 @@
     }
     .ai-badge {
       display: inline-flex; align-items: center; gap: 5px;
-      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
       color: #5746b2; background: #f0eeff; border-radius: 20px; padding: 3px 9px;
     }
     .mic-btn {
-      width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #e5e3f0;
+      width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #dfdfe2;
       background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: all 0.15s; flex-shrink: 0; color: #8b8fa8;
+      transition: all 0.15s; flex-shrink: 0; color: #6f6d78;
     }
     .mic-btn:hover { border-color: #5746b2; color: #5746b2; background: #f0eeff; }
     .mic-btn.listening { border-color: #ff492c; color: #ff492c; background: #fff3f0; animation: pulse 1.2s infinite; }
@@ -90,7 +90,7 @@
     .ai-textarea {
       width: 100%; min-height: 72px; resize: none; outline: none; border: none;
       font-family: Figtree, sans-serif; font-size: 16px; font-weight: 500;
-      color: #1a1a2e; line-height: 1.65; background: transparent; caret-color: #5746b2;
+      color: #201f23; line-height: 1.65; background: transparent; caret-color: #5746b2;
     }
     .ai-textarea::placeholder { color: #c8c6dc; font-weight: 400; }
 
@@ -101,11 +101,11 @@
       margin-top: 8px; cursor: pointer;
     }
     .ai-suggestion.visible { display: flex; }
-    .ai-suggestion-text { font-size: 13px; color: #8b8fa8; line-height: 1.5; flex: 1; font-style: italic; }
+    .ai-suggestion-text { font-size: 13px; color: #6f6d78; line-height: 1.5; flex: 1; font-style: italic; }
     .ai-suggestion-text em { font-style: normal; color: #5746b2; font-weight: 600; }
     .tab-badge {
       flex-shrink: 0; background: #e9e6f8; border-radius: 5px;
-      padding: 2px 7px; font-size: 10px; font-weight: 700; color: #5746b2;
+      padding: 2px 7px; font-size: 12px; font-weight: 700; color: #5746b2;
       margin-top: 2px; white-space: nowrap;
     }
 
@@ -130,13 +130,13 @@
 
     /* Thought starters */
     .starters-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
-      color: #8b8fa8; margin-bottom: 8px;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: #6f6d78; margin-bottom: 8px;
     }
     .starters-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
     .starter-chip {
-      border: 1.5px solid #e5e3f0; border-radius: 20px; padding: 6px 13px;
-      font-size: 12px; font-weight: 600; color: #49495a; background: white;
+      border: 1.5px solid #dfdfe2; border-radius: 20px; padding: 6px 13px;
+      font-size: 12px; font-weight: 600; color: #6f6d78; background: white;
       cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.12s;
     }
     .starter-chip:hover { border-color: #5746b2; color: #5746b2; background: #f8f7ff; }
@@ -149,35 +149,35 @@
       padding: 10px 14px; margin-bottom: 20px;
     }
     .detected-badge.visible { display: flex; }
-    .detected-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; flex-shrink: 0; }
-    .detected-value { font-size: 13px; font-weight: 700; color: #1a1a2e; flex: 1; }
+    .detected-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; flex-shrink: 0; }
+    .detected-value { font-size: 13px; font-weight: 700; color: #201f23; flex: 1; }
     .detected-clear { font-size: 12px; color: #5746b2; cursor: pointer; background: none; border: none; font-family: Figtree, sans-serif; font-weight: 600; }
     .detected-clear:hover { text-decoration: underline; }
 
     /* ── Step question / hint (steps 2-3) ── */
-    .step-question { font-size: 20px; font-weight: 800; margin-bottom: 4px; color: #1a1a2e; }
-    .step-hint { font-size: 13px; color: #8b8fa8; margin-bottom: 20px; line-height: 1.5; }
+    .step-question { font-size: 20px; font-weight: 800; margin-bottom: 4px; color: #201f23; }
+    .step-hint { font-size: 13px; color: #6f6d78; margin-bottom: 20px; line-height: 1.5; }
 
     /* ── Step 2: Autonomy ── */
     .autonomy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
     .autonomy-tile {
-      border: 2px solid #e5e3f0; border-radius: 12px; padding: 18px; cursor: pointer;
+      border: 2px solid #dfdfe2; border-radius: 12px; padding: 18px; cursor: pointer;
       transition: all 0.15s; background: white;
     }
     .autonomy-tile:hover { border-color: #c4bbf0; }
     .autonomy-tile.selected { border-color: #5746b2; background: #f8f7ff; }
     .autonomy-dots-row { display: flex; gap: 4px; margin-bottom: 10px; }
-    .a-dot { width: 10px; height: 10px; border-radius: 50%; background: #e5e3f0; }
+    .a-dot { width: 10px; height: 10px; border-radius: 50%; background: #dfdfe2; }
     .a-dot.on { background: #5746b2; }
-    .autonomy-tile-name { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .autonomy-tile-name { font-size: 14px; font-weight: 700; color: #201f23; margin-bottom: 4px; }
     .autonomy-tile.selected .autonomy-tile-name { color: #5746b2; }
-    .autonomy-tile-desc { font-size: 12px; color: #8b8fa8; line-height: 1.4; }
+    .autonomy-tile-desc { font-size: 12px; color: #6f6d78; line-height: 1.4; }
 
     /* ── Step 3: Stack ── */
     .stack-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
     .stack-chip {
-      border: 2px solid #e5e3f0; border-radius: 8px; padding: 7px 14px; cursor: pointer;
-      font-size: 13px; font-weight: 600; color: #49495a; background: white; transition: all 0.15s;
+      border: 2px solid #dfdfe2; border-radius: 8px; padding: 7px 14px; cursor: pointer;
+      font-size: 13px; font-weight: 600; color: #6f6d78; background: white; transition: all 0.15s;
     }
     .stack-chip:hover { border-color: #5746b2; color: #5746b2; }
     .stack-chip.selected { border-color: #5746b2; background: #f0eeff; color: #5746b2; }
@@ -185,19 +185,19 @@
     /* ── Wizard Nav ── */
     .wizard-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
     .btn-next {
-      background: #5746b2; color: white; border: none; border-radius: 8px;
-      padding: 11px 24px; font-family: Figtree, sans-serif; font-size: 14px; font-weight: 700;
+      background: #5746b2; color: white; border: none; border-radius: 9999px;
+      padding: 12px 24px; font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600;
       cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.12s; opacity: 1;
     }
     .btn-next:hover { background: #4535a0; }
     .btn-next:disabled { background: #d0cfe8; cursor: not-allowed; }
     .btn-back {
-      background: white; color: #5746b2; border: 1.5px solid #5746b2; border-radius: 8px;
-      padding: 10px 20px; font-family: Figtree, sans-serif; font-size: 14px; font-weight: 600;
+      background: white; color: #5746b2; border: 0.5px solid #b0afb6; border-radius: 9999px;
+      padding: 12px 20px; font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600;
       cursor: pointer; transition: background 0.12s;
     }
     .btn-back:hover { background: #f0eeff; }
-    .wizard-skip { font-size: 12px; color: #8b8fa8; background: none; border: none; cursor: pointer; font-family: Figtree, sans-serif; }
+    .wizard-skip { font-size: 12px; color: #6f6d78; background: none; border: none; cursor: pointer; font-family: Figtree, sans-serif; }
     .wizard-skip:hover { color: #5746b2; }
 
     /* ── Collapsed Summary ── */
@@ -211,43 +211,43 @@
     .results-section { max-width: 1200px; margin: 0 auto; padding: 24px 48px; }
     .matches-header { margin-bottom: 16px; }
     .matches-header h2 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
-    .matches-header p { font-size: 13px; color: #49495a; }
+    .matches-header p { font-size: 13px; color: #6f6d78; }
     .match-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
     .match-card { background: white; border: 2px solid #5746b2; border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
     .match-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #5746b2, #7c3aed); }
-    .match-rank-tag { position: absolute; top: 14px; right: 14px; background: #5746b2; color: white; font-size: 10px; font-weight: 700; border-radius: 20px; padding: 3px 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .match-rank-tag { position: absolute; top: 14px; right: 14px; background: #5746b2; color: white; font-size: 12px; font-weight: 700; border-radius: 20px; padding: 3px 8px; text-transform: uppercase; letter-spacing: 0.05em; }
     .match-card-logo { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; margin-bottom: 10px; }
     .match-card-name { font-size: 16px; font-weight: 800; margin-bottom: 2px; }
-    .match-card-tagline { font-size: 12px; color: #49495a; margin-bottom: 14px; line-height: 1.4; }
+    .match-card-tagline { font-size: 12px; color: #6f6d78; margin-bottom: 14px; line-height: 1.4; }
     .match-why { background: #f8f7ff; border-radius: 6px; padding: 10px 12px; margin-bottom: 14px; }
-    .match-why-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; margin-bottom: 4px; }
-    .match-why-text { font-size: 12px; color: #1a1a2e; line-height: 1.5; }
+    .match-why-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; margin-bottom: 4px; }
+    .match-why-text { font-size: 12px; color: #201f23; line-height: 1.5; }
     .match-scores { display: flex; gap: 8px; margin-bottom: 14px; }
-    .match-score-pill { background: #f0eeff; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-weight: 700; color: #5746b2; }
-    .match-score-pill span { font-size: 10px; font-weight: 500; color: #8b8fa8; display: block; }
-    .btn-match-demo { width: 100%; background: #ff492c; color: white; border: none; border-radius: 7px; padding: 9px; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .match-score-pill { background: #f0eeff; border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 700; color: #5746b2; }
+    .match-score-pill span { font-size: 12px; font-weight: 500; color: #6f6d78; display: block; }
+    .btn-match-demo { width: 100%; background: #ff492c; color: white; border: none; border-radius: 9999px; padding: 12px 16px; font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; }
     .btn-match-demo:hover { background: #e03d22; }
     .section-divider { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-    .section-divider h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #8b8fa8; white-space: nowrap; }
-    .section-divider-line { flex: 1; height: 1px; background: #e5e3f0; }
-    .compact-card { background: white; border: 1.5px solid #e5e3f0; border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; display: flex; gap: 14px; align-items: center; transition: all 0.15s; }
+    .section-divider h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #6f6d78; white-space: nowrap; }
+    .section-divider-line { flex: 1; height: 1px; background: #dfdfe2; }
+    .compact-card { background: white; border: 1.5px solid #dfdfe2; border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; display: flex; gap: 14px; align-items: center; transition: all 0.15s; }
     .compact-card:hover { border-color: #5746b2; }
-    .compact-logo { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; flex-shrink: 0; }
+    .compact-logo { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; flex-shrink: 0; }
     .compact-info { flex: 1; min-width: 0; }
     .compact-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
     .compact-name { font-size: 15px; font-weight: 700; }
-    .compact-desc { font-size: 12px; color: #49495a; }
+    .compact-desc { font-size: 12px; color: #6f6d78; }
     .compact-metrics { display: flex; gap: 16px; align-items: center; flex-shrink: 0; }
     .compact-metric { text-align: center; }
-    .compact-metric-val { font-size: 15px; font-weight: 800; color: #1a1a2e; }
-    .compact-metric-label { font-size: 10px; color: #8b8fa8; text-transform: uppercase; letter-spacing: 0.05em; }
+    .compact-metric-val { font-size: 15px; font-weight: 800; color: #201f23; }
+    .compact-metric-label { font-size: 12px; color: #6f6d78; text-transform: uppercase; letter-spacing: 0.05em; }
     .compact-stars { font-size: 12px; color: #ff492c; }
     .compact-actions { display: flex; gap: 8px; flex-shrink: 0; }
-    .btn-sm-view { background: white; border: 1.5px solid #e5e3f0; border-radius: 6px; padding: 6px 12px; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; color: #49495a; }
+    .btn-sm-view { background: white; border: 0.5px solid #b0afb6; border-radius: 9999px; padding: 0 12px; height: 32px; font-family: Figtree, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; color: #6f6d78; display: inline-flex; align-items: center; }
     .btn-sm-view:hover { border-color: #5746b2; color: #5746b2; }
     .g2-ai-hex-mini { width: 38px; height: 44px; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); background: linear-gradient(160deg, #5746b2 0%, #7c3aed 100%); display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
     .g2-ai-hex-mini .snum { font-size: 13px; font-weight: 800; }
-    .g2-grid-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+    .g2-grid-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 20px; font-size: 12px; font-weight: 700; }
     .g2-grid-badge.leader { background: #fff3f0; color: #ff492c; border: 1px solid #ffd5cc; }
     .g2-grid-badge.high-performer { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
     .g2-grid-badge.niche { background: #f5f4fb; color: #5746b2; border: 1px solid #ddd8f8; }
@@ -473,7 +473,7 @@
     <div class="match-cards">
       <div class="match-card">
         <span class="match-rank-tag">Best Match</span>
-        <div class="match-card-logo" style="background:#0f172a;color:white;font-size:11px;">11x</div>
+        <div class="match-card-logo" style="background:#0f172a;color:white;font-size:12px;">11x</div>
         <div class="match-card-name">11x</div>
         <div class="match-card-tagline">Alice — fully autonomous AI SDR</div>
         <div class="match-why">
@@ -505,7 +505,7 @@
         <button class="btn-match-demo" style="background:#7c3aed;">Get a Demo</button>
       </div>
 
-      <div class="match-card" style="border-color:#e5e3f0;">
+      <div class="match-card" style="border-color:#dfdfe2;">
         <div class="match-rank-tag" style="background:#16a34a;">Also Consider</div>
         <div class="match-card-logo" style="background:#ede9fe;color:#7c3aed;font-size:16px;font-weight:900;">A</div>
         <div class="match-card-name">Artisan</div>
@@ -526,11 +526,11 @@
     <div class="section-divider">
       <h3>All AI SDR Agents</h3>
       <div class="section-divider-line"></div>
-      <span style="font-size:12px;color:#8b8fa8;white-space:nowrap;">6 products · sorted by G2 AI Score</span>
+      <span style="font-size:12px;color:#6f6d78;white-space:nowrap;">6 products · sorted by G2 AI Score</span>
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#0f172a;color:white;font-size:10px;font-weight:900;">11x</div>
+      <div class="compact-logo" style="background:#0f172a;color:white;font-size:12px;font-weight:900;">11x</div>
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">11x</span><span class="g2-grid-badge leader">Leader</span></div>
         <div class="compact-desc">Alice — fully autonomous AI SDR for outbound prospecting and meeting booking</div>
@@ -560,7 +560,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#e0f2fe;color:#0369a1;font-size:11px;font-weight:900;">Ai</div>
+      <div class="compact-logo" style="background:#e0f2fe;color:#0369a1;font-size:12px;font-weight:900;">Ai</div>
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">AiSDR</span><span class="g2-grid-badge high-performer">High Performer</span></div>
         <div class="compact-desc">Hyper-personalized sequences driven by LinkedIn and CRM signals</div>
@@ -575,7 +575,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#fef3c7;color:#b45309;font-size:10px;font-weight:900;">SF</div>
+      <div class="compact-logo" style="background:#fef3c7;color:#b45309;font-size:12px;font-weight:900;">SF</div>
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">Salesforge</span><span class="g2-grid-badge niche">Niche</span></div>
         <div class="compact-desc">Frank — volume cold email agent focused on deliverability and inbox placement</div>

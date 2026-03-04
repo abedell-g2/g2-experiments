@@ -8,27 +8,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #201f23; font-size: 14px; }
 
     /* ── Page Header ── */
-    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 28px 48px 24px; }
+    .page-header { background: white; border-bottom: 1px solid #dfdfe2; padding: 28px 48px 24px; }
 
     .header-inner h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
-    .header-inner p { font-size: 14px; color: #49495a; line-height: 1.6; max-width: 540px; }
+    .header-inner p { font-size: 14px; color: #6f6d78; line-height: 1.6; max-width: 540px; }
 
     /* ── Body ── */
     .page-body { max-width: 1040px; margin: 0 auto; padding: 36px 48px 64px; }
 
     /* ── Section labels ── */
     .section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
-    .section-head h2 { font-size: 15px; font-weight: 800; color: #1a1a2e; }
-    .section-head span { font-size: 12px; color: #8b8fa8; }
+    .section-head h2 { font-size: 15px; font-weight: 800; color: #201f23; }
+    .section-head span { font-size: 12px; color: #6f6d78; }
 
     /* ── Featured Cards (large, 2-col) ── */
     .featured-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 36px; }
 
     .feat-card {
-      background: white; border: 1.5px solid #e5e3f0; border-radius: 14px;
+      background: white; border: 1.5px solid #dfdfe2; border-radius: 14px;
       padding: 24px; text-decoration: none; color: inherit;
       display: flex; flex-direction: column; gap: 14px;
       transition: border-color 0.15s, box-shadow 0.15s;
@@ -46,20 +46,20 @@
     .feat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
     .feat-card-title h3 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
     .feat-card:hover h3 { color: #5746b2; }
-    .feat-card-title p { font-size: 13px; color: #49495a; line-height: 1.5; }
+    .feat-card-title p { font-size: 13px; color: #6f6d78; line-height: 1.5; }
 
     .feat-product-logos { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
     .feat-logo {
       width: 28px; height: 28px; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 9px; font-weight: 800; border: 1px solid #e5e3f0;
+      font-size: 12px; font-weight: 800; border: 1px solid #dfdfe2;
       flex-shrink: 0;
     }
-    .feat-logo-more { font-size: 11px; color: #8b8fa8; font-weight: 600; }
+    .feat-logo-more { font-size: 12px; color: #6f6d78; font-weight: 600; }
 
     .feat-card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f0eeff; padding-top: 12px; }
     .feat-count { font-size: 13px; font-weight: 700; color: #5746b2; }
-    .feat-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 20px; }
+    .feat-badge { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 20px; }
     .badge-most { background: #fff3f0; color: #ff492c; }
     .badge-trending { background: #f0eeff; color: #5746b2; }
 
@@ -67,7 +67,7 @@
     .more-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
 
     .more-tile {
-      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
+      background: white; border: 1.5px solid #dfdfe2; border-radius: 10px;
       padding: 14px 16px; text-decoration: none; color: inherit;
       display: flex; align-items: center; gap: 10px;
       transition: border-color 0.15s, background 0.15s;
@@ -75,20 +75,20 @@
     .more-tile:hover { border-color: #5746b2; background: #faf9ff; }
     .more-icon { font-size: 18px; flex-shrink: 0; }
     .more-info { min-width: 0; }
-    .more-name { font-size: 13px; font-weight: 700; color: #1a1a2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .more-name { font-size: 13px; font-weight: 700; color: #201f23; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .more-tile:hover .more-name { color: #5746b2; }
-    .more-count { font-size: 11px; color: #8b8fa8; margin-top: 1px; }
+    .more-count { font-size: 12px; color: #6f6d78; margin-top: 1px; }
 
     /* ── Emerging (compact row) ── */
     .emerging-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .emerging-chip {
-      background: white; border: 1.5px solid #e5e3f0; border-radius: 8px;
-      padding: 8px 14px; text-decoration: none; color: #49495a;
+      background: white; border: 1.5px solid #dfdfe2; border-radius: 8px;
+      padding: 8px 14px; text-decoration: none; color: #6f6d78;
       font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 7px;
       transition: border-color 0.15s;
     }
     .emerging-chip:hover { border-color: #5746b2; color: #5746b2; }
-    .emerging-chip .chip-count { font-size: 11px; color: #8b8fa8; }
+    .emerging-chip .chip-count { font-size: 12px; color: #6f6d78; }
     .emerging-chip .chip-icon { font-size: 14px; }
   </style>
 </head>
@@ -143,10 +143,10 @@
         </div>
       </div>
       <div class="feat-product-logos">
-        <div class="feat-logo" style="background:#0f172a;color:white;font-size:8px;">11x</div>
+        <div class="feat-logo" style="background:#0f172a;color:white;font-size:12px;">11x</div>
         <div class="feat-logo" style="background:#ede9fe;color:#7c3aed;font-size:12px;font-weight:900;">A</div>
-        <div class="feat-logo" style="background:#e0f2fe;color:#0369a1;font-size:9px;">Ai</div>
-        <div class="feat-logo" style="background:#fef3c7;color:#b45309;font-size:8px;">SF</div>
+        <div class="feat-logo" style="background:#e0f2fe;color:#0369a1;font-size:12px;">Ai</div>
+        <div class="feat-logo" style="background:#fef3c7;color:#b45309;font-size:12px;">SF</div>
         <div class="feat-logo" style="background:#dcfce7;color:#16a34a;font-size:12px;font-weight:900;">R</div>
         <span class="feat-logo-more">+1 more</span>
       </div>
@@ -165,11 +165,11 @@
         </div>
       </div>
       <div class="feat-product-logos">
-        <div class="feat-logo" style="background:#1a1a2e;color:white;font-size:9px;">Dv</div>
-        <div class="feat-logo" style="background:#f0fdf4;color:#16a34a;font-size:9px;">GH</div>
-        <div class="feat-logo" style="background:#eff6ff;color:#2563eb;font-size:9px;">Cu</div>
-        <div class="feat-logo" style="background:#faf5ff;color:#7c3aed;font-size:9px;">Co</div>
-        <div class="feat-logo" style="background:#fff7ed;color:#c2410c;font-size:9px;">Cl</div>
+        <div class="feat-logo" style="background:#201f23;color:white;font-size:12px;">Dv</div>
+        <div class="feat-logo" style="background:#f0fdf4;color:#16a34a;font-size:12px;">GH</div>
+        <div class="feat-logo" style="background:#eff6ff;color:#2563eb;font-size:12px;">Cu</div>
+        <div class="feat-logo" style="background:#faf5ff;color:#7c3aed;font-size:12px;">Co</div>
+        <div class="feat-logo" style="background:#fff7ed;color:#c2410c;font-size:12px;">Cl</div>
         <span class="feat-logo-more">+3 more</span>
       </div>
       <div class="feat-card-footer">
@@ -187,11 +187,11 @@
         </div>
       </div>
       <div class="feat-product-logos">
-        <div class="feat-logo" style="background:#fff3f0;color:#ff492c;font-size:9px;">Ja</div>
-        <div class="feat-logo" style="background:#eff6ff;color:#2563eb;font-size:9px;">Cp</div>
-        <div class="feat-logo" style="background:#f0fdf4;color:#16a34a;font-size:9px;">Wr</div>
-        <div class="feat-logo" style="background:#faf5ff;color:#7c3aed;font-size:9px;">Pe</div>
-        <div class="feat-logo" style="background:#fef3c7;color:#b45309;font-size:9px;">Hy</div>
+        <div class="feat-logo" style="background:#fff3f0;color:#ff492c;font-size:12px;">Ja</div>
+        <div class="feat-logo" style="background:#eff6ff;color:#2563eb;font-size:12px;">Cp</div>
+        <div class="feat-logo" style="background:#f0fdf4;color:#16a34a;font-size:12px;">Wr</div>
+        <div class="feat-logo" style="background:#faf5ff;color:#7c3aed;font-size:12px;">Pe</div>
+        <div class="feat-logo" style="background:#fef3c7;color:#b45309;font-size:12px;">Hy</div>
         <span class="feat-logo-more">+4 more</span>
       </div>
       <div class="feat-card-footer">

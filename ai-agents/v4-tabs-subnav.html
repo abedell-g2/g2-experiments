@@ -8,16 +8,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #201f23; font-size: 14px; }
 
     /* ── Category Tab Bar (bottom of header) ── */
     .cat-tabs-wrap {
       overflow: visible; margin: 16px -48px 0;
-      border-top: 1px solid #e5e3f0;
+      border-top: 1px solid #dfdfe2;
     }
     .cat-tabs { display: flex; align-items: center; padding: 0 48px; }
     .cat-tab {
-      padding: 12px 14px; font-size: 13px; font-weight: 600; color: #8b8fa8;
+      padding: 12px 14px; font-size: 13px; font-weight: 600; color: #6f6d78;
       white-space: nowrap; cursor: pointer; border-bottom: 2px solid transparent;
       transition: color 0.12s, border-color 0.12s;
       display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
@@ -26,10 +26,10 @@
     .cat-tab:hover { color: #5746b2; }
     .cat-tab.active { color: #5746b2; border-bottom-color: #5746b2; font-weight: 700; }
     .cat-tab .tab-icon { font-size: 14px; }
-    .cat-tab .tab-count { font-size: 10px; font-weight: 700; background: #f0eeff; color: #5746b2; padding: 1px 6px; border-radius: 10px; }
+    .cat-tab .tab-count { font-size: 12px; font-weight: 700; background: #f0eeff; color: #5746b2; padding: 1px 6px; border-radius: 10px; }
     .cat-tab.active .tab-count { background: #5746b2; color: white; }
     .cat-tab-more {
-      padding: 12px 14px; font-size: 12px; font-weight: 700; color: #8b8fa8;
+      padding: 12px 14px; font-size: 12px; font-weight: 700; color: #6f6d78;
       white-space: nowrap; cursor: pointer; flex-shrink: 0;
       display: flex; align-items: center; gap: 4px; position: relative;
       margin-bottom: -1px;
@@ -40,29 +40,29 @@
     /* More dropdown menu */
     .more-menu {
       display: none; position: absolute; top: calc(100% + 1px); left: 0;
-      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
+      background: white; border: 1.5px solid #dfdfe2; border-radius: 10px;
       padding: 6px 0; min-width: 220px; z-index: 200;
       box-shadow: 0 8px 24px rgba(0,0,0,0.1);
     }
     .more-menu.open { display: block; }
     .more-menu-item {
-      padding: 10px 16px; font-size: 13px; font-weight: 600; color: #49495a;
+      padding: 10px 16px; font-size: 13px; font-weight: 600; color: #6f6d78;
       display: flex; align-items: center; gap: 8px; cursor: pointer;
     }
     .more-menu-item:hover { background: #f8f7ff; color: #5746b2; }
     .more-menu-item.active { color: #5746b2; background: #f0eeff; }
-    .more-menu-item .mi-count { font-size: 11px; color: #8b8fa8; margin-left: auto; }
+    .more-menu-item .mi-count { font-size: 12px; color: #6f6d78; margin-left: auto; }
 
     /* ── Page Header ── */
     .page-header {
-      background: white; border-bottom: 1px solid #e5e3f0;
+      background: white; border-bottom: 1px solid #dfdfe2;
       padding: 20px 48px 0;
     }
 
 
     .header-inner { display: flex; align-items: flex-end; gap: 0; justify-content: space-between; }
     .header-left h1 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
-    .header-left p { font-size: 13px; color: #49495a; line-height: 1.5; max-width: 520px; padding-bottom: 14px; }
+    .header-left p { font-size: 13px; color: #6f6d78; line-height: 1.5; max-width: 520px; padding-bottom: 14px; }
 
     /* ── Body layout ── */
     .page-body { max-width: 1040px; margin: 0 auto; padding: 28px 48px 64px; display: flex; gap: 32px; }
@@ -72,8 +72,8 @@
     /* ── Sidebar ── */
     .sidebar-section { margin-bottom: 24px; }
     .sidebar-section-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: #8b8fa8; margin-bottom: 10px;
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #6f6d78; margin-bottom: 10px;
     }
     .filter-group { display: flex; flex-direction: column; gap: 6px; }
     .filter-item {
@@ -85,32 +85,32 @@
       transition: background 0.12s, border-color 0.12s;
     }
     .filter-item.checked .filter-check { background: #5746b2; border-color: #5746b2; }
-    .filter-item.checked .filter-check::after { content: '✓'; color: white; font-size: 9px; font-weight: 900; }
-    .filter-label { font-size: 13px; color: #49495a; flex: 1; }
-    .filter-count { font-size: 11px; color: #8b8fa8; }
+    .filter-item.checked .filter-check::after { content: '✓'; color: white; font-size: 12px; font-weight: 900; }
+    .filter-label { font-size: 13px; color: #6f6d78; flex: 1; }
+    .filter-count { font-size: 12px; color: #6f6d78; }
 
     /* Autonomy visual filter */
     .autonomy-options { display: flex; flex-direction: column; gap: 5px; }
     .autonomy-opt {
-      border: 1.5px solid #e5e3f0; border-radius: 7px; padding: 8px 10px;
+      border: 1.5px solid #dfdfe2; border-radius: 7px; padding: 8px 10px;
       cursor: pointer; transition: border-color 0.12s, background 0.12s;
     }
     .autonomy-opt:hover { border-color: #c4bbf0; }
     .autonomy-opt.sel { border-color: #5746b2; background: #f8f7ff; }
-    .autonomy-opt-label { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .autonomy-opt-label { font-size: 12px; font-weight: 700; color: #201f23; margin-bottom: 4px; }
     .autonomy-opt.sel .autonomy-opt-label { color: #5746b2; }
     .autonomy-dots { display: flex; gap: 3px; }
-    .adot { width: 8px; height: 8px; border-radius: 50%; background: #e5e3f0; }
+    .adot { width: 8px; height: 8px; border-radius: 50%; background: #dfdfe2; }
     .adot.on { background: #5746b2; }
 
     /* Range filter */
     .range-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-    .range-label { font-size: 12px; color: #49495a; }
+    .range-label { font-size: 12px; color: #6f6d78; }
     .range-val { font-size: 12px; font-weight: 700; color: #5746b2; }
     input[type=range] {
       -webkit-appearance: none; appearance: none;
       width: 100%; height: 3px; border-radius: 2px;
-      background: linear-gradient(to right, #5746b2 var(--pct,50%), #e5e3f0 var(--pct,50%));
+      background: linear-gradient(to right, #5746b2 var(--pct,50%), #dfdfe2 var(--pct,50%));
       outline: none; cursor: pointer;
     }
     input[type=range]::-webkit-slider-thumb {
@@ -125,18 +125,18 @@
       display: flex; align-items: center; gap: 10px;
       margin-bottom: 16px;
     }
-    .sort-bar-count { font-size: 13px; color: #49495a; font-weight: 600; }
-    .sort-bar-count strong { color: #1a1a2e; }
+    .sort-bar-count { font-size: 13px; color: #6f6d78; font-weight: 600; }
+    .sort-bar-count strong { color: #201f23; }
     .sort-bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
     .sort-select {
       font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600;
-      color: #49495a; border: 1.5px solid #e5e3f0; border-radius: 7px;
+      color: #6f6d78; border: 1.5px solid #dfdfe2; border-radius: 7px;
       padding: 6px 10px; background: white; cursor: pointer; outline: none;
     }
     .sort-select:hover { border-color: #5746b2; }
     .view-toggle { display: flex; gap: 2px; }
     .vtog-btn {
-      width: 30px; height: 30px; border: 1.5px solid #e5e3f0; background: white;
+      width: 30px; height: 30px; border: 1.5px solid #dfdfe2; background: white;
       border-radius: 6px; display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: border-color 0.12s, background 0.12s;
     }
@@ -144,7 +144,7 @@
 
     /* ── Product card ── */
     .product-card {
-      background: white; border: 1.5px solid #e5e3f0; border-radius: 12px;
+      background: white; border: 1.5px solid #dfdfe2; border-radius: 12px;
       padding: 20px; margin-bottom: 12px;
       display: grid; grid-template-columns: auto 1fr auto; gap: 16px;
       transition: border-color 0.15s, box-shadow 0.12s;
@@ -167,46 +167,46 @@
       background: linear-gradient(160deg, #5746b2, #7c3aed);
       display: flex; align-items: center; justify-content: center;
     }
-    .g2-score-hex span { font-size: 11px; font-weight: 900; color: white; }
-    .g2-score-label { font-size: 9px; font-weight: 700; color: #5746b2; text-align: center; line-height: 1.2; white-space: nowrap; }
+    .g2-score-hex span { font-size: 12px; font-weight: 900; color: white; }
+    .g2-score-label { font-size: 12px; font-weight: 700; color: #5746b2; text-align: center; line-height: 1.2; white-space: nowrap; }
 
     .card-mid { min-width: 0; }
     .card-top-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
-    .product-name { font-size: 16px; font-weight: 800; color: #1a1a2e; }
+    .product-name { font-size: 16px; font-weight: 800; color: #201f23; }
     .product-card:hover .product-name { color: #5746b2; }
     .grid-badge {
-      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
       padding: 2px 8px; border-radius: 20px; flex-shrink: 0; margin-top: 2px;
     }
     .badge-leader { background: #fff3f0; color: #ff492c; }
     .badge-high { background: #f0eeff; color: #5746b2; }
     .badge-niche { background: #f5f5f5; color: #666; }
 
-    .product-tagline { font-size: 13px; color: #49495a; line-height: 1.5; margin-bottom: 10px; }
+    .product-tagline { font-size: 13px; color: #6f6d78; line-height: 1.5; margin-bottom: 10px; }
 
     .stars { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; }
-    .star-val { font-size: 14px; font-weight: 800; color: #1a1a2e; }
+    .star-val { font-size: 14px; font-weight: 800; color: #201f23; }
     .star-icons { display: flex; gap: 1px; }
-    .star-icons span { font-size: 11px; color: #fbbf24; }
-    .star-count { font-size: 12px; color: #8b8fa8; }
+    .star-icons span { font-size: 12px; color: #fbbf24; }
+    .star-count { font-size: 12px; color: #6f6d78; }
 
     /* Agentic metrics */
     .agentic-metrics {
-      background: #f8f7ff; border: 1px solid #e5e3f0; border-radius: 8px; padding: 12px 14px;
+      background: #f8f7ff; border: 1px solid #dfdfe2; border-radius: 8px; padding: 12px 14px;
     }
     .agentic-metrics-label {
-      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
       color: #5746b2; margin-bottom: 10px;
     }
     .metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
     .metric-item { display: flex; flex-direction: column; gap: 3px; }
-    .metric-label { font-size: 10px; font-weight: 700; color: #8b8fa8; text-transform: uppercase; letter-spacing: 0.06em; }
-    .metric-value { font-size: 14px; font-weight: 800; color: #1a1a2e; }
-    .metric-sub { font-size: 10px; color: #8b8fa8; }
-    .metric-bar-track { background: #e5e3f0; border-radius: 2px; height: 4px; margin-top: 2px; }
+    .metric-label { font-size: 12px; font-weight: 700; color: #6f6d78; text-transform: uppercase; letter-spacing: 0.06em; }
+    .metric-value { font-size: 14px; font-weight: 800; color: #201f23; }
+    .metric-sub { font-size: 12px; color: #6f6d78; }
+    .metric-bar-track { background: #dfdfe2; border-radius: 2px; height: 4px; margin-top: 2px; }
     .metric-bar { background: linear-gradient(90deg, #5746b2, #7c3aed); height: 100%; border-radius: 2px; }
     .autonomy-visual { display: flex; gap: 3px; margin-top: 3px; }
-    .a-dot { width: 9px; height: 9px; border-radius: 50%; background: #e5e3f0; }
+    .a-dot { width: 9px; height: 9px; border-radius: 50%; background: #dfdfe2; }
     .a-dot.on { background: #5746b2; }
 
     /* Card right column */
@@ -217,27 +217,27 @@
     .card-actions { display: flex; flex-direction: column; gap: 7px; width: 100%; }
     .btn-primary {
       background: #ff492c; color: white; font-family: Figtree, sans-serif;
-      font-size: 13px; font-weight: 700; border: none; border-radius: 8px;
-      padding: 9px 14px; cursor: pointer; text-align: center; text-decoration: none; display: block;
+      font-size: 16px; font-weight: 600; border: none; border-radius: 9999px;
+      padding: 12px 16px; cursor: pointer; text-align: center; text-decoration: none; display: block;
       transition: background 0.12s;
     }
     .btn-primary:hover { background: #e03c22; }
     .btn-secondary {
       background: white; color: #5746b2; font-family: Figtree, sans-serif;
-      font-size: 13px; font-weight: 700; border: 1.5px solid #5746b2; border-radius: 8px;
-      padding: 8px 14px; cursor: pointer; text-align: center; text-decoration: none; display: block;
+      font-size: 16px; font-weight: 600; border: 0.5px solid #b0afb6; border-radius: 9999px;
+      padding: 12px 16px; cursor: pointer; text-align: center; text-decoration: none; display: block;
       transition: background 0.12s;
     }
     .btn-secondary:hover { background: #f0eeff; }
     .save-btn {
       display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;
-      color: #8b8fa8; cursor: pointer; padding: 4px 0;
+      color: #6f6d78; cursor: pointer; padding: 4px 0;
     }
     .save-btn:hover { color: #5746b2; }
 
     /* Sub-type label on card */
     .sub-type-pill {
-      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
       padding: 2px 8px; border-radius: 20px; background: #f0f0f0; color: #666;
       align-self: flex-start;
     }
@@ -247,8 +247,8 @@
     /* ── "Change Category" flyout hint ── */
     .change-cat-hint {
       display: inline-flex; align-items: center; gap: 6px;
-      font-size: 12px; color: #8b8fa8; cursor: pointer;
-      border: 1.5px solid #e5e3f0; border-radius: 20px;
+      font-size: 12px; color: #6f6d78; cursor: pointer;
+      border: 1.5px solid #dfdfe2; border-radius: 20px;
       padding: 5px 12px; background: white; transition: border-color 0.12s, color 0.12s;
       white-space: nowrap; text-decoration: none;
     }
@@ -261,8 +261,8 @@
       display: flex; align-items: flex-start; gap: 10px;
     }
     .context-callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-    .context-callout-text { font-size: 13px; color: #49495a; line-height: 1.5; }
-    .context-callout-text strong { color: #1a1a2e; }
+    .context-callout-text { font-size: 13px; color: #6f6d78; line-height: 1.5; }
+    .context-callout-text strong { color: #201f23; }
 
   </style>
 </head>
@@ -435,7 +435,7 @@
     <!-- Product: 11x (Alice) -->
     <div class="product-card">
       <div class="card-left">
-        <div class="product-logo" style="background:#0f172a;color:white;font-size:11px;">11x</div>
+        <div class="product-logo" style="background:#0f172a;color:white;font-size:12px;">11x</div>
         <div class="g2-score-badge">
           <div class="g2-score-hex"><span>87</span></div>
           <div class="g2-score-label">Agentic<br>Score</div>
@@ -559,7 +559,7 @@
     <!-- Product: AiSDR -->
     <div class="product-card">
       <div class="card-left">
-        <div class="product-logo" style="background:#e0f2fe;color:#0369a1;font-size:9px;font-weight:800;">AiSDR</div>
+        <div class="product-logo" style="background:#e0f2fe;color:#0369a1;font-size:12px;font-weight:800;">AiSDR</div>
         <div class="g2-score-badge">
           <div class="g2-score-hex"><span>78</span></div>
           <div class="g2-score-label">Agentic<br>Score</div>
@@ -621,7 +621,7 @@
     <!-- Product: Salesforge (Frank) -->
     <div class="product-card">
       <div class="card-left">
-        <div class="product-logo" style="background:#fef3c7;color:#b45309;font-size:9px;font-weight:800;">SF</div>
+        <div class="product-logo" style="background:#fef3c7;color:#b45309;font-size:12px;font-weight:800;">SF</div>
         <div class="g2-score-badge">
           <div class="g2-score-hex"><span>74</span></div>
           <div class="g2-score-label">Agentic<br>Score</div>
@@ -745,7 +745,7 @@
     <!-- Product: Regie.ai -->
     <div class="product-card">
       <div class="card-left">
-        <div class="product-logo" style="background:#faf5ff;color:#7c3aed;font-size:9px;font-weight:800;">Regie</div>
+        <div class="product-logo" style="background:#faf5ff;color:#7c3aed;font-size:12px;font-weight:800;">Regie</div>
         <div class="g2-score-badge">
           <div class="g2-score-hex"><span>68</span></div>
           <div class="g2-score-label">Agentic<br>Score</div>

@@ -8,49 +8,49 @@
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #201f23; font-size: 14px; }
 
     /* ── Page Header ── */
-    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 24px 32px 20px; }
+    .page-header { background: white; border-bottom: 1px solid #dfdfe2; padding: 24px 32px 20px; }
     .page-header-inner { max-width: 1200px; margin: 0 auto; }
 
     .header-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
     .header-row h1 { font-size: 26px; font-weight: 800; }
-    .header-row p { font-size: 13px; color: #49495a; max-width: 500px; line-height: 1.5; margin-top: 4px; }
+    .header-row p { font-size: 13px; color: #6f6d78; max-width: 500px; line-height: 1.5; margin-top: 4px; }
 
     /* View Toggle */
-    .view-toggle { display: flex; background: #f5f4fb; border: 1.5px solid #e5e3f0; border-radius: 8px; padding: 3px; gap: 2px; flex-shrink: 0; }
-    .toggle-btn { padding: 6px 14px; border-radius: 6px; border: none; background: none; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; color: #8b8fa8; display: flex; align-items: center; gap: 5px; }
+    .view-toggle { display: flex; background: #f5f4fb; border: 1.5px solid #dfdfe2; border-radius: 8px; padding: 3px; gap: 2px; flex-shrink: 0; }
+    .toggle-btn { padding: 6px 14px; border-radius: 6px; border: none; background: none; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; color: #6f6d78; display: flex; align-items: center; gap: 5px; }
     .toggle-btn.active { background: white; color: #5746b2; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
 
     /* Use Case Tabs */
     .uc-tabs { display: flex; gap: 2px; margin-top: 16px; }
-    .uc-tab { padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid transparent; border-bottom: none; border-radius: 6px 6px 0 0; color: #49495a; background: #f5f4fb; text-decoration: none; margin-bottom: -1px; }
-    .uc-tab.active { background: white; color: #5746b2; border-color: #e5e3f0; border-bottom-color: white; font-weight: 700; }
+    .uc-tab { padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid transparent; border-bottom: none; border-radius: 6px 6px 0 0; color: #6f6d78; background: #f5f4fb; text-decoration: none; margin-bottom: -1px; }
+    .uc-tab.active { background: white; color: #5746b2; border-color: #dfdfe2; border-bottom-color: white; font-weight: 700; }
 
     /* ── Filter Row ── */
     .filter-row { max-width: 1200px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .filter-chip { display: flex; align-items: center; gap: 5px; padding: 5px 12px; border: 1.5px solid #e5e3f0; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; background: white; color: #49495a; }
+    .filter-chip { display: flex; align-items: center; gap: 5px; padding: 5px 12px; border: 1.5px solid #dfdfe2; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; background: white; color: #6f6d78; }
     .filter-chip:hover { border-color: #5746b2; color: #5746b2; }
     .filter-chip.active { border-color: #5746b2; background: #f0eeff; color: #5746b2; }
-    .filter-divider { width: 1px; height: 20px; background: #e5e3f0; margin: 0 4px; }
-    .results-label { font-size: 12px; color: #8b8fa8; margin-left: auto; }
+    .filter-divider { width: 1px; height: 20px; background: #dfdfe2; margin: 0 4px; }
+    .results-label { font-size: 12px; color: #6f6d78; margin-left: auto; }
 
     /* ── Main Table Container ── */
     .table-container { max-width: 1200px; margin: 0 auto; padding: 0 32px 48px; }
 
     /* ── Comparison Table ── */
-    .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; background: white; border: 1.5px solid #e5e3f0; border-radius: 12px; overflow: hidden; }
+    .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; background: white; border: 1.5px solid #dfdfe2; border-radius: 12px; overflow: hidden; }
 
     /* Header */
     .comparison-table thead tr { background: #faf9ff; }
-    .comparison-table th { padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b8fa8; border-bottom: 1.5px solid #e5e3f0; white-space: nowrap; position: relative; cursor: pointer; }
+    .comparison-table th { padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6f6d78; border-bottom: 1.5px solid #dfdfe2; white-space: nowrap; position: relative; cursor: pointer; }
     .comparison-table th:hover { color: #5746b2; }
     .comparison-table th:first-child { border-radius: 12px 0 0 0; }
     .comparison-table th:last-child { border-radius: 0 12px 0 0; }
     .th-inner { display: flex; align-items: center; gap: 5px; }
-    .th-new { background: #5746b2; color: white; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; letter-spacing: 0.05em; }
-    .sort-icon { color: #c4c0e0; font-size: 10px; }
+    .th-new { background: #5746b2; color: white; font-size: 12px; font-weight: 800; padding: 1px 5px; border-radius: 3px; letter-spacing: 0.05em; }
+    .sort-icon { color: #c4c0e0; font-size: 12px; }
     .sort-icon.asc { color: #5746b2; }
 
     /* G2 AI Score column header */
@@ -69,10 +69,10 @@
 
     /* Product cell */
     .product-cell { display: flex; align-items: center; gap: 12px; }
-    .product-cell-logo { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; flex-shrink: 0; }
+    .product-cell-logo { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; flex-shrink: 0; }
     .product-cell-info .name { font-size: 14px; font-weight: 700; }
-    .product-cell-info .tagline { font-size: 11px; color: #8b8fa8; margin-top: 1px; }
-    .best-tag { background: #5746b2; color: white; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.05em; margin-left: 6px; vertical-align: middle; }
+    .product-cell-info .tagline { font-size: 12px; color: #6f6d78; margin-top: 1px; }
+    .best-tag { background: #5746b2; color: white; font-size: 12px; font-weight: 800; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.05em; margin-left: 6px; vertical-align: middle; }
 
     /* G2 AI Score cell */
     .score-cell { display: flex; align-items: center; gap: 8px; }
@@ -88,7 +88,7 @@
     /* Completion cell */
     .completion-cell { display: flex; flex-direction: column; gap: 4px; }
     .completion-num { font-size: 15px; font-weight: 800; }
-    .completion-bar-track { width: 80px; height: 5px; background: #e5e3f0; border-radius: 3px; overflow: hidden; }
+    .completion-bar-track { width: 80px; height: 5px; background: #dfdfe2; border-radius: 3px; overflow: hidden; }
     .completion-bar-fill { height: 100%; border-radius: 3px; }
     .bar-high { background: linear-gradient(90deg, #5746b2, #7c3aed); }
     .bar-mid { background: linear-gradient(90deg, #f59e0b, #d97706); }
@@ -98,49 +98,49 @@
     .auto-dots { display: flex; gap: 3px; margin-bottom: 3px; }
     .auto-dot { width: 8px; height: 8px; border-radius: 50%; }
     .auto-dot.on { background: #5746b2; }
-    .auto-dot.off { background: #e5e3f0; }
-    .auto-label { font-size: 11px; color: #49495a; white-space: nowrap; }
+    .auto-dot.off { background: #dfdfe2; }
+    .auto-label { font-size: 12px; color: #6f6d78; white-space: nowrap; }
 
     /* Ramp cell */
     .ramp-cell { }
     .ramp-val { font-size: 15px; font-weight: 800; }
-    .ramp-label { font-size: 11px; color: #8b8fa8; }
-    .ramp-badge { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; margin-top: 2px; }
+    .ramp-label { font-size: 12px; color: #6f6d78; }
+    .ramp-badge { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-top: 2px; }
     .ramp-fast { background: #f0fdf4; color: #16a34a; }
     .ramp-slow { background: #fff7ed; color: #ea580c; }
 
     /* ROI cell */
     .roi-cell { }
-    .roi-val { font-size: 13px; font-weight: 700; color: #1a1a2e; }
-    .roi-pct { font-size: 11px; color: #8b8fa8; margin-top: 2px; }
+    .roi-val { font-size: 13px; font-weight: 700; color: #201f23; }
+    .roi-pct { font-size: 12px; color: #6f6d78; margin-top: 2px; }
 
     /* Stars cell */
     .stars-cell { }
     .stars { color: #ff492c; font-size: 13px; }
     .star-num { font-size: 13px; font-weight: 700; margin-left: 4px; }
-    .review-count { font-size: 11px; color: #8b8fa8; display: block; margin-top: 2px; }
+    .review-count { font-size: 12px; color: #6f6d78; display: block; margin-top: 2px; }
 
     /* CTA cell */
     .cta-cell { display: flex; flex-direction: column; gap: 6px; }
-    .btn-demo-sm { background: #ff492c; color: white; border: none; border-radius: 6px; padding: 6px 14px; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .btn-demo-sm { background: #ff492c; color: white; border: none; border-radius: 9999px; padding: 0 14px; height: 32px; font-family: Figtree, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; }
     .btn-demo-sm:hover { background: #e03d22; }
-    .btn-profile-sm { background: white; color: #5746b2; border: 1.5px solid #5746b2; border-radius: 6px; padding: 6px 14px; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .btn-profile-sm { background: white; color: #5746b2; border: 0.5px solid #b0afb6; border-radius: 9999px; padding: 0 14px; height: 32px; font-family: Figtree, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; }
     .btn-profile-sm:hover { background: #f0eeff; }
 
     /* ── G2 AI Score Legend ── */
-    .score-legend { background: white; border: 1.5px solid #e5e3f0; border-radius: 10px; padding: 14px 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
-    .score-legend-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; }
+    .score-legend { background: white; border: 1.5px solid #dfdfe2; border-radius: 10px; padding: 14px 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .score-legend-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; }
     .score-legend-items { display: flex; gap: 20px; flex-wrap: wrap; }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #49495a; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #6f6d78; }
     .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-    .g2-grid-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+    .g2-grid-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 20px; font-size: 12px; font-weight: 700; }
     .g2-grid-badge.leader { background: #fff3f0; color: #ff492c; border: 1px solid #ffd5cc; }
     .g2-grid-badge.high-performer { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
     .g2-grid-badge.niche { background: #f5f4fb; color: #5746b2; border: 1px solid #ddd8f8; }
 
     /* ── Score breakdown tooltip ── */
-    .score-breakdown { font-size: 10px; color: #8b8fa8; margin-top: 3px; line-height: 1.3; }
+    .score-breakdown { font-size: 12px; color: #6f6d78; margin-top: 3px; line-height: 1.3; }
   </style>
 </head>
 <body>
@@ -178,7 +178,7 @@
 
 <!-- Filter Row -->
 <div class="filter-row">
-  <span style="font-size:12px;font-weight:700;color:#49495a;">Filter:</span>
+  <span style="font-size:12px;font-weight:700;color:#6f6d78;">Filter:</span>
   <div class="filter-chip active">All Autonomy Levels</div>
   <div class="filter-chip">Fully Autonomous</div>
   <div class="filter-chip">Mostly Autonomous</div>
@@ -201,12 +201,12 @@
       G2 Agentic Score
     </span>
     <div class="score-legend-items">
-      <span style="font-size:12px;color:#49495a;">Composite of:</span>
+      <span style="font-size:12px;color:#6f6d78;">Composite of:</span>
       <div class="legend-item"><div class="legend-dot" style="background:#5746b2;"></div> Task Completion Rate (40%)</div>
       <div class="legend-item"><div class="legend-dot" style="background:#7c3aed;"></div> Reliability &amp; Error Recovery (30%)</div>
       <div class="legend-item"><div class="legend-dot" style="background:#a78bfa;"></div> Business Impact &amp; ROI (30%)</div>
     </div>
-    <span style="font-size:11px;color:#8b8fa8;margin-left:auto;">All data sourced from verified G2 reviews</span>
+    <span style="font-size:12px;color:#6f6d78;margin-left:auto;">All data sourced from verified G2 reviews</span>
   </div>
 
   <table class="comparison-table">
@@ -247,7 +247,7 @@
       <tr class="top-match">
         <td>
           <div class="product-cell">
-            <div class="product-cell-logo" style="background:#0f172a;color:white;font-size:10px;">11x</div>
+            <div class="product-cell-logo" style="background:#0f172a;color:white;font-size:12px;">11x</div>
             <div class="product-cell-info">
               <div class="name">11x <span class="best-tag">TOP</span></div>
               <div class="tagline">Alice — AI SDR</div>
@@ -367,7 +367,7 @@
       <tr>
         <td>
           <div class="product-cell">
-            <div class="product-cell-logo" style="background:#e0f2fe;color:#0369a1;font-size:11px;">Ai</div>
+            <div class="product-cell-logo" style="background:#e0f2fe;color:#0369a1;font-size:12px;">Ai</div>
             <div class="product-cell-info">
               <div class="name">AiSDR</div>
               <div class="tagline">Hyper-personalized outbound</div>
@@ -427,7 +427,7 @@
       <tr>
         <td>
           <div class="product-cell">
-            <div class="product-cell-logo" style="background:#fef3c7;color:#b45309;font-size:10px;font-weight:900;">SF</div>
+            <div class="product-cell-logo" style="background:#fef3c7;color:#b45309;font-size:12px;font-weight:900;">SF</div>
             <div class="product-cell-info">
               <div class="name">Salesforge</div>
               <div class="tagline">Frank — volume cold email</div>
@@ -580,7 +580,7 @@
         <td>
           <div class="ramp-cell">
             <div class="ramp-val">10 days</div>
-            <span class="ramp-badge" style="background:#f5f4fb;color:#8b8fa8;">Average</span>
+            <span class="ramp-badge" style="background:#f5f4fb;color:#6f6d78;">Average</span>
           </div>
         </td>
         <td>

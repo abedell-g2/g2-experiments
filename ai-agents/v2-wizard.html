@@ -11,7 +11,8 @@
     body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
 
     /* ── Page Header ── */
-    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 24px 48px 0; }
+    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 24px 32px 0; }
+    .page-header-inner { max-width: 1200px; margin: 0 auto; }
 
     .header-title-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
     .header-title-row h1 { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
@@ -20,7 +21,8 @@
     .skip-link:hover { color: #5746b2; }
 
     /* ── Progress Stepper ── */
-    .stepper-wrap { display: flex; align-items: flex-start; overflow: visible; margin: 0 -48px; padding: 0 48px; border-top: 1px solid #e5e3f0; }
+    .stepper-wrap { overflow: visible; margin: 0 -32px; border-top: 1px solid #e5e3f0; }
+    .stepper-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; display: flex; align-items: flex-start; }
     .stepper-step { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 12px; }
     .stepper-node {
       width: 26px; height: 26px; border-radius: 50%;
@@ -39,13 +41,13 @@
     .stepper-label.done { color: #5746b2; }
     .stepper-label.pending { color: #c4bbf0; }
     .stepper-conn {
-      flex: 1; height: 2px; background: #e5e3f0; min-width: 48px; max-width: 96px;
+      flex: 1; height: 2px; background: #e5e3f0; min-width: 64px;
       margin-top: 25px; transition: background 0.2s;
     }
     .stepper-conn.done { background: #5746b2; }
 
     /* ── Wizard Body ── */
-    .wizard-wrap { padding: 36px 48px 64px; }
+    .wizard-wrap { padding: 36px 32px 64px; }
     .wizard-card {
       max-width: 720px; margin: 0 auto; background: white;
       border: 1.5px solid #e5e3f0; border-radius: 16px; padding: 36px 40px;
@@ -201,14 +203,14 @@
     .wizard-skip:hover { color: #5746b2; }
 
     /* ── Collapsed Summary ── */
-    .wizard-summary { display: none; background: #f0eeff; border-bottom: 2px solid #ddd8f8; padding: 12px 48px; }
+    .wizard-summary { display: none; background: #f0eeff; border-bottom: 2px solid #ddd8f8; padding: 12px 32px; }
     .wizard-summary .inner { max-width: 720px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
     .prefs { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
     .pref-chip { background: white; border: 1.5px solid #ddd8f8; border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600; color: #5746b2; }
     .btn-rewizard { font-size: 12px; font-weight: 600; color: #5746b2; background: none; border: none; cursor: pointer; font-family: Figtree, sans-serif; text-decoration: underline; }
 
     /* ── Results ── */
-    .results-section { max-width: 1200px; margin: 0 auto; padding: 24px 48px; }
+    .results-section { max-width: 1200px; margin: 0 auto; padding: 24px 32px; }
     .matches-header { margin-bottom: 16px; }
     .matches-header h2 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
     .matches-header p { font-size: 13px; color: #49495a; }
@@ -259,30 +261,35 @@
 
 <!-- ── Page Header with Stepper ── -->
 <div class="page-header" id="wizardHeader">
+  <div class="page-header-inner">
 
-  <div class="header-title-row">
-    <div>
-      <h1>Find the right AI Agent</h1>
-      <p>Answer 3 quick questions and we'll match you to the agents most likely to work for your situation — based on G2 Agentic Metrics from real deployments.</p>
+    <div class="header-title-row">
+      <div>
+        <h1>Find the right AI Agent</h1>
+        <p>Answer 3 quick questions and we'll match you to the agents most likely to work for your situation — based on G2 Agentic Metrics from real deployments.</p>
+      </div>
+      <button class="skip-link" onclick="skipWizard()">Skip → show all</button>
     </div>
-    <button class="skip-link" onclick="skipWizard()">Skip → show all</button>
+
   </div>
 
   <!-- Progress Stepper -->
   <div class="stepper-wrap">
-    <div class="stepper-step">
-      <div class="stepper-node active" id="sn1">1</div>
-      <div class="stepper-label active" id="sl1">Describe your need</div>
-    </div>
-    <div class="stepper-conn" id="sc1"></div>
-    <div class="stepper-step">
-      <div class="stepper-node pending" id="sn2">2</div>
-      <div class="stepper-label pending" id="sl2">Autonomy</div>
-    </div>
-    <div class="stepper-conn" id="sc2"></div>
-    <div class="stepper-step">
-      <div class="stepper-node pending" id="sn3">3</div>
-      <div class="stepper-label pending" id="sl3">Your Stack</div>
+    <div class="stepper-inner">
+      <div class="stepper-step">
+        <div class="stepper-node active" id="sn1">1</div>
+        <div class="stepper-label active" id="sl1">Your Needs</div>
+      </div>
+      <div class="stepper-conn" id="sc1"></div>
+      <div class="stepper-step">
+        <div class="stepper-node pending" id="sn2">2</div>
+        <div class="stepper-label pending" id="sl2">AI Autonomy</div>
+      </div>
+      <div class="stepper-conn" id="sc2"></div>
+      <div class="stepper-step">
+        <div class="stepper-node pending" id="sn3">3</div>
+        <div class="stepper-label pending" id="sl3">Integrations</div>
+      </div>
     </div>
   </div>
 </div>

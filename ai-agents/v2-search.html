@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Agents — Search & Type-ahead (V2) | G2 Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+
+    /* ── Page Header ── */
+    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 28px 48px 32px; }
+    .breadcrumb { font-size: 12px; color: #8b8fa8; margin-bottom: 12px; }
+    .breadcrumb a { color: #8b8fa8; text-decoration: none; }
+    .breadcrumb a:hover { color: #5746b2; }
+    .header-inner h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+    .header-inner p { font-size: 14px; color: #49495a; line-height: 1.6; max-width: 480px; margin-bottom: 24px; }
+
+    /* ── Search Bar ── */
+    .search-wrap { position: relative; max-width: 640px; }
+    .search-input {
+      width: 100%; height: 52px; padding: 0 20px 0 50px;
+      font-family: Figtree, sans-serif; font-size: 15px; font-weight: 500; color: #1a1a2e;
+      border: 2px solid #e5e3f0; border-radius: 12px; background: white; outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .search-input:focus { border-color: #5746b2; box-shadow: 0 0 0 4px rgba(87,70,178,0.1); }
+    .search-input::placeholder { color: #b0b0c0; }
+    .search-icon {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      color: #8b8fa8; pointer-events: none;
+    }
+    .search-clear {
+      position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+      color: #b0b0c0; cursor: pointer; display: none; background: none; border: none; font-size: 18px; line-height: 1;
+    }
+    .search-clear:hover { color: #5746b2; }
+
+    /* ── Popular Queries ── */
+    .popular-wrap { max-width: 640px; margin-top: 14px; }
+    .popular-label { font-size: 12px; font-weight: 600; color: #8b8fa8; margin-bottom: 8px; }
+    .popular-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .popular-chip {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 20px;
+      padding: 5px 13px; font-size: 12px; font-weight: 600; color: #49495a; cursor: pointer;
+      transition: all 0.12s;
+    }
+    .popular-chip:hover { border-color: #5746b2; color: #5746b2; background: #f8f7ff; }
+    .popular-chip.active { border-color: #5746b2; color: #5746b2; background: #f0eeff; }
+
+    /* ── Body ── */
+    .page-body { max-width: 960px; margin: 0 auto; padding: 32px 48px 64px; }
+
+    /* ── Results Panel ── */
+    .results-panel { display: none; margin-bottom: 40px; }
+    .results-panel.visible { display: block; }
+
+    .result-category-match {
+      display: flex; align-items: center; gap: 16px;
+      background: white; border: 2px solid #5746b2; border-radius: 12px;
+      padding: 18px 20px; margin-bottom: 20px; text-decoration: none; color: inherit;
+      transition: box-shadow 0.15s;
+    }
+    .result-category-match:hover { box-shadow: 0 4px 20px rgba(87,70,178,0.15); }
+    .result-cat-icon { font-size: 28px; flex-shrink: 0; }
+    .result-cat-info { flex: 1; }
+    .result-cat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #5746b2; margin-bottom: 3px; }
+    .result-cat-name { font-size: 18px; font-weight: 800; color: #1a1a2e; margin-bottom: 3px; }
+    .result-cat-desc { font-size: 13px; color: #49495a; }
+    .result-cat-count { font-size: 13px; font-weight: 700; color: #5746b2; white-space: nowrap; flex-shrink: 0; display: flex; align-items: center; gap: 6px; }
+
+    .results-products-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b8fa8; margin-bottom: 12px; }
+
+    .results-products { display: flex; flex-direction: column; gap: 10px; }
+    .result-product {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
+      padding: 14px 18px; display: flex; align-items: center; gap: 14px;
+      text-decoration: none; color: inherit; transition: border-color 0.12s;
+    }
+    .result-product:hover { border-color: #5746b2; }
+    .result-prod-logo { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+    .result-prod-info { flex: 1; min-width: 0; }
+    .result-prod-name { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 2px; }
+    .result-product:hover .result-prod-name { color: #5746b2; }
+    .result-prod-desc { font-size: 12px; color: #8b8fa8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .result-prod-score {
+      width: 36px; height: 40px;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      background: linear-gradient(160deg, #5746b2, #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 11px; font-weight: 800; flex-shrink: 0;
+    }
+    .result-prod-score.dim { background: linear-gradient(160deg, #9ca3af, #6b7280); }
+    .result-prod-stars { font-size: 12px; color: #ff492c; flex-shrink: 0; }
+
+    .see-all-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700; color: #5746b2; text-decoration: none;
+      margin-top: 14px;
+    }
+    .see-all-link:hover { text-decoration: underline; }
+
+    /* ── No-result state ── */
+    .no-result { display: none; padding: 32px 0; text-align: center; color: #8b8fa8; font-size: 14px; }
+    .no-result.visible { display: block; }
+
+    /* ── Browse divider ── */
+    .browse-divider {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+    }
+    .browse-divider-line { flex: 1; height: 1px; background: #e5e3f0; }
+    .browse-divider-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #b0b0c0; white-space: nowrap; }
+
+    /* ── Browse Grid (cold state) ── */
+    .browse-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .browse-tile {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
+      padding: 14px 12px; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+      transition: border-color 0.12s, background 0.12s;
+    }
+    .browse-tile:hover { border-color: #5746b2; background: #faf9ff; }
+    .browse-tile-icon { font-size: 18px; }
+    .browse-tile-name { font-size: 12px; font-weight: 700; color: #1a1a2e; line-height: 1.3; }
+    .browse-tile:hover .browse-tile-name { color: #5746b2; }
+    .browse-tile-count { font-size: 11px; color: #8b8fa8; }
+    .browse-more {
+      background: #f5f4fb; border: 1.5px dashed #e5e3f0; border-radius: 10px;
+      padding: 14px 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 600; color: #8b8fa8; text-decoration: none; cursor: pointer;
+      transition: border-color 0.12s, color 0.12s;
+    }
+    .browse-more:hover { border-color: #5746b2; color: #5746b2; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="#">Software</a> ›
+    <a href="#">Artificial Intelligence</a> ›
+    <strong style="color:#1a1a2e;">AI Agents</strong>
+  </div>
+  <div class="header-inner">
+    <h1>AI Agents</h1>
+    <p>Describe what you're trying to automate and we'll match you to the right category and products.</p>
+
+    <div class="search-wrap">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" id="searchInput" type="text" placeholder="e.g. &quot;book meetings automatically&quot; or &quot;resolve support tickets&quot;" autocomplete="off" />
+      <button class="search-clear" id="clearBtn" onclick="clearSearch()">×</button>
+    </div>
+
+    <div class="popular-wrap">
+      <div class="popular-label">Try:</div>
+      <div class="popular-chips" id="popularChips">
+        <div class="popular-chip" onclick="runQuery('book meetings without an SDR', 'sdr')">book meetings without an SDR</div>
+        <div class="popular-chip" onclick="runQuery('resolve support tickets automatically', 'support')">resolve support tickets automatically</div>
+        <div class="popular-chip" onclick="runQuery('write and review code', 'engineering')">write and review code</div>
+        <div class="popular-chip" onclick="runQuery('create marketing content at scale', 'marketing')">create marketing content at scale</div>
+        <div class="popular-chip" onclick="runQuery('research competitors', 'research')">research competitors</div>
+        <div class="popular-chip" onclick="runQuery('automate invoice processing', 'finance')">automate invoice processing</div>
+        <div class="popular-chip" onclick="runQuery('screen and source candidates', 'recruiting')">screen and source candidates</div>
+        <div class="popular-chip" onclick="runQuery('IT helpdesk automation', 'it')">IT helpdesk automation</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-body">
+
+  <!-- Results Panel (shown when query is active) -->
+  <div class="results-panel" id="resultsPanel"></div>
+  <div class="no-result" id="noResult">No categories match that description yet — <a href="#" style="color:#5746b2;">browse all 15 categories</a></div>
+
+  <!-- Browse Grid (shown when no query) -->
+  <div id="browseSection">
+    <div class="browse-divider">
+      <div class="browse-divider-line"></div>
+      <div class="browse-divider-label">Or browse all categories</div>
+      <div class="browse-divider-line"></div>
+    </div>
+
+    <div class="browse-grid">
+      <a class="browse-tile" href="./v1-use-case-first.html">
+        <div class="browse-tile-icon">💬</div>
+        <div class="browse-tile-name">Customer Support</div>
+        <div class="browse-tile-count">11 products</div>
+      </a>
+      <a class="browse-tile" href="./v1-use-case-first.html">
+        <div class="browse-tile-icon">📬</div>
+        <div class="browse-tile-name">SDR &amp; Outbound</div>
+        <div class="browse-tile-count">6 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">⚙️</div>
+        <div class="browse-tile-name">Software Engineering</div>
+        <div class="browse-tile-count">8 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">✍️</div>
+        <div class="browse-tile-name">Marketing &amp; Content</div>
+        <div class="browse-tile-count">9 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">🔍</div>
+        <div class="browse-tile-name">Research &amp; Intelligence</div>
+        <div class="browse-tile-count">7 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">📊</div>
+        <div class="browse-tile-name">Data &amp; BI</div>
+        <div class="browse-tile-count">6 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">🖥️</div>
+        <div class="browse-tile-name">IT Helpdesk</div>
+        <div class="browse-tile-count">5 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">👥</div>
+        <div class="browse-tile-name">Recruiting &amp; Talent</div>
+        <div class="browse-tile-count">5 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">📅</div>
+        <div class="browse-tile-name">Meeting Intelligence</div>
+        <div class="browse-tile-count">6 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">💰</div>
+        <div class="browse-tile-name">Finance &amp; Accounting</div>
+        <div class="browse-tile-count">5 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">⚖️</div>
+        <div class="browse-tile-name">Legal &amp; Compliance</div>
+        <div class="browse-tile-count">4 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">🛡️</div>
+        <div class="browse-tile-name">Security Operations</div>
+        <div class="browse-tile-count">5 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">🏢</div>
+        <div class="browse-tile-name">HR Operations</div>
+        <div class="browse-tile-count">4 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">🏥</div>
+        <div class="browse-tile-name">Healthcare</div>
+        <div class="browse-tile-count">3 products</div>
+      </a>
+      <a class="browse-tile" href="#">
+        <div class="browse-tile-icon">🏭</div>
+        <div class="browse-tile-name">Supply Chain</div>
+        <div class="browse-tile-count">3 products</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const RESULTS = {
+    sdr: {
+      icon: '📬', name: 'SDR & Outbound', count: 6,
+      desc: 'Prospecting, personalized email, LinkedIn outreach, and autonomous meeting booking',
+      link: './v1-use-case-first.html',
+      products: [
+        { name: '11x', desc: 'Alice — fully autonomous AI SDR', score: 84, stars: '★★★★★', logoBg: '#0f172a', logoColor: 'white', logoText: '11x' },
+        { name: 'Artisan', desc: 'Ava — multichannel outbound (email + LinkedIn)', score: 79, stars: '★★★★½', logoBg: '#ede9fe', logoColor: '#7c3aed', logoText: 'A' },
+        { name: 'AiSDR', desc: 'Hyper-personalized outreach using CRM + LinkedIn signals', score: 76, stars: '★★★★½', logoBg: '#e0f2fe', logoColor: '#0369a1', logoText: 'Ai' },
+      ]
+    },
+    support: {
+      icon: '💬', name: 'Customer Support', count: 11,
+      desc: 'Autonomous ticket resolution, escalation routing, live chat, and voice agents',
+      link: '#',
+      products: [
+        { name: 'Fin by Intercom', desc: 'AI agent resolving 50%+ of support queries autonomously', score: 88, stars: '★★★★★', logoBg: '#f0fdf4', logoColor: '#16a34a', logoText: 'Fi' },
+        { name: 'Decagon', desc: 'Enterprise support agent with deep CRM integration', score: 81, stars: '★★★★★', logoBg: '#eff6ff', logoColor: '#2563eb', logoText: 'De' },
+        { name: 'Ada', desc: 'No-code AI agent platform for customer experience teams', score: 74, stars: '★★★★', logoBg: '#ede9fe', logoColor: '#7c3aed', logoText: 'Ad' },
+      ]
+    },
+    engineering: {
+      icon: '⚙️', name: 'Software Engineering', count: 8,
+      desc: 'Code generation, automated review, bug triage, test writing, and CI/CD agents',
+      link: '#',
+      products: [
+        { name: 'Devin', desc: 'Fully autonomous software engineer — writes, tests, and ships code', score: 82, stars: '★★★★', logoBg: '#1a1a2e', logoColor: 'white', logoText: 'Dv' },
+        { name: 'GitHub Copilot', desc: 'AI coding agent integrated across PR review and issue triage', score: 79, stars: '★★★★★', logoBg: '#f0fdf4', logoColor: '#16a34a', logoText: 'GH' },
+        { name: 'Cursor', desc: 'AI-native code editor with agentic editing and codebase awareness', score: 77, stars: '★★★★★', logoBg: '#eff6ff', logoColor: '#2563eb', logoText: 'Cu' },
+      ]
+    },
+    marketing: {
+      icon: '✍️', name: 'Marketing & Content', count: 9,
+      desc: 'Campaign planning, copy generation, SEO content, ad creative, and multi-channel publishing',
+      link: '#',
+      products: [
+        { name: 'Jasper', desc: 'Brand-trained AI agent for marketing copy and campaign content', score: 76, stars: '★★★★', logoBg: '#fff3f0', logoColor: '#ff492c', logoText: 'Ja' },
+        { name: 'Writer', desc: 'Enterprise content agent with company knowledge and brand guardrails', score: 74, stars: '★★★★', logoBg: '#f0fdf4', logoColor: '#16a34a', logoText: 'Wr' },
+        { name: 'Persado', desc: 'AI agent optimizing message language for conversion performance', score: 71, stars: '★★★★', logoBg: '#faf5ff', logoColor: '#7c3aed', logoText: 'Pe' },
+      ]
+    },
+    research: {
+      icon: '🔍', name: 'Research & Intelligence', count: 7,
+      desc: 'Web research, competitive intelligence, literature review, and report generation agents',
+      link: '#',
+      products: [
+        { name: 'Perplexity', desc: 'AI search and research agent with cited, real-time web sources', score: 80, stars: '★★★★★', logoBg: '#ecfeff', logoColor: '#0e7490', logoText: 'Px' },
+        { name: 'Elicit', desc: 'Research agent specialized in scientific literature and structured analysis', score: 72, stars: '★★★★', logoBg: '#eff6ff', logoColor: '#2563eb', logoText: 'El' },
+        { name: 'Exa', desc: 'Neural search API powering agentic research workflows at scale', score: 68, stars: '★★★★', logoBg: '#faf5ff', logoColor: '#7c3aed', logoText: 'Ex' },
+      ]
+    },
+    finance: {
+      icon: '💰', name: 'Finance & Accounting', count: 5,
+      desc: 'Invoice processing, expense management, AP/AR automation, and financial close agents',
+      link: '#',
+      products: [
+        { name: 'Rossum', desc: 'Document AI agent for invoice capture and AP automation', score: 73, stars: '★★★★', logoBg: '#f0fdf4', logoColor: '#16a34a', logoText: 'Ro' },
+        { name: 'Tipalti', desc: 'Accounts payable agent handling global supplier payments end-to-end', score: 69, stars: '★★★★', logoBg: '#eff6ff', logoColor: '#2563eb', logoText: 'Ti' },
+        { name: 'Ramp', desc: 'Expense management agent with autonomous spend categorization', score: 67, stars: '★★★★½', logoBg: '#fef9c3', logoColor: '#854d0e', logoText: 'Ra' },
+      ]
+    },
+    recruiting: {
+      icon: '👥', name: 'Recruiting & Talent', count: 5,
+      desc: 'Candidate sourcing, screening, outreach, and pipeline management agents',
+      link: '#',
+      products: [
+        { name: 'Beamery', desc: 'Talent AI agent for candidate discovery and pipeline nurturing', score: 71, stars: '★★★★', logoBg: '#fff7ed', logoColor: '#c2410c', logoText: 'Be' },
+        { name: 'SeekOut', desc: 'Talent search agent with diversity filters and passive candidate outreach', score: 68, stars: '★★★★', logoBg: '#ede9fe', logoColor: '#7c3aed', logoText: 'Se' },
+        { name: 'Paradox', desc: 'Conversational recruiting agent (Olivia) handling screening and scheduling', score: 65, stars: '★★★★', logoBg: '#f0fdf4', logoColor: '#16a34a', logoText: 'Pa' },
+      ]
+    },
+    it: {
+      icon: '🖥️', name: 'IT Helpdesk', count: 5,
+      desc: 'Internal support tickets, access requests, password resets, and onboarding automation',
+      link: '#',
+      products: [
+        { name: 'Moveworks', desc: 'Enterprise IT agent resolving employee requests via Slack and Teams', score: 79, stars: '★★★★', logoBg: '#faf5ff', logoColor: '#7c3aed', logoText: 'Mv' },
+        { name: 'Rezolve.ai', desc: 'MS Teams-native IT agent for L1 support automation', score: 69, stars: '★★★★', logoBg: '#eff6ff', logoColor: '#2563eb', logoText: 'Rz' },
+        { name: 'Aisera', desc: 'AI service desk agent for IT, HR, and customer support use cases', score: 65, stars: '★★★½', logoBg: '#f0fdf4', logoColor: '#16a34a', logoText: 'Ai' },
+      ]
+    }
+  };
+
+  const KEYWORDS = {
+    sdr:         ['sdr', 'outbound', 'prospect', 'meeting', 'book meeting', 'email', 'sales development', 'cold email', 'linkedin outreach', 'pipeline'],
+    support:     ['support', 'ticket', 'customer service', 'helpdesk', 'resolve', 'chat', 'customer success', 'cx', 'service desk'],
+    engineering: ['code', 'engineering', 'software', 'review', 'bug', 'test', 'developer', 'devops', 'ci/cd', 'pull request', 'write code'],
+    marketing:   ['marketing', 'content', 'copy', 'blog', 'campaign', 'seo', 'ad', 'creative', 'social', 'brand'],
+    research:    ['research', 'competitor', 'intelligence', 'analysis', 'literature', 'report', 'competitive', 'market research'],
+    finance:     ['invoice', 'finance', 'accounting', 'expense', 'payment', 'ap', 'ar', 'spend', 'accounts payable'],
+    recruiting:  ['recruit', 'candidate', 'hiring', 'talent', 'screen', 'source', 'job', 'hr', 'people'],
+    it:          ['it ', 'helpdesk', 'it helpdesk', 'access request', 'password', 'employee support', 'internal support', 'service management']
+  };
+
+  function matchCategory(query) {
+    const q = query.toLowerCase();
+    let best = null, bestScore = 0;
+    for (const [key, keywords] of Object.entries(KEYWORDS)) {
+      for (const kw of keywords) {
+        if (q.includes(kw)) {
+          const score = kw.length;
+          if (score > bestScore) { bestScore = score; best = key; }
+        }
+      }
+    }
+    return best;
+  }
+
+  function renderResults(categoryKey) {
+    const data = RESULTS[categoryKey];
+    if (!data) return null;
+
+    const productsHtml = data.products.map(p => `
+      <a class="result-product" href="${data.link}">
+        <div class="result-prod-logo" style="background:${p.logoBg};color:${p.logoColor};font-size:${p.logoText.length > 2 ? '10px' : p.logoText.length === 2 ? '12px' : '16px'};font-weight:900;">${p.logoText}</div>
+        <div class="result-prod-info">
+          <div class="result-prod-name">${p.name}</div>
+          <div class="result-prod-desc">${p.desc}</div>
+        </div>
+        <span class="result-prod-stars">${p.stars}</span>
+        <div class="result-prod-score ${p.score < 75 ? 'dim' : ''}">${p.score}</div>
+      </a>`).join('');
+
+    return `
+      <a class="result-category-match" href="${data.link}">
+        <div class="result-cat-icon">${data.icon}</div>
+        <div class="result-cat-info">
+          <div class="result-cat-label">Best matching category</div>
+          <div class="result-cat-name">${data.name}</div>
+          <div class="result-cat-desc">${data.desc}</div>
+        </div>
+        <div class="result-cat-count">
+          ${data.count} products
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+      <div class="results-products-label">Top products in this category</div>
+      <div class="results-products">${productsHtml}</div>
+      <a class="see-all-link" href="${data.link}">
+        See all ${data.count} products in ${data.name}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>`;
+  }
+
+  function showResults(query) {
+    const category = matchCategory(query);
+    const panel = document.getElementById('resultsPanel');
+    const noResult = document.getElementById('noResult');
+    const browseSection = document.getElementById('browseSection');
+
+    browseSection.style.display = 'none';
+
+    if (category) {
+      panel.innerHTML = renderResults(category);
+      panel.classList.add('visible');
+      noResult.classList.remove('visible');
+    } else {
+      panel.classList.remove('visible');
+      noResult.classList.add('visible');
+    }
+  }
+
+  function hideResults() {
+    document.getElementById('resultsPanel').classList.remove('visible');
+    document.getElementById('noResult').classList.remove('visible');
+    document.getElementById('browseSection').style.display = '';
+    document.getElementById('searchInput').value = '';
+    document.getElementById('clearBtn').style.display = 'none';
+    document.querySelectorAll('.popular-chip').forEach(c => c.classList.remove('active'));
+  }
+
+  function clearSearch() { hideResults(); }
+
+  function runQuery(text, categoryKey) {
+    const input = document.getElementById('searchInput');
+    input.value = text;
+    document.getElementById('clearBtn').style.display = 'block';
+    document.querySelectorAll('.popular-chip').forEach(c => c.classList.remove('active'));
+    event.target.classList.add('active');
+    showResults(text);
+  }
+
+  document.getElementById('searchInput').addEventListener('input', function() {
+    const val = this.value.trim();
+    document.getElementById('clearBtn').style.display = val ? 'block' : 'none';
+    document.querySelectorAll('.popular-chip').forEach(c => c.classList.remove('active'));
+    if (val.length >= 3) {
+      showResults(val);
+    } else if (val.length === 0) {
+      hideResults();
+    }
+  });
+</script>
+
+</body>
+</html>

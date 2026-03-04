@@ -122,11 +122,11 @@
   </div>
 
   <!-- Category Navigation Sub-variants -->
-  <div class="section-label">Category Navigation — 3 Approaches</div>
+  <div class="section-label">Category Navigation — 5 Approaches</div>
   <div class="section-title">How do you present 15 use cases without overwhelming tabs?</div>
-  <p class="section-desc">The tabs on V1 break down once there are more than 5–6 categories. These three sub-variants explore different ways to present all 15 use cases as a discovery surface.</p>
+  <p class="section-desc">The tabs on V1 break down once there are more than 5–6 categories. These five sub-variants explore different ways to present all 15 use cases as a discovery surface — from visual grids to search to a pinned category bar.</p>
 
-  <div class="variants" style="margin-bottom:56px;">
+  <div class="variants" style="margin-bottom:56px;grid-template-columns:repeat(3,1fr);">
 
     <!-- 1A -->
     <a class="variant-card" href="./v1a-category-grid.html">
@@ -320,6 +320,110 @@
           <li>Total product count per group gives a sense of category depth</li>
         </ul>
         <div class="variant-cta"><span>Open 1C →</span></div>
+      </div>
+    </a>
+
+    <!-- V2-Search -->
+    <a class="variant-card" href="./v2-search.html">
+      <div class="variant-preview" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);">
+        <div style="width:100%;">
+          <!-- Search bar hero -->
+          <div style="background:white;border:1.5px solid #e5e3f0;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8b8fa8" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <div style="height:6px;background:#e5e3f0;border-radius:3px;flex:1;"></div>
+          </div>
+          <!-- Query chips -->
+          <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;">
+            <div style="background:#f0eeff;border:1px solid #c4bbf0;border-radius:20px;padding:3px 8px;font-size:8px;font-weight:700;color:#5746b2;">book meetings</div>
+            <div style="background:white;border:1px solid #e5e3f0;border-radius:20px;padding:3px 8px;font-size:8px;font-weight:600;color:#8b8fa8;">SDR outbound</div>
+            <div style="background:white;border:1px solid #e5e3f0;border-radius:20px;padding:3px 8px;font-size:8px;font-weight:600;color:#8b8fa8;">support tickets</div>
+          </div>
+          <!-- Result panel -->
+          <div style="background:white;border:1.5px solid #5746b2;border-radius:8px;padding:8px 10px;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+              <span style="font-size:11px;">📬</span>
+              <div style="height:5px;background:#1a1a2e;border-radius:2px;width:70px;"></div>
+              <div style="height:5px;background:#5746b2;border-radius:10px;width:28px;margin-left:auto;"></div>
+            </div>
+            <div style="display:flex;gap:4px;">
+              <div style="flex:1;background:#f8f7ff;border:1px solid #e5e3f0;border-radius:5px;height:22px;"></div>
+              <div style="flex:1;background:#f8f7ff;border:1px solid #e5e3f0;border-radius:5px;height:22px;"></div>
+              <div style="flex:1;background:#f8f7ff;border:1px solid #e5e3f0;border-radius:5px;height:22px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-body">
+        <div class="variant-tag">2 · Search</div>
+        <div class="variant-title">Search / Type-ahead</div>
+        <div class="variant-desc">A large search bar is the hero. Buyers describe what they need in natural language — or click a pre-baked query chip. Matching category + top products appear instantly.</div>
+        <ul class="variant-features">
+          <li>Full-width search hero with popular query chips</li>
+          <li>Live keyword-matching shows category + top 3 products</li>
+          <li>Cold state shows a browse grid as a fallback</li>
+          <li>Best for explorers who know their problem but not the product name</li>
+        </ul>
+        <div class="variant-cta"><span>Open Search →</span></div>
+      </div>
+    </a>
+
+    <!-- V4-Tabs-Subnav -->
+    <a class="variant-card" href="./v4-tabs-subnav.html">
+      <div class="variant-preview" style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);">
+        <div style="width:100%;">
+          <!-- Pinned category bar -->
+          <div style="background:white;border:1px solid #e5e3f0;border-radius:6px;padding:5px 8px;display:flex;align-items:center;gap:5px;margin-bottom:6px;">
+            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:22px;"></div>
+            <div style="height:16px;width:1px;background:#e5e3f0;"></div>
+            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:30px;"></div>
+            <div style="background:#f0eeff;border-radius:3px;padding:2px 5px;display:flex;align-items:center;gap:2px;">
+              <span style="font-size:8px;">📬</span>
+              <div style="height:4px;background:#5746b2;border-radius:2px;width:24px;"></div>
+            </div>
+            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:26px;"></div>
+            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:22px;"></div>
+          </div>
+          <!-- Category-scoped header with sub-tabs -->
+          <div style="background:white;border:1px solid #e5e3f0;border-radius:6px;padding:6px 8px;margin-bottom:5px;">
+            <div style="height:5px;background:#1a1a2e;border-radius:2px;width:110px;margin-bottom:3px;"></div>
+            <div style="height:3px;background:#e5e3f0;border-radius:2px;width:80px;margin-bottom:6px;"></div>
+            <!-- Sub-tabs -->
+            <div style="display:flex;gap:6px;border-top:1px solid #f0eeff;padding-top:5px;">
+              <div style="font-size:8px;font-weight:800;color:#1a1a2e;border-bottom:2px solid #1a1a2e;padding-bottom:3px;">All</div>
+              <div style="font-size:8px;font-weight:600;color:#8b8fa8;padding-bottom:3px;">AI-Native</div>
+              <div style="font-size:8px;font-weight:600;color:#8b8fa8;padding-bottom:3px;">Enhanced</div>
+              <div style="font-size:8px;font-weight:600;color:#8b8fa8;padding-bottom:3px;">Voice</div>
+            </div>
+          </div>
+          <!-- Mini product card -->
+          <div style="background:white;border:1px solid #e5e3f0;border-radius:6px;padding:6px 8px;display:flex;gap:6px;align-items:flex-start;">
+            <div style="width:16px;height:16px;background:#0f172a;border-radius:3px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="height:4px;background:#1a1a2e;border-radius:2px;width:60px;margin-bottom:3px;"></div>
+              <div style="background:#e5e3f0;height:3px;border-radius:2px;width:100%;margin-bottom:3px;"></div>
+              <div style="background:#f0eeff;border-radius:3px;padding:3px 5px;">
+                <div style="display:flex;gap:2px;">
+                  <div style="flex:1;background:#ddd8f8;border-radius:2px;height:8px;"></div>
+                  <div style="flex:1;background:#ddd8f8;border-radius:2px;height:8px;"></div>
+                  <div style="flex:1;background:#ddd8f8;border-radius:2px;height:8px;"></div>
+                </div>
+              </div>
+            </div>
+            <div style="width:16px;height:20px;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);background:linear-gradient(160deg,#5746b2,#7c3aed);flex-shrink:0;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-body">
+        <div class="variant-tag">4 · Sub-nav</div>
+        <div class="variant-title">Tabs as Sub-navigation</div>
+        <div class="variant-desc">Category selection lives in a pinned horizontal bar at the top of the page. Tabs are scoped to sub-filtering <em>within</em> a category — no tab overflow problem.</div>
+        <ul class="variant-features">
+          <li>Sticky category bar handles top-level navigation across all 15 use cases</li>
+          <li>Sub-tabs filter within a category (e.g. AI-Native vs AI-Enhanced)</li>
+          <li>Breadcrumb always shows current position in the hierarchy</li>
+          <li>Sidebar + sort bar for deeper filtering within the active category</li>
+        </ul>
+        <div class="variant-cta"><span>Open Sub-nav →</span></div>
       </div>
     </a>
 

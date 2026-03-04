@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Agents — Tabs as Sub-nav (V4) | G2 Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+
+    /* ── Category Bar (top-level nav) ── */
+    .cat-bar {
+      background: white; border-bottom: 1px solid #e5e3f0;
+      padding: 0 48px; display: flex; align-items: center; gap: 0;
+      overflow-x: auto; position: sticky; top: 0; z-index: 100;
+    }
+    .cat-bar-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #8b8fa8; white-space: nowrap;
+      padding: 16px 20px 16px 0; border-right: 1px solid #e5e3f0; margin-right: 16px; flex-shrink: 0;
+    }
+    .cat-bar-item {
+      padding: 16px 14px; font-size: 13px; font-weight: 600; color: #8b8fa8;
+      white-space: nowrap; cursor: pointer; border-bottom: 2px solid transparent;
+      transition: color 0.12s, border-color 0.12s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+      margin-bottom: -1px;
+    }
+    .cat-bar-item:hover { color: #5746b2; }
+    .cat-bar-item.active { color: #5746b2; border-bottom-color: #5746b2; font-weight: 700; }
+    .cat-bar-item .cb-icon { font-size: 14px; }
+    .cat-bar-item .cb-count { font-size: 10px; font-weight: 700; background: #f0eeff; color: #5746b2; padding: 1px 6px; border-radius: 10px; }
+    .cat-bar-item.active .cb-count { background: #5746b2; color: white; }
+
+    /* "More" overflow button */
+    .cat-bar-more {
+      padding: 16px 14px; font-size: 12px; font-weight: 700; color: #8b8fa8;
+      white-space: nowrap; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .cat-bar-more:hover { color: #5746b2; }
+
+    /* ── Page Header ── */
+    .page-header {
+      background: white; border-bottom: 1px solid #e5e3f0;
+      padding: 20px 48px 0;
+    }
+    .breadcrumb { font-size: 12px; color: #8b8fa8; margin-bottom: 10px; }
+    .breadcrumb a { color: #8b8fa8; text-decoration: none; }
+    .breadcrumb a:hover { color: #5746b2; }
+    .breadcrumb .sep { margin: 0 6px; }
+
+    .header-inner { display: flex; align-items: flex-end; gap: 0; justify-content: space-between; }
+    .header-left h1 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+    .header-left p { font-size: 13px; color: #49495a; line-height: 1.5; max-width: 520px; padding-bottom: 14px; }
+
+    /* ── Sub-nav tabs (within category) ── */
+    .sub-tabs {
+      display: flex; align-items: center; gap: 0;
+      border-bottom: none; margin-top: 2px;
+    }
+    .sub-tab {
+      padding: 12px 18px; font-size: 13px; font-weight: 600; color: #8b8fa8;
+      cursor: pointer; border-bottom: 2px solid transparent;
+      transition: color 0.12s, border-color 0.12s;
+      white-space: nowrap; margin-bottom: -1px;
+    }
+    .sub-tab:hover { color: #1a1a2e; }
+    .sub-tab.active { color: #1a1a2e; border-bottom-color: #1a1a2e; font-weight: 700; }
+    .sub-tab .st-count { font-size: 11px; font-weight: 600; color: #8b8fa8; margin-left: 5px; }
+    .sub-tab.active .st-count { color: #49495a; }
+
+    /* ── Body layout ── */
+    .page-body { max-width: 1040px; margin: 0 auto; padding: 28px 48px 64px; display: flex; gap: 32px; }
+    .sidebar { width: 200px; flex-shrink: 0; }
+    .main-col { flex: 1; min-width: 0; }
+
+    /* ── Sidebar ── */
+    .sidebar-section { margin-bottom: 24px; }
+    .sidebar-section-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #8b8fa8; margin-bottom: 10px;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 6px; }
+    .filter-item {
+      display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 0;
+    }
+    .filter-check {
+      width: 15px; height: 15px; border: 1.5px solid #d0cfe8; border-radius: 3px;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .filter-item.checked .filter-check { background: #5746b2; border-color: #5746b2; }
+    .filter-item.checked .filter-check::after { content: '✓'; color: white; font-size: 9px; font-weight: 900; }
+    .filter-label { font-size: 13px; color: #49495a; flex: 1; }
+    .filter-count { font-size: 11px; color: #8b8fa8; }
+
+    /* Autonomy visual filter */
+    .autonomy-options { display: flex; flex-direction: column; gap: 5px; }
+    .autonomy-opt {
+      border: 1.5px solid #e5e3f0; border-radius: 7px; padding: 8px 10px;
+      cursor: pointer; transition: border-color 0.12s, background 0.12s;
+    }
+    .autonomy-opt:hover { border-color: #c4bbf0; }
+    .autonomy-opt.sel { border-color: #5746b2; background: #f8f7ff; }
+    .autonomy-opt-label { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .autonomy-opt.sel .autonomy-opt-label { color: #5746b2; }
+    .autonomy-dots { display: flex; gap: 3px; }
+    .adot { width: 8px; height: 8px; border-radius: 50%; background: #e5e3f0; }
+    .adot.on { background: #5746b2; }
+
+    /* Range filter */
+    .range-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .range-label { font-size: 12px; color: #49495a; }
+    .range-val { font-size: 12px; font-weight: 700; color: #5746b2; }
+    input[type=range] {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 3px; border-radius: 2px;
+      background: linear-gradient(to right, #5746b2 var(--pct,50%), #e5e3f0 var(--pct,50%));
+      outline: none; cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: #5746b2; border: 2px solid white;
+      box-shadow: 0 1px 4px rgba(87,70,178,0.3);
+    }
+
+    /* ── Sort bar ── */
+    .sort-bar {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px;
+    }
+    .sort-bar-count { font-size: 13px; color: #49495a; font-weight: 600; }
+    .sort-bar-count strong { color: #1a1a2e; }
+    .sort-bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .sort-select {
+      font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600;
+      color: #49495a; border: 1.5px solid #e5e3f0; border-radius: 7px;
+      padding: 6px 10px; background: white; cursor: pointer; outline: none;
+    }
+    .sort-select:hover { border-color: #5746b2; }
+    .view-toggle { display: flex; gap: 2px; }
+    .vtog-btn {
+      width: 30px; height: 30px; border: 1.5px solid #e5e3f0; background: white;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: border-color 0.12s, background 0.12s;
+    }
+    .vtog-btn.active { border-color: #5746b2; background: #f0eeff; }
+
+    /* ── Product card ── */
+    .product-card {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 12px;
+      padding: 20px; margin-bottom: 12px;
+      display: grid; grid-template-columns: auto 1fr auto; gap: 16px;
+      transition: border-color 0.15s, box-shadow 0.12s;
+    }
+    .product-card:hover { border-color: #5746b2; box-shadow: 0 4px 20px rgba(87,70,178,0.1); }
+
+    .card-left { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 52px; }
+    .product-logo {
+      width: 52px; height: 52px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; border: 1px solid rgba(0,0,0,0.08);
+      flex-shrink: 0;
+    }
+    .g2-score-badge {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+    }
+    .g2-score-hex {
+      width: 36px; height: 42px;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      background: linear-gradient(160deg, #5746b2, #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .g2-score-hex span { font-size: 11px; font-weight: 900; color: white; }
+    .g2-score-label { font-size: 9px; font-weight: 700; color: #5746b2; text-align: center; line-height: 1.2; white-space: nowrap; }
+
+    .card-mid { min-width: 0; }
+    .card-top-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+    .product-name { font-size: 16px; font-weight: 800; color: #1a1a2e; }
+    .product-card:hover .product-name { color: #5746b2; }
+    .grid-badge {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 2px 8px; border-radius: 20px; flex-shrink: 0; margin-top: 2px;
+    }
+    .badge-leader { background: #fff3f0; color: #ff492c; }
+    .badge-high { background: #f0eeff; color: #5746b2; }
+    .badge-niche { background: #f5f5f5; color: #666; }
+
+    .product-tagline { font-size: 13px; color: #49495a; line-height: 1.5; margin-bottom: 10px; }
+
+    .stars { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; }
+    .star-val { font-size: 14px; font-weight: 800; color: #1a1a2e; }
+    .star-icons { display: flex; gap: 1px; }
+    .star-icons span { font-size: 11px; color: #fbbf24; }
+    .star-count { font-size: 12px; color: #8b8fa8; }
+
+    /* Agentic metrics */
+    .agentic-metrics {
+      background: #f8f7ff; border: 1px solid #e5e3f0; border-radius: 8px; padding: 12px 14px;
+    }
+    .agentic-metrics-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: #5746b2; margin-bottom: 10px;
+    }
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+    .metric-item { display: flex; flex-direction: column; gap: 3px; }
+    .metric-label { font-size: 10px; font-weight: 700; color: #8b8fa8; text-transform: uppercase; letter-spacing: 0.06em; }
+    .metric-value { font-size: 14px; font-weight: 800; color: #1a1a2e; }
+    .metric-sub { font-size: 10px; color: #8b8fa8; }
+    .metric-bar-track { background: #e5e3f0; border-radius: 2px; height: 4px; margin-top: 2px; }
+    .metric-bar { background: linear-gradient(90deg, #5746b2, #7c3aed); height: 100%; border-radius: 2px; }
+    .autonomy-visual { display: flex; gap: 3px; margin-top: 3px; }
+    .a-dot { width: 9px; height: 9px; border-radius: 50%; background: #e5e3f0; }
+    .a-dot.on { background: #5746b2; }
+
+    /* Card right column */
+    .card-right {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+      width: 130px; flex-shrink: 0;
+    }
+    .card-actions { display: flex; flex-direction: column; gap: 7px; width: 100%; }
+    .btn-primary {
+      background: #ff492c; color: white; font-family: Figtree, sans-serif;
+      font-size: 13px; font-weight: 700; border: none; border-radius: 8px;
+      padding: 9px 14px; cursor: pointer; text-align: center; text-decoration: none; display: block;
+      transition: background 0.12s;
+    }
+    .btn-primary:hover { background: #e03c22; }
+    .btn-secondary {
+      background: white; color: #5746b2; font-family: Figtree, sans-serif;
+      font-size: 13px; font-weight: 700; border: 1.5px solid #5746b2; border-radius: 8px;
+      padding: 8px 14px; cursor: pointer; text-align: center; text-decoration: none; display: block;
+      transition: background 0.12s;
+    }
+    .btn-secondary:hover { background: #f0eeff; }
+    .save-btn {
+      display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;
+      color: #8b8fa8; cursor: pointer; padding: 4px 0;
+    }
+    .save-btn:hover { color: #5746b2; }
+
+    /* Sub-type label on card */
+    .sub-type-pill {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 2px 8px; border-radius: 20px; background: #f0f0f0; color: #666;
+      align-self: flex-start;
+    }
+    .sub-type-pill.native { background: #f0eeff; color: #5746b2; }
+    .sub-type-pill.enhanced { background: #f0fdf4; color: #16a34a; }
+
+    /* ── "Change Category" flyout hint ── */
+    .change-cat-hint {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: #8b8fa8; cursor: pointer;
+      border: 1.5px solid #e5e3f0; border-radius: 20px;
+      padding: 5px 12px; background: white; transition: border-color 0.12s, color 0.12s;
+      white-space: nowrap; text-decoration: none;
+    }
+    .change-cat-hint:hover { border-color: #5746b2; color: #5746b2; }
+
+    /* ── Context callout ── */
+    .context-callout {
+      background: #f8f7ff; border: 1.5px solid #e0daf8; border-radius: 10px;
+      padding: 14px 16px; margin-bottom: 20px;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .context-callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .context-callout-text { font-size: 13px; color: #49495a; line-height: 1.5; }
+    .context-callout-text strong { color: #1a1a2e; }
+
+  </style>
+</head>
+<body>
+
+<!-- ── Category Bar (top-level entry point, pinned) ── -->
+<div class="cat-bar" id="catBar">
+  <div class="cat-bar-label">AI Agents</div>
+
+  <a class="cat-bar-item" href="./v1a-category-grid.html" onclick="return false;">
+    <span class="cb-icon">💬</span> Customer Support <span class="cb-count">11</span>
+  </a>
+  <a class="cat-bar-item active" href="#" onclick="return false;">
+    <span class="cb-icon">📬</span> SDR &amp; Outbound <span class="cb-count">6</span>
+  </a>
+  <a class="cat-bar-item" href="#" onclick="return false;">
+    <span class="cb-icon">⚙️</span> Software Engineering <span class="cb-count">8</span>
+  </a>
+  <a class="cat-bar-item" href="#" onclick="return false;">
+    <span class="cb-icon">✍️</span> Marketing &amp; Content <span class="cb-count">9</span>
+  </a>
+  <a class="cat-bar-item" href="#" onclick="return false;">
+    <span class="cb-icon">🔍</span> Research &amp; Intelligence <span class="cb-count">7</span>
+  </a>
+  <a class="cat-bar-item" href="#" onclick="return false;">
+    <span class="cb-icon">📊</span> Data &amp; BI <span class="cb-count">6</span>
+  </a>
+  <a class="cat-bar-item" href="#" onclick="return false;">
+    <span class="cb-icon">👥</span> Recruiting <span class="cb-count">5</span>
+  </a>
+  <div class="cat-bar-more">More ▾</div>
+</div>
+
+<!-- ── Page header (category-scoped) ── -->
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="#">Software</a><span class="sep">›</span>
+    <a href="#">Artificial Intelligence</a><span class="sep">›</span>
+    <a href="./v1a-category-grid.html">AI Agents</a><span class="sep">›</span>
+    <strong style="color:#1a1a2e;">SDR &amp; Outbound</strong>
+  </div>
+  <div class="header-inner">
+    <div class="header-left">
+      <h1>AI SDR &amp; Outbound Agents</h1>
+      <p>Autonomous agents that prospect, write personalized outreach, and book meetings — without a human SDR in the loop. <strong>6 products</strong>, ranked by G2 Agentic Score.</p>
+    </div>
+  </div>
+
+  <!-- Sub-nav tabs: filtering WITHIN this category -->
+  <div class="sub-tabs">
+    <div class="sub-tab active" onclick="switchTab(this,'all')">All <span class="st-count">6</span></div>
+    <div class="sub-tab" onclick="switchTab(this,'native')">AI-Native SDRs <span class="st-count">4</span></div>
+    <div class="sub-tab" onclick="switchTab(this,'enhanced')">AI-Enhanced Platforms <span class="st-count">2</span></div>
+    <div class="sub-tab" onclick="switchTab(this,'voice')">Voice &amp; Phone <span class="st-count">1</span></div>
+  </div>
+</div>
+
+<!-- ── Body ── -->
+<div class="page-body">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Autonomy Level</div>
+      <div class="autonomy-options">
+        <div class="autonomy-opt sel" onclick="toggleAut(this)">
+          <div class="autonomy-opt-label">Fully Autonomous</div>
+          <div class="autonomy-dots">
+            <div class="adot on"></div><div class="adot on"></div><div class="adot on"></div><div class="adot on"></div><div class="adot on"></div>
+          </div>
+        </div>
+        <div class="autonomy-opt" onclick="toggleAut(this)">
+          <div class="autonomy-opt-label">Human-in-Loop</div>
+          <div class="autonomy-dots">
+            <div class="adot on"></div><div class="adot on"></div><div class="adot on"></div><div class="adot"></div><div class="adot"></div>
+          </div>
+        </div>
+        <div class="autonomy-opt" onclick="toggleAut(this)">
+          <div class="autonomy-opt-label">Co-pilot</div>
+          <div class="autonomy-dots">
+            <div class="adot on"></div><div class="adot on"></div><div class="adot"></div><div class="adot"></div><div class="adot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Task Completion Rate</div>
+      <div class="range-row">
+        <span class="range-label">Min. rate</span>
+        <span class="range-val" id="rateVal">70%</span>
+      </div>
+      <input type="range" min="0" max="100" value="70" oninput="updateRange(this,'rateVal','%')" style="--pct:70%">
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Ramp Time</div>
+      <div class="range-row">
+        <span class="range-label">Max. days to launch</span>
+        <span class="range-val" id="rampVal">30d</span>
+      </div>
+      <input type="range" min="1" max="90" value="30" oninput="updateRamp(this)" style="--pct:33%">
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Integrations</div>
+      <div class="filter-group">
+        <div class="filter-item checked" onclick="toggleFilter(this)">
+          <div class="filter-check"></div>
+          <span class="filter-label">Salesforce</span>
+          <span class="filter-count">5</span>
+        </div>
+        <div class="filter-item checked" onclick="toggleFilter(this)">
+          <div class="filter-check"></div>
+          <span class="filter-label">HubSpot</span>
+          <span class="filter-count">4</span>
+        </div>
+        <div class="filter-item" onclick="toggleFilter(this)">
+          <div class="filter-check"></div>
+          <span class="filter-label">Outreach</span>
+          <span class="filter-count">3</span>
+        </div>
+        <div class="filter-item" onclick="toggleFilter(this)">
+          <div class="filter-check"></div>
+          <span class="filter-label">Apollo</span>
+          <span class="filter-count">2</span>
+        </div>
+        <div class="filter-item" onclick="toggleFilter(this)">
+          <div class="filter-check"></div>
+          <span class="filter-label">LinkedIn Sales Nav</span>
+          <span class="filter-count">4</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Company Size</div>
+      <div class="filter-group">
+        <div class="filter-item checked" onclick="toggleFilter(this)">
+          <div class="filter-check"></div>
+          <span class="filter-label">SMB (1–200)</span>
+          <span class="filter-count">4</span>
+        </div>
+        <div class="filter-item checked" onclick="toggleFilter(this)">
+          <div class="filter-check"></div>
+          <span class="filter-label">Mid-Market</span>
+          <span class="filter-count">5</span>
+        </div>
+        <div class="filter-item" onclick="toggleFilter(this)">
+          <div class="filter-check"></div>
+          <span class="filter-label">Enterprise</span>
+          <span class="filter-count">3</span>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Main content -->
+  <div class="main-col">
+
+    <!-- Context callout — explains the sub-nav model -->
+    <div class="context-callout">
+      <div class="context-callout-icon">💡</div>
+      <div class="context-callout-text">
+        <strong>Tabs filter within this category.</strong> You're browsing <strong>SDR &amp; Outbound Agents</strong>.
+        Use the sub-tabs above to narrow by agent type, or
+        <a href="./v1a-category-grid.html" style="color:#5746b2;font-weight:700;">switch to a different use case ↗</a>
+        from the category bar at the top.
+      </div>
+    </div>
+
+    <!-- Sort bar -->
+    <div class="sort-bar">
+      <span class="sort-bar-count"><strong>6</strong> products in SDR &amp; Outbound</span>
+      <div class="sort-bar-right">
+        <select class="sort-select">
+          <option>Sort: G2 Agentic Score</option>
+          <option>Sort: Task Completion Rate</option>
+          <option>Sort: Ramp Time (fastest)</option>
+          <option>Sort: Most Reviewed</option>
+          <option>Sort: Highest Rated</option>
+        </select>
+        <div class="view-toggle">
+          <button class="vtog-btn active" title="List view">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          </button>
+          <button class="vtog-btn" title="Table view">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product: 11x (Alice) -->
+    <div class="product-card">
+      <div class="card-left">
+        <div class="product-logo" style="background:#0f172a;color:white;font-size:11px;">11x</div>
+        <div class="g2-score-badge">
+          <div class="g2-score-hex"><span>87</span></div>
+          <div class="g2-score-label">Agentic<br>Score</div>
+        </div>
+      </div>
+      <div class="card-mid">
+        <div class="card-top-row">
+          <span class="product-name">11x · Alice</span>
+          <span class="grid-badge badge-leader">Leader</span>
+          <span class="sub-type-pill native">AI-Native SDR</span>
+        </div>
+        <p class="product-tagline">Fully autonomous AI sales rep — researches prospects, crafts personalized multi-channel sequences, and books meetings directly to your calendar. No human touchpoints required.</p>
+        <div class="stars">
+          <span class="star-val">4.5</span>
+          <div class="star-icons">★★★★<span style="opacity:0.4">★</span></div>
+          <span class="star-count">38 reviews</span>
+        </div>
+        <div class="agentic-metrics">
+          <div class="agentic-metrics-label">G2 Agentic Metrics · 38 verified reviews</div>
+          <div class="metrics-grid">
+            <div class="metric-item">
+              <div class="metric-label">Completion Rate</div>
+              <div class="metric-value">84%</div>
+              <div class="metric-bar-track"><div class="metric-bar" style="width:84%;"></div></div>
+              <div class="metric-sub">of outreach sequences</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Ramp Time</div>
+              <div class="metric-value">8 days</div>
+              <div class="metric-sub">avg. to first booking</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Autonomy Level</div>
+              <div class="metric-value">Full</div>
+              <div class="autonomy-visual">
+                <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Time to ROI</div>
+              <div class="metric-value">~3 wks</div>
+              <div class="metric-sub">median first booking</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-right">
+        <div class="card-actions">
+          <a class="btn-primary" href="#">Get a Quote</a>
+          <a class="btn-secondary" href="#">View Profile</a>
+        </div>
+        <div class="save-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          Save
+        </div>
+      </div>
+    </div>
+
+    <!-- Product: Artisan (Ava) -->
+    <div class="product-card">
+      <div class="card-left">
+        <div class="product-logo" style="background:#ede9fe;color:#7c3aed;font-size:14px;font-weight:900;">A</div>
+        <div class="g2-score-badge">
+          <div class="g2-score-hex"><span>82</span></div>
+          <div class="g2-score-label">Agentic<br>Score</div>
+        </div>
+      </div>
+      <div class="card-mid">
+        <div class="card-top-row">
+          <span class="product-name">Artisan · Ava</span>
+          <span class="grid-badge badge-leader">Leader</span>
+          <span class="sub-type-pill native">AI-Native SDR</span>
+        </div>
+        <p class="product-tagline">AI BDR that handles everything from prospect research through multi-touch outbound. Integrates with Salesforce and HubSpot, updates pipeline automatically after each touch.</p>
+        <div class="stars">
+          <span class="star-val">4.3</span>
+          <div class="star-icons">★★★★<span style="opacity:0.4">★</span></div>
+          <span class="star-count">29 reviews</span>
+        </div>
+        <div class="agentic-metrics">
+          <div class="agentic-metrics-label">G2 Agentic Metrics · 29 verified reviews</div>
+          <div class="metrics-grid">
+            <div class="metric-item">
+              <div class="metric-label">Completion Rate</div>
+              <div class="metric-value">79%</div>
+              <div class="metric-bar-track"><div class="metric-bar" style="width:79%;"></div></div>
+              <div class="metric-sub">of outreach sequences</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Ramp Time</div>
+              <div class="metric-value">11 days</div>
+              <div class="metric-sub">avg. to first booking</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Autonomy Level</div>
+              <div class="metric-value">Full</div>
+              <div class="autonomy-visual">
+                <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Time to ROI</div>
+              <div class="metric-value">~4 wks</div>
+              <div class="metric-sub">median first booking</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-right">
+        <div class="card-actions">
+          <a class="btn-primary" href="#">Get a Quote</a>
+          <a class="btn-secondary" href="#">View Profile</a>
+        </div>
+        <div class="save-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          Save
+        </div>
+      </div>
+    </div>
+
+    <!-- Product: AiSDR -->
+    <div class="product-card">
+      <div class="card-left">
+        <div class="product-logo" style="background:#e0f2fe;color:#0369a1;font-size:9px;font-weight:800;">AiSDR</div>
+        <div class="g2-score-badge">
+          <div class="g2-score-hex"><span>78</span></div>
+          <div class="g2-score-label">Agentic<br>Score</div>
+        </div>
+      </div>
+      <div class="card-mid">
+        <div class="card-top-row">
+          <span class="product-name">AiSDR</span>
+          <span class="grid-badge badge-high">High Performer</span>
+          <span class="sub-type-pill native">AI-Native SDR</span>
+        </div>
+        <p class="product-tagline">Human-like AI SDR with persona tuning. Handles inbound lead response and outbound prospecting from a single queue. Strong review sentiment on personalization quality.</p>
+        <div class="stars">
+          <span class="star-val">4.4</span>
+          <div class="star-icons">★★★★<span style="opacity:0.4">★</span></div>
+          <span class="star-count">22 reviews</span>
+        </div>
+        <div class="agentic-metrics">
+          <div class="agentic-metrics-label">G2 Agentic Metrics · 22 verified reviews</div>
+          <div class="metrics-grid">
+            <div class="metric-item">
+              <div class="metric-label">Completion Rate</div>
+              <div class="metric-value">76%</div>
+              <div class="metric-bar-track"><div class="metric-bar" style="width:76%;"></div></div>
+              <div class="metric-sub">of outreach sequences</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Ramp Time</div>
+              <div class="metric-value">7 days</div>
+              <div class="metric-sub">avg. to first booking</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Autonomy Level</div>
+              <div class="metric-value">Human-Loop</div>
+              <div class="autonomy-visual">
+                <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot"></div><div class="a-dot"></div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Time to ROI</div>
+              <div class="metric-value">~2 wks</div>
+              <div class="metric-sub">median first booking</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-right">
+        <div class="card-actions">
+          <a class="btn-primary" href="#">Get a Quote</a>
+          <a class="btn-secondary" href="#">View Profile</a>
+        </div>
+        <div class="save-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          Save
+        </div>
+      </div>
+    </div>
+
+    <!-- Product: Salesforge (Frank) -->
+    <div class="product-card">
+      <div class="card-left">
+        <div class="product-logo" style="background:#fef3c7;color:#b45309;font-size:9px;font-weight:800;">SF</div>
+        <div class="g2-score-badge">
+          <div class="g2-score-hex"><span>74</span></div>
+          <div class="g2-score-label">Agentic<br>Score</div>
+        </div>
+      </div>
+      <div class="card-mid">
+        <div class="card-top-row">
+          <span class="product-name">Salesforge · Frank</span>
+          <span class="grid-badge badge-high">High Performer</span>
+          <span class="sub-type-pill enhanced">AI-Enhanced Platform</span>
+        </div>
+        <p class="product-tagline">Outbound sales platform with AI agent layer. Strong email deliverability infrastructure, hyper-personalized first lines at scale. Best for teams with existing playbooks.</p>
+        <div class="stars">
+          <span class="star-val">4.2</span>
+          <div class="star-icons">★★★★<span style="opacity:0.4">★</span></div>
+          <span class="star-count">31 reviews</span>
+        </div>
+        <div class="agentic-metrics">
+          <div class="agentic-metrics-label">G2 Agentic Metrics · 31 verified reviews</div>
+          <div class="metrics-grid">
+            <div class="metric-item">
+              <div class="metric-label">Completion Rate</div>
+              <div class="metric-value">71%</div>
+              <div class="metric-bar-track"><div class="metric-bar" style="width:71%;"></div></div>
+              <div class="metric-sub">of outreach sequences</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Ramp Time</div>
+              <div class="metric-value">14 days</div>
+              <div class="metric-sub">avg. to first booking</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Autonomy Level</div>
+              <div class="metric-value">Human-Loop</div>
+              <div class="autonomy-visual">
+                <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot"></div><div class="a-dot"></div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Time to ROI</div>
+              <div class="metric-value">~5 wks</div>
+              <div class="metric-sub">median first booking</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-right">
+        <div class="card-actions">
+          <a class="btn-primary" href="#">Get a Quote</a>
+          <a class="btn-secondary" href="#">View Profile</a>
+        </div>
+        <div class="save-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          Save
+        </div>
+      </div>
+    </div>
+
+    <!-- Product: Reply.io (Jason AI) -->
+    <div class="product-card">
+      <div class="card-left">
+        <div class="product-logo" style="background:#dcfce7;color:#16a34a;font-size:13px;font-weight:900;">R</div>
+        <div class="g2-score-badge">
+          <div class="g2-score-hex"><span>71</span></div>
+          <div class="g2-score-label">Agentic<br>Score</div>
+        </div>
+      </div>
+      <div class="card-mid">
+        <div class="card-top-row">
+          <span class="product-name">Reply.io · Jason AI</span>
+          <span class="grid-badge badge-high">High Performer</span>
+          <span class="sub-type-pill enhanced">AI-Enhanced Platform</span>
+        </div>
+        <p class="product-tagline">Multi-channel outreach platform with Jason AI agent for autonomous sequence management. Strong on LinkedIn + email combination. Well-established product with large review base.</p>
+        <div class="stars">
+          <span class="star-val">4.6</span>
+          <div class="star-icons">★★★★★</div>
+          <span class="star-count">1,124 reviews</span>
+        </div>
+        <div class="agentic-metrics">
+          <div class="agentic-metrics-label">G2 Agentic Metrics · 1,124 verified reviews</div>
+          <div class="metrics-grid">
+            <div class="metric-item">
+              <div class="metric-label">Completion Rate</div>
+              <div class="metric-value">68%</div>
+              <div class="metric-bar-track"><div class="metric-bar" style="width:68%;"></div></div>
+              <div class="metric-sub">of outreach sequences</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Ramp Time</div>
+              <div class="metric-value">5 days</div>
+              <div class="metric-sub">avg. to first booking</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Autonomy Level</div>
+              <div class="metric-value">Co-pilot</div>
+              <div class="autonomy-visual">
+                <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot"></div><div class="a-dot"></div><div class="a-dot"></div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Time to ROI</div>
+              <div class="metric-value">~3 wks</div>
+              <div class="metric-sub">median first booking</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-right">
+        <div class="card-actions">
+          <a class="btn-primary" href="#">Get a Quote</a>
+          <a class="btn-secondary" href="#">View Profile</a>
+        </div>
+        <div class="save-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          Save
+        </div>
+      </div>
+    </div>
+
+    <!-- Product: Regie.ai -->
+    <div class="product-card">
+      <div class="card-left">
+        <div class="product-logo" style="background:#faf5ff;color:#7c3aed;font-size:9px;font-weight:800;">Regie</div>
+        <div class="g2-score-badge">
+          <div class="g2-score-hex"><span>68</span></div>
+          <div class="g2-score-label">Agentic<br>Score</div>
+        </div>
+      </div>
+      <div class="card-mid">
+        <div class="card-top-row">
+          <span class="product-name">Regie.ai</span>
+          <span class="grid-badge badge-niche">Niche</span>
+          <span class="sub-type-pill native">AI-Native SDR</span>
+        </div>
+        <p class="product-tagline">AI-driven content generation for outbound, with an agent layer that creates and manages sales sequences. Strong on content quality; growing autonomy capabilities.</p>
+        <div class="stars">
+          <span class="star-val">4.1</span>
+          <div class="star-icons">★★★★<span style="opacity:0.4">★</span></div>
+          <span class="star-count">17 reviews</span>
+        </div>
+        <div class="agentic-metrics">
+          <div class="agentic-metrics-label">G2 Agentic Metrics · 17 verified reviews</div>
+          <div class="metrics-grid">
+            <div class="metric-item">
+              <div class="metric-label">Completion Rate</div>
+              <div class="metric-value">64%</div>
+              <div class="metric-bar-track"><div class="metric-bar" style="width:64%;"></div></div>
+              <div class="metric-sub">of outreach sequences</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Ramp Time</div>
+              <div class="metric-value">21 days</div>
+              <div class="metric-sub">avg. to first booking</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Autonomy Level</div>
+              <div class="metric-value">Co-pilot</div>
+              <div class="autonomy-visual">
+                <div class="a-dot on"></div><div class="a-dot on"></div><div class="a-dot"></div><div class="a-dot"></div><div class="a-dot"></div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Time to ROI</div>
+              <div class="metric-value">~6 wks</div>
+              <div class="metric-sub">median first booking</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-right">
+        <div class="card-actions">
+          <a class="btn-primary" href="#">Get a Quote</a>
+          <a class="btn-secondary" href="#">View Profile</a>
+        </div>
+        <div class="save-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          Save
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-col -->
+</div><!-- /page-body -->
+
+<script>
+  function switchTab(el, type) {
+    document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+      if (type === 'all') {
+        card.style.display = '';
+      } else {
+        const pill = card.querySelector('.sub-type-pill');
+        if (!pill) { card.style.display = 'none'; return; }
+        const match = {
+          'native': 'native',
+          'enhanced': 'enhanced',
+          'voice': 'voice'
+        }[type];
+        card.style.display = pill.classList.contains(match) ? '' : 'none';
+      }
+    });
+    // update count
+    const visible = [...document.querySelectorAll('.product-card')].filter(c => c.style.display !== 'none').length;
+    document.querySelector('.sort-bar-count').innerHTML = `<strong>${visible}</strong> products in SDR &amp; Outbound`;
+  }
+
+  function toggleAut(el) {
+    el.classList.toggle('sel');
+  }
+
+  function toggleFilter(el) {
+    el.classList.toggle('checked');
+  }
+
+  function updateRange(input, valId, suffix) {
+    const pct = input.value + '%';
+    input.style.setProperty('--pct', pct);
+    document.getElementById(valId).textContent = input.value + suffix;
+  }
+
+  function updateRamp(input) {
+    const pct = (input.value / 90 * 100) + '%';
+    input.style.setProperty('--pct', pct);
+    document.getElementById('rampVal').textContent = input.value + 'd';
+  }
+
+  // Category bar click switches active state (visual demo)
+  document.querySelectorAll('.cat-bar-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelectorAll('.cat-bar-item').forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI SDR Agents — Requirements First | G2 Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+
+    /* ── Page Header ── */
+    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 24px 32px 0; }
+    .page-header h1 { font-size: 26px; font-weight: 800; color: #1a1a2e; margin-bottom: 6px; }
+    .page-header .subtitle { font-size: 14px; color: #49495a; max-width: 600px; line-height: 1.5; margin-bottom: 20px; }
+
+    /* ── Category Tab Bar ── */
+    .cat-tabs-wrap { overflow: visible; margin: 16px -32px 0; border-top: 1px solid #e5e3f0; }
+    .cat-tabs { display: flex; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 32px; overflow: hidden; }
+    .cat-tab {
+      padding: 12px 14px; font-size: 13px; font-weight: 600; color: #8b8fa8;
+      white-space: nowrap; cursor: pointer; border-bottom: 2px solid transparent;
+      transition: color 0.12s, border-color 0.12s;
+      display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+      margin-bottom: -1px;
+    }
+    .cat-tab:hover { color: #5746b2; }
+    .cat-tab.active { color: #5746b2; border-bottom-color: #5746b2; font-weight: 700; }
+    .cat-tab .tab-count { font-size: 10px; font-weight: 700; background: #f0eeff; color: #5746b2; padding: 1px 6px; border-radius: 10px; }
+    .cat-tab.active .tab-count { background: #5746b2; color: white; }
+    .cat-tab-more {
+      padding: 12px 14px; font-size: 12px; font-weight: 700; color: #8b8fa8;
+      white-space: nowrap; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; gap: 4px; position: relative;
+      margin-bottom: -1px;
+    }
+    .cat-tab-more:hover { color: #5746b2; }
+    .more-menu {
+      display: none; position: absolute; top: calc(100% + 1px); left: 0;
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
+      padding: 6px 0; min-width: 220px; z-index: 200;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    .more-menu.open { display: block; }
+    .more-menu-item {
+      padding: 10px 16px; font-size: 13px; font-weight: 600; color: #49495a;
+      display: flex; align-items: center; gap: 8px; cursor: pointer;
+    }
+    .more-menu-item:hover { background: #f8f7ff; color: #5746b2; }
+    .more-menu-item.active { color: #5746b2; background: #f0eeff; }
+    .more-menu-item .mi-count { font-size: 11px; color: #8b8fa8; margin-left: auto; }
+
+    /* ── V6 Wrapper ── */
+    .v6-wrap { max-width: 1200px; margin: 0 auto; padding: 32px 32px 64px; }
+
+    /* ── Step Indicator ── */
+    .steps-bar { display: flex; align-items: center; margin-bottom: 36px; }
+    .step-item { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; flex-shrink: 0;
+      background: #e5e3f0; color: #8b8fa8; transition: all 0.2s;
+    }
+    .step-item.active .step-num { background: #5746b2; color: white; }
+    .step-item.done .step-num { background: #5746b2; color: white; }
+    .step-done-check { font-size: 11px; }
+    .step-label { font-size: 13px; font-weight: 700; color: #b0b0c0; transition: color 0.2s; white-space: nowrap; }
+    .step-item.active .step-label { color: #1a1a2e; }
+    .step-item.done .step-label { color: #5746b2; }
+    .step-connector { flex: 1; height: 2px; background: #e5e3f0; margin: 0 14px; min-width: 40px; transition: background 0.3s; }
+    .step-connector.done { background: #5746b2; }
+
+    /* ── Step Panels ── */
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    /* ── Step 1 ── */
+    .s1-intro { margin-bottom: 24px; }
+    .s1-intro h2 { font-size: 22px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+    .s1-intro p { font-size: 14px; color: #49495a; line-height: 1.5; }
+
+    .problem-card {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 14px;
+      padding: 20px; margin-bottom: 28px; transition: border-color 0.15s;
+    }
+    .problem-card:focus-within { border-color: #5746b2; }
+    .problem-card textarea {
+      width: 100%; border: none; outline: none; resize: none;
+      font-family: Figtree, sans-serif; font-size: 15px; color: #1a1a2e;
+      line-height: 1.6; min-height: 76px; background: transparent;
+    }
+    .problem-card textarea::placeholder { color: #c0bdd8; }
+    .problem-card-footer {
+      display: flex; align-items: center; gap: 8px;
+      padding-top: 14px; border-top: 1px solid #f0eeff; flex-wrap: wrap;
+    }
+    .starter-label { font-size: 11px; font-weight: 700; color: #b0b0c0; text-transform: uppercase; letter-spacing: 0.08em; flex-shrink: 0; }
+    .starter-chip {
+      font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600;
+      color: #5746b2; background: #f0eeff; border: 1.5px solid #ddd8f8;
+      border-radius: 20px; padding: 5px 12px; cursor: pointer; transition: all 0.15s;
+    }
+    .starter-chip:hover { background: #5746b2; color: white; border-color: #5746b2; }
+
+    /* Jobs */
+    .jobs-section { margin-bottom: 28px; }
+    .jobs-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+    .jobs-header h3 { font-size: 17px; font-weight: 800; color: #1a1a2e; }
+    .jobs-sel-count {
+      font-size: 12px; font-weight: 700; color: #5746b2;
+      background: #f0eeff; border-radius: 20px; padding: 2px 10px;
+    }
+    .jobs-sub { font-size: 13px; color: #49495a; margin-bottom: 16px; line-height: 1.4; max-width: 580px; }
+    .jobs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .job-card {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
+      padding: 14px 16px; cursor: pointer; transition: all 0.15s;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .job-card:hover { border-color: #a78bfa; }
+    .job-card.selected { border-color: #5746b2; background: #f8f7ff; }
+    .job-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; line-height: 1; }
+    .job-body { flex: 1; min-width: 0; }
+    .job-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+    .job-name { font-size: 13px; font-weight: 700; color: #1a1a2e; line-height: 1.3; }
+    .job-gap-badge {
+      font-size: 10px; font-weight: 700; color: #d97706;
+      background: #fffbeb; border: 1px solid #fde68a; border-radius: 20px;
+      padding: 2px 8px; flex-shrink: 0; white-space: nowrap;
+    }
+    .job-desc { font-size: 11px; color: #8b8fa8; line-height: 1.4; }
+    .job-check {
+      width: 18px; height: 18px; border-radius: 50%; border: 2px solid #d1d5db;
+      flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .job-card.selected .job-check { background: #5746b2; border-color: #5746b2; }
+    .job-check svg { display: none; }
+    .job-card.selected .job-check svg { display: block; }
+
+    /* Step footer */
+    .step-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; }
+    .btn-continue {
+      font-family: Figtree, sans-serif; font-size: 14px; font-weight: 700;
+      color: white; background: #5746b2; border: none; border-radius: 8px;
+      padding: 11px 24px; cursor: pointer; transition: background 0.15s;
+    }
+    .btn-continue:hover { background: #4535a0; }
+    .btn-back {
+      font-family: Figtree, sans-serif; font-size: 14px; font-weight: 600;
+      color: #49495a; background: white; border: 1.5px solid #e5e3f0;
+      border-radius: 8px; padding: 11px 20px; cursor: pointer; transition: all 0.15s;
+    }
+    .btn-back:hover { border-color: #5746b2; color: #5746b2; }
+
+    /* ── Step 2: Context ── */
+    .s2-intro { margin-bottom: 28px; }
+    .s2-intro h2 { font-size: 22px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+    .s2-intro p { font-size: 14px; color: #49495a; line-height: 1.5; }
+
+    .ctx-questions { display: flex; flex-direction: column; gap: 24px; margin-bottom: 32px; }
+    .ctx-q-label { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 10px; }
+    .ctx-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ctx-chip {
+      font-family: Figtree, sans-serif; font-size: 13px; font-weight: 600;
+      color: #49495a; background: white; border: 1.5px solid #e5e3f0;
+      border-radius: 8px; padding: 9px 18px; cursor: pointer; transition: all 0.15s;
+    }
+    .ctx-chip:hover { border-color: #5746b2; color: #5746b2; }
+    .ctx-chip.selected { border-color: #5746b2; background: #f0eeff; color: #5746b2; }
+
+    /* ── Step 3: Results ── */
+    .s3-top { margin-bottom: 20px; }
+    .s3-top h2 { font-size: 22px; font-weight: 800; color: #1a1a2e; margin-bottom: 6px; }
+    .s3-top p { font-size: 14px; color: #49495a; margin-bottom: 14px; }
+
+    .profile-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+    .profile-bar-label { font-size: 12px; font-weight: 600; color: #8b8fa8; margin-right: 4px; }
+    .profile-chip {
+      font-size: 12px; font-weight: 600; color: #5746b2;
+      background: #f0eeff; border: 1px solid #ddd8f8; border-radius: 20px;
+      padding: 4px 12px;
+    }
+    .btn-refine {
+      font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600;
+      color: #8b8fa8; background: none; border: 1.5px solid #e5e3f0;
+      border-radius: 20px; padding: 4px 12px; cursor: pointer; transition: all 0.15s;
+    }
+    .btn-refine:hover { border-color: #5746b2; color: #5746b2; }
+
+    .best-match-callout {
+      background: #5746b2; color: white; border-radius: 12px;
+      padding: 18px 22px; margin-bottom: 24px;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .bm-icon { font-size: 22px; flex-shrink: 0; }
+    .bm-text { flex: 1; min-width: 200px; }
+    .bm-text h4 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+    .bm-text p { font-size: 12px; opacity: 0.9; line-height: 1.5; }
+    .bm-product {
+      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+      background: rgba(255,255,255,0.15); border-radius: 10px; padding: 10px 16px;
+    }
+    .bm-logo { width: 32px; height: 32px; border-radius: 7px; background: white; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .bm-logo img { width: 22px; height: 22px; object-fit: contain; }
+    .bm-prod-name { font-size: 14px; font-weight: 800; }
+
+    /* ── Matrix ── */
+    .matrix-wrapper { overflow-x: auto; border-radius: 12px; border: 1.5px solid #e5e3f0; background: white; }
+    .matrix-table { width: 100%; min-width: 900px; border-collapse: collapse; }
+
+    /* Header */
+    .matrix-table thead th { border-bottom: 2px solid #e5e3f0; }
+    .dim-th {
+      position: sticky; left: 0; z-index: 10;
+      background: #faf9ff; padding: 14px 16px;
+      text-align: left; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; color: #8b8fa8;
+      width: 210px; min-width: 210px;
+      border-right: 1.5px solid #e5e3f0;
+      box-shadow: 2px 0 4px rgba(0,0,0,0.04);
+    }
+    .prod-th { padding: 12px 8px; text-align: center; min-width: 125px; }
+    .prod-th.best-col {
+      background: #f0eeff;
+      border-left: 2px solid #5746b2;
+      border-right: 2px solid #5746b2;
+    }
+    .prod-th-inner { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .prod-logo-sm {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1.5px solid #e5e3f0; background: white;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .prod-logo-sm img { width: 22px; height: 22px; object-fit: contain; }
+    .prod-th-name { font-size: 12px; font-weight: 800; color: #1a1a2e; }
+    .best-match-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+      background: #5746b2; color: white; border-radius: 20px; padding: 2px 8px;
+    }
+
+    /* Data rows */
+    .matrix-table tbody tr { border-bottom: 1px solid #f0eeff; }
+    .matrix-table tbody tr:last-child { border-bottom: none; }
+    .dim-td {
+      position: sticky; left: 0; z-index: 5;
+      background: white; padding: 12px 16px;
+      width: 210px; min-width: 210px;
+      border-right: 1.5px solid #e5e3f0;
+      box-shadow: 2px 0 4px rgba(0,0,0,0.04);
+      transition: border-left 0.15s;
+    }
+    .dim-td.rel-high { border-left: 3px solid #5746b2; }
+    .dim-td.rel-medium { border-left: 3px solid #c4bbf0; }
+    .dim-td-name { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+    .dim-td-desc { font-size: 11px; color: #8b8fa8; line-height: 1.4; }
+    .dim-rel-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .rel-high .dim-rel-dot { background: #5746b2; }
+    .rel-medium .dim-rel-dot { background: #a78bfa; }
+
+    .score-td { padding: 10px 8px; text-align: center; vertical-align: middle; }
+    .score-td.best-col {
+      background: #faf9ff;
+      border-left: 2px solid #5746b2;
+      border-right: 2px solid #5746b2;
+    }
+
+    /* Score pills */
+    .score-pill {
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 20px; font-size: 13px; font-weight: 800;
+      padding: 5px 12px; min-width: 50px;
+    }
+    .score-pill.strong { background: #ede9fe; color: #5746b2; }
+    .score-pill.strong.best-pill { background: #5746b2; color: white; }
+    .score-pill.good { background: #f0eeff; color: #7c3aed; }
+    .score-pill.good.best-pill { background: #c4bbf0; color: #3b1f8c; }
+    .score-pill.moderate { background: #fff8ed; color: #d97706; }
+    .score-pill.weak { background: #fef2f2; color: #b91c1c; }
+
+    /* Gap banner rows */
+    .gap-row td { padding: 0; }
+    .gap-banner {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: #fffbeb; border-top: 1.5px solid #fde68a;
+      border-bottom: 1.5px solid #fde68a; padding: 10px 20px;
+    }
+    .gap-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+    .gap-banner-text { font-size: 12px; color: #92400e; line-height: 1.5; }
+    .gap-banner-text strong { font-weight: 700; }
+
+    /* Last row bottom corners */
+    .matrix-table tbody tr:last-child td:first-child { border-radius: 0 0 0 10px; }
+    .matrix-table tbody tr:last-child td:last-child { border-radius: 0 0 10px 0; }
+
+    /* Legend */
+    .matrix-legend {
+      display: flex; align-items: center; gap: 6px;
+      margin-top: 14px; flex-wrap: wrap;
+    }
+    .legend-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b8fa8; margin-right: 6px; }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #49495a; font-weight: 600; margin-right: 10px; }
+    .legend-rel { display: flex; align-items: center; gap: 8px; margin-left: 20px; border-left: 1px solid #e5e3f0; padding-left: 20px; flex-wrap: wrap; }
+    .legend-rel-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #49495a; font-weight: 600; }
+    .legend-bar { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<!-- Page Header -->
+<div class="page-header">
+  <div style="max-width:1200px;margin:0 auto;padding:0;">
+    <h1>AI Agents</h1>
+    <p class="subtitle">Start with your problem — not a product category. Map your jobs to be done, then see agents evaluated on the dimensions that actually matter.</p>
+  </div>
+
+  <div class="cat-tabs-wrap">
+    <div class="cat-tabs" id="catTabsInner">
+      <div class="cat-tab active" onclick="switchCat(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        SDR &amp; Outbound <span class="tab-count">6</span>
+      </div>
+      <div class="cat-tab" onclick="switchCat(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Customer Support <span class="tab-count">11</span>
+      </div>
+      <div class="cat-tab" onclick="switchCat(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Software Engineering <span class="tab-count">8</span>
+      </div>
+      <div class="cat-tab" onclick="switchCat(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Marketing &amp; Content <span class="tab-count">9</span>
+      </div>
+      <div class="cat-tab" onclick="switchCat(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Research &amp; Intelligence <span class="tab-count">7</span>
+      </div>
+      <div class="cat-tab" onclick="switchCat(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Data &amp; BI <span class="tab-count">6</span>
+      </div>
+      <div class="cat-tab" onclick="switchCat(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Recruiting <span class="tab-count">5</span>
+      </div>
+      <div class="cat-tab" onclick="switchCat(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        IT Helpdesk <span class="tab-count">5</span>
+      </div>
+      <div class="cat-tab" onclick="switchCat(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Meeting Intelligence <span class="tab-count">6</span>
+      </div>
+      <div class="cat-tab" onclick="switchCat(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Legal &amp; Compliance <span class="tab-count">4</span>
+      </div>
+      <div class="cat-tab" onclick="switchCat(this)">Finance &amp; Accounting <span class="tab-count">5</span></div>
+      <div class="cat-tab" onclick="switchCat(this)">Security Operations <span class="tab-count">5</span></div>
+      <div class="cat-tab" onclick="switchCat(this)">HR Operations <span class="tab-count">4</span></div>
+      <div class="cat-tab" onclick="switchCat(this)">Healthcare <span class="tab-count">3</span></div>
+      <div class="cat-tab" onclick="switchCat(this)">Supply Chain <span class="tab-count">3</span></div>
+      <div class="cat-tab-more" id="moreBtn" onclick="toggleMore(event)">More &#9662;<div class="more-menu" id="moreMenu"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- V6 Content -->
+<div class="v6-wrap">
+
+  <!-- Step Indicator -->
+  <div class="steps-bar">
+    <div class="step-item active" id="step-ind-1">
+      <div class="step-num" id="step-num-1">1</div>
+      <div class="step-label">Problem &amp; Jobs</div>
+    </div>
+    <div class="step-connector" id="conn-1"></div>
+    <div class="step-item" id="step-ind-2">
+      <div class="step-num" id="step-num-2">2</div>
+      <div class="step-label">Your Context</div>
+    </div>
+    <div class="step-connector" id="conn-2"></div>
+    <div class="step-item" id="step-ind-3">
+      <div class="step-num" id="step-num-3">3</div>
+      <div class="step-label">Results</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ STEP 1 ═══════════════════════════════════ -->
+  <div id="step1" class="step-panel active">
+
+    <div class="s1-intro">
+      <h2>What are you trying to do?</h2>
+      <p>Describe the problem you're solving and we'll map it to the specific jobs your AI agent needs to handle — and the dimensions to evaluate it on.</p>
+    </div>
+
+    <div class="problem-card">
+      <textarea id="problemText" rows="3" placeholder="e.g. I need an AI that can find, research, and email prospects without my SDR team having to do manual work — ideally it books meetings too…"></textarea>
+      <div class="problem-card-footer">
+        <span class="starter-label">Try:</span>
+        <button class="starter-chip" onclick="useStarter('Build and send personalized cold email sequences at scale without SDR manual research')">Build cold email sequences</button>
+        <button class="starter-chip" onclick="useStarter('Qualify and route inbound leads automatically — no SDR involvement until the meeting is booked')">Qualify inbound leads</button>
+        <button class="starter-chip" onclick="useStarter('Book meetings autonomously — prospect, reach out, handle objections, and get the calendar invite sent')">Book meetings autonomously</button>
+      </div>
+    </div>
+
+    <div class="jobs-section">
+      <div class="jobs-header">
+        <h3>Jobs to be done</h3>
+        <span class="jobs-sel-count" id="jobsSelCount">4 selected</span>
+      </div>
+      <p class="jobs-sub">We identified these specific jobs within SDR &amp; Outbound. Select the ones that apply — your selection shapes the dimension weighting in the results.</p>
+      <div class="jobs-grid" id="jobsGrid"><!-- rendered by JS --></div>
+    </div>
+
+    <div class="step-footer">
+      <div></div>
+      <button class="btn-continue" onclick="goStep(2)">Continue with <span id="s1SelCount">4</span> jobs →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ STEP 2 ═══════════════════════════════════ -->
+  <div id="step2" class="step-panel">
+
+    <div class="s2-intro">
+      <h2>Tell us about your setup</h2>
+      <p>This helps us weight the performance dimensions that matter most for your team's specific situation.</p>
+    </div>
+
+    <div class="ctx-questions" id="ctxQuestions"><!-- rendered by JS --></div>
+
+    <div class="step-footer">
+      <button class="btn-back" onclick="goStep(1)">← Back</button>
+      <button class="btn-continue" onclick="goStep(3)">See my results →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ STEP 3 ═══════════════════════════════════ -->
+  <div id="step3" class="step-panel">
+
+    <div class="s3-top">
+      <h2>Agent comparison for your requirements</h2>
+      <p>Ranked by performance across the dimensions most relevant to your selected jobs.</p>
+      <div class="profile-bar" id="profileBar"><!-- rendered by JS --></div>
+    </div>
+
+    <div class="best-match-callout" id="bestMatchCallout"><!-- rendered by JS --></div>
+
+    <div class="matrix-wrapper">
+      <table class="matrix-table" id="matrixTable"><!-- rendered by JS --></table>
+    </div>
+
+    <div class="matrix-legend">
+      <span class="legend-label">Score</span>
+      <div class="legend-item">
+        <div class="score-pill strong" style="font-size:11px;padding:3px 10px;">75+</div> Strong
+      </div>
+      <div class="legend-item">
+        <div class="score-pill good" style="font-size:11px;padding:3px 10px;">55–74</div> Good
+      </div>
+      <div class="legend-item">
+        <div class="score-pill moderate" style="font-size:11px;padding:3px 10px;">35–54</div> Moderate
+      </div>
+      <div class="legend-item">
+        <div class="score-pill weak" style="font-size:11px;padding:3px 10px;">&lt;35</div> Weak
+      </div>
+      <div class="legend-rel">
+        <span class="legend-label">Relevance</span>
+        <div class="legend-rel-item">
+          <div class="legend-bar" style="background:#5746b2;"></div> High — core to your jobs
+        </div>
+        <div class="legend-rel-item">
+          <div class="legend-bar" style="background:#c4bbf0;"></div> Medium — referenced by 1 job
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button class="btn-back" onclick="goStep(2)">← Refine context</button>
+    </div>
+
+  </div>
+
+</div><!-- /v6-wrap -->
+
+<footer style="text-align:center;padding:32px;font-size:13px;color:#999;border-top:1px solid #e5e3f0;margin-top:32px;">
+  Internal use only — G2 Design Experiments &nbsp;·&nbsp; <a href="./index.html" style="color:#5746b2;text-decoration:none;">All AI Agents variants</a>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════════════════════
+
+const PRODUCTS = [
+  { id: '11x',        name: '11x',        tagline: 'Fully autonomous SDR',          domain: '11x.ai',        badge: 'leader'         },
+  { id: 'artisan',    name: 'Artisan',    tagline: 'AI SDR with warm outreach',     domain: 'artisan.co',    badge: 'leader'         },
+  { id: 'aisdr',      name: 'AiSDR',      tagline: 'AI-native inbound + outbound',  domain: 'aisdr.com',     badge: 'high-performer' },
+  { id: 'salesforge', name: 'Salesforge', tagline: 'Deliverability-focused AI email', domain: 'salesforge.ai', badge: 'high-performer' },
+  { id: 'reply',      name: 'Reply.io',   tagline: 'Multi-channel AI engagement',   domain: 'reply.io',      badge: 'leader'         },
+  { id: 'regie',      name: 'Regie.ai',   tagline: 'AI content + sequencing',       domain: 'regie.ai',      badge: 'high-performer' },
+];
+
+// 10 dimensions — index order:
+// 0:task  1:traj  2:halluc  3:latency  4:tool  5:error  6:memory  7:autonomy  8:observ  9:integ
+const DIMENSIONS = [
+  { id: 'task',    name: 'Task Completion',    desc: 'How reliably the agent completes end-to-end tasks without human escalation',                                 gap: false },
+  { id: 'traj',    name: 'Trajectory Quality', desc: 'Coherence of multi-step sequences — does the agent stay on-strategy across turns?',                        gap: false },
+  { id: 'halluc',  name: 'Factual Accuracy',   desc: 'Reliability of generated output — higher score means fewer fabricated contact or company details',          gap: false },
+  { id: 'latency', name: 'Latency & Speed',    desc: 'Time from trigger to action — how quickly the agent responds to new prospects or events',                   gap: false },
+  { id: 'tool',    name: 'Tool-Calling Accuracy', desc: 'Precision of CRM writes, calendar invites, and API calls — avoids corrupting pipeline data',            gap: false },
+  { id: 'error',   name: 'Error Recovery',     desc: 'How gracefully the agent handles bounces, failed API calls, and off-script prospect replies',               gap: false },
+  { id: 'memory',  name: 'Memory & Context',   desc: 'Cross-session context retention — does it remember prior conversations and signals for each prospect?',
+    gap: true, gapNote: 'No solution in this category provides strong cross-session memory for prospect conversations. This is an active development area across all vendors.' },
+  { id: 'autonomy',name: 'Autonomy Match',     desc: 'Flexibility to configure autonomy level — from fully hands-off to heavily supervised multi-step workflows',  gap: false },
+  { id: 'observ',  name: 'Observability',      desc: 'Quality of logs, decision traces, and replay tools — can you see exactly what the agent did and why?',
+    gap: true, gapNote: 'Observability tooling for AI sales agents is immature across all vendors. No leader-tier product offers full decision tracing yet.' },
+  { id: 'integ',   name: 'Integration Surface', desc: 'Breadth of native CRM, enrichment, channel, and data integrations available without custom engineering',   gap: false },
+];
+
+// Scores per product, indexed by dimension (same order as DIMENSIONS)
+// [task, traj, halluc, latency, tool, error, memory, autonomy, observ, integ]
+const SCORES = {
+  '11x':        [91, 83, 82, 88, 89, 78, 44, 96, 30, 86],
+  'artisan':    [87, 77, 80, 74, 76, 66, 42, 78, 32, 77],
+  'aisdr':      [84, 68, 78, 86, 74, 62, 36, 76, 27, 65],
+  'salesforge': [76, 63, 71, 75, 67, 60, 33, 68, 26, 72],
+  'reply':      [73, 56, 70, 73, 65, 61, 32, 67, 48, 83],
+  'regie':      [70, 64, 68, 66, 63, 58, 30, 64, 26, 62],
+};
+
+// Jobs to be done — dims = dimension indices most relevant to this job
+const JOBS = [
+  {
+    id: 'sequences',     icon: '📧',
+    name: 'Build & send cold email sequences',
+    desc: 'Automated multi-step email cadences with AI-personalized copy for each prospect',
+    dims: [0, 1, 4], gap: false,
+  },
+  {
+    id: 'personalize',   icon: '✨',
+    name: 'Personalize outreach at scale',
+    desc: 'Research prospects and generate personalized first lines, subject lines, and follow-ups without SDR effort',
+    dims: [1, 2, 9], gap: false,
+  },
+  {
+    id: 'qualify',       icon: '🎯',
+    name: 'Qualify inbound leads autonomously',
+    desc: 'Engage website visitors, score intent, and route qualified leads to reps without manual review',
+    dims: [0, 2, 5], gap: false,
+  },
+  {
+    id: 'book-meetings', icon: '📅',
+    name: 'Book meetings without SDR involvement',
+    desc: 'Full-cycle prospecting — find, research, outreach, handle replies, and get the calendar invite sent',
+    dims: [0, 7, 5], gap: false,
+  },
+  {
+    id: 'multichannel',  icon: '🔗',
+    name: 'Multi-channel sequences (email + LinkedIn)',
+    desc: 'Coordinated outreach across email, LinkedIn, and voice from a single agent workflow',
+    dims: [4, 9, 0], gap: false,
+  },
+  {
+    id: 'objections',    icon: '💬',
+    name: 'Real-time objection handling',
+    desc: 'AI that responds to prospect replies in real time without waiting for rep review — handles common objections inline',
+    dims: [1, 2, 3], gap: true, gapLabel: 'Limited coverage',
+  },
+  {
+    id: 'crm',           icon: '🗂️',
+    name: 'CRM auto-updates & data hygiene',
+    desc: 'Automatic logging of calls, emails, and stage changes; deduplication and enrichment without manual data entry',
+    dims: [4, 6, 9], gap: false,
+  },
+  {
+    id: 'pipeline',      icon: '📊',
+    name: 'Pipeline health monitoring',
+    desc: 'Proactive stale-deal alerts, next-action suggestions, and forecasting support based on engagement signals',
+    dims: [8, 6, 1], gap: true, gapLabel: 'Limited coverage',
+  },
+];
+
+const CONTEXT_QS = [
+  {
+    id: 'team-size', label: 'How big is your SDR team?', multi: false,
+    options: ['Solo / 1 rep', '2–10 reps', '11–50 reps', '50+ reps'],
+  },
+  {
+    id: 'crm', label: 'Which CRM(s) do you use?', multi: true,
+    options: ['HubSpot', 'Salesforce', 'Pipedrive', 'None', 'Other'],
+  },
+  {
+    id: 'oversight', label: 'How much human oversight do you want?', multi: false,
+    options: ['Fully hands-off', 'Review key actions', 'Heavy oversight'],
+  },
+  {
+    id: 'priority', label: "What's your top priority?", multi: false,
+    options: ['Speed to pipeline', 'Message quality', 'Low ramp time', 'Budget efficiency'],
+  },
+];
+
+// ══════════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════════
+
+const state = {
+  currentStep: 1,
+  selectedJobs: new Set(['sequences', 'personalize', 'qualify', 'book-meetings']),
+  context: { 'team-size': null, crm: new Set(), oversight: null, priority: null },
+};
+
+// ══════════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════════
+
+window.addEventListener('DOMContentLoaded', () => {
+  renderJobsGrid();
+  renderContextQuestions();
+  initTabOverflow();
+});
+
+// ══════════════════════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════════════════════
+
+function goStep(n) {
+  // Hide all panels
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  state.currentStep = n;
+  updateStepIndicator(n);
+  if (n === 3) renderResults();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateStepIndicator(current) {
+  for (let i = 1; i <= 3; i++) {
+    const item = document.getElementById('step-ind-' + i);
+    const num  = document.getElementById('step-num-' + i);
+    item.classList.remove('active', 'done');
+    if (i < current) {
+      item.classList.add('done');
+      num.innerHTML = '<span class="step-done-check">✓</span>';
+    } else if (i === current) {
+      item.classList.add('active');
+      num.textContent = i;
+    } else {
+      num.textContent = i;
+    }
+  }
+  // Connectors
+  for (let i = 1; i <= 2; i++) {
+    const conn = document.getElementById('conn-' + i);
+    conn.classList.toggle('done', i < current);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  STEP 1 — JOBS
+// ══════════════════════════════════════════════════════════════
+
+function useStarter(text) {
+  document.getElementById('problemText').value = text;
+  document.getElementById('problemText').focus();
+}
+
+function renderJobsGrid() {
+  const grid = document.getElementById('jobsGrid');
+  grid.innerHTML = JOBS.map(job => {
+    const sel = state.selectedJobs.has(job.id);
+    return `
+      <div class="job-card ${sel ? 'selected' : ''}" id="job-${job.id}" onclick="toggleJob('${job.id}')">
+        <div class="job-icon">${job.icon}</div>
+        <div class="job-body">
+          <div class="job-name-row">
+            <div class="job-name">${job.name}</div>
+            ${job.gap ? `<div class="job-gap-badge">${job.gapLabel}</div>` : ''}
+          </div>
+          <div class="job-desc">${job.desc}</div>
+        </div>
+        <div class="job-check">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleJob(id) {
+  if (state.selectedJobs.has(id)) {
+    if (state.selectedJobs.size === 1) return; // keep at least 1
+    state.selectedJobs.delete(id);
+  } else {
+    state.selectedJobs.add(id);
+  }
+  const card = document.getElementById('job-' + id);
+  card.classList.toggle('selected', state.selectedJobs.has(id));
+  const check = card.querySelector('.job-check');
+  check.querySelector('svg').style.display = state.selectedJobs.has(id) ? 'block' : 'none';
+  const count = state.selectedJobs.size;
+  document.getElementById('jobsSelCount').textContent = count + ' selected';
+  document.getElementById('s1SelCount').textContent = count;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  STEP 2 — CONTEXT
+// ══════════════════════════════════════════════════════════════
+
+function renderContextQuestions() {
+  const container = document.getElementById('ctxQuestions');
+  container.innerHTML = CONTEXT_QS.map(q => `
+    <div class="ctx-q">
+      <div class="ctx-q-label">${q.label}</div>
+      <div class="ctx-chips">
+        ${q.options.map(opt => `
+          <button class="ctx-chip" data-qid="${q.id}" data-val="${opt}" onclick="selectChip('${q.id}','${opt}',${q.multi})">${opt}</button>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectChip(qId, val, isMulti) {
+  if (isMulti) {
+    const set = state.context[qId];
+    if (set.has(val)) { set.delete(val); } else { set.add(val); }
+  } else {
+    state.context[qId] = val;
+  }
+  // Update chip UI
+  document.querySelectorAll(`[data-qid="${qId}"]`).forEach(chip => {
+    const v = chip.dataset.val;
+    if (isMulti) {
+      chip.classList.toggle('selected', state.context[qId].has(v));
+    } else {
+      chip.classList.toggle('selected', v === state.context[qId]);
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  STEP 3 — RESULTS
+// ══════════════════════════════════════════════════════════════
+
+function computeRelevantDimsMap() {
+  const counts = new Array(DIMENSIONS.length).fill(0);
+  JOBS.forEach(job => {
+    if (state.selectedJobs.has(job.id)) {
+      job.dims.forEach(d => counts[d]++);
+    }
+  });
+  return counts;
+}
+
+function computeBestMatch(dimCounts) {
+  let bestId = null, bestScore = -1;
+  PRODUCTS.forEach(p => {
+    const scores = SCORES[p.id];
+    let total = 0;
+    dimCounts.forEach((count, d) => { if (count > 0) total += scores[d] * count; });
+    if (total > bestScore) { bestScore = total; bestId = p.id; }
+  });
+  return bestId;
+}
+
+function renderProfileChips() {
+  const bar = document.getElementById('profileBar');
+  const chips = [];
+  const selectedJobNames = JOBS.filter(j => state.selectedJobs.has(j.id)).map(j => j.name);
+  chips.push(`<span class="profile-bar-label">Jobs:</span>`);
+  selectedJobNames.forEach(name => chips.push(`<span class="profile-chip">${name}</span>`));
+
+  const ctx = state.context;
+  if (ctx['team-size']) chips.push(`<span class="profile-chip">Team: ${ctx['team-size']}</span>`);
+  if (ctx.crm && ctx.crm.size) chips.push(`<span class="profile-chip">CRM: ${[...ctx.crm].join(', ')}</span>`);
+  if (ctx['oversight']) chips.push(`<span class="profile-chip">${ctx['oversight']}</span>`);
+  if (ctx['priority']) chips.push(`<span class="profile-chip">Priority: ${ctx['priority']}</span>`);
+
+  chips.push(`<button class="btn-refine" onclick="goStep(2)">Refine ↗</button>`);
+  bar.innerHTML = chips.join('');
+}
+
+function renderBestMatchCallout(bestId, dimCounts) {
+  const best = PRODUCTS.find(p => p.id === bestId);
+  const scores = SCORES[bestId];
+  // Find top 3 dims where this product has high scores and high relevance
+  const relevant = dimCounts.map((c, i) => ({ i, c, s: scores[i] })).filter(x => x.c > 0).sort((a, b) => b.s - a.s).slice(0, 3);
+  const highlights = relevant.map(x => `${DIMENSIONS[x.i].name} (${x.s})`).join(', ');
+  document.getElementById('bestMatchCallout').innerHTML = `
+    <div class="bm-icon">⚡</div>
+    <div class="bm-text">
+      <h4>Best match for your requirements: ${best.name}</h4>
+      <p>Leads on the dimensions most relevant to your selected jobs: ${highlights}.</p>
+    </div>
+    <div class="bm-product">
+      <div class="bm-logo"><img src="https://www.google.com/s2/favicons?domain=${best.domain}&sz=32" alt="${best.name}" onerror="this.style.display='none';this.parentElement.textContent='${best.name[0]}'"></div>
+      <div class="bm-prod-name">${best.name}</div>
+    </div>
+  `;
+}
+
+function tierClass(score) {
+  if (score >= 75) return 'strong';
+  if (score >= 55) return 'good';
+  if (score >= 35) return 'moderate';
+  return 'weak';
+}
+
+function renderMatrix() {
+  const dimCounts = computeRelevantDimsMap();
+  const bestId    = computeBestMatch(dimCounts);
+
+  // Sort products: best match first, then by overall relevant score desc
+  const sortedProducts = [...PRODUCTS].sort((a, b) => {
+    if (a.id === bestId) return -1;
+    if (b.id === bestId) return 1;
+    const scoreA = dimCounts.reduce((sum, c, d) => sum + (c > 0 ? SCORES[a.id][d] * c : 0), 0);
+    const scoreB = dimCounts.reduce((sum, c, d) => sum + (c > 0 ? SCORES[b.id][d] * c : 0), 0);
+    return scoreB - scoreA;
+  });
+
+  const table = document.getElementById('matrixTable');
+  let html = '';
+
+  // ── Header ──
+  html += '<thead><tr>';
+  html += '<th class="dim-th">Dimension</th>';
+  sortedProducts.forEach(p => {
+    const isBest = p.id === bestId;
+    html += `<th class="prod-th ${isBest ? 'best-col' : ''}">
+      <div class="prod-th-inner">
+        <div class="prod-logo-sm">
+          <img src="https://www.google.com/s2/favicons?domain=${p.domain}&sz=32" alt="${p.name}" onerror="this.style.display='none'">
+        </div>
+        <div class="prod-th-name">${p.name}</div>
+        ${isBest ? '<div class="best-match-badge">⚡ Best Match</div>' : ''}
+      </div>
+    </th>`;
+  });
+  html += '</tr></thead>';
+
+  // ── Body ──
+  html += '<tbody>';
+  DIMENSIONS.forEach((dim, di) => {
+    const relCount = dimCounts[di];
+    const relClass = relCount >= 2 ? 'rel-high' : relCount === 1 ? 'rel-medium' : '';
+    const dotHtml  = relClass ? `<span class="dim-rel-dot"></span>` : '';
+
+    html += `<tr>`;
+    html += `<td class="dim-td ${relClass}">
+      <div class="dim-td-name">${dotHtml}${dim.name}</div>
+      <div class="dim-td-desc">${dim.desc}</div>
+    </td>`;
+
+    sortedProducts.forEach(p => {
+      const score = SCORES[p.id][di];
+      const tier  = tierClass(score);
+      const isBest = p.id === bestId;
+      const pillExtra = (isBest && (tier === 'strong' || tier === 'good')) ? ' best-pill' : '';
+      html += `<td class="score-td ${isBest ? 'best-col' : ''}">
+        <div class="score-pill ${tier}${pillExtra}">${score}</div>
+      </td>`;
+    });
+    html += `</tr>`;
+
+    // Insert gap banner AFTER this dimension row if it has a gap
+    if (dim.gap) {
+      html += `<tr class="gap-row"><td colspan="${sortedProducts.length + 1}">
+        <div class="gap-banner">
+          <span class="gap-icon">⚠️</span>
+          <div class="gap-banner-text"><strong>Coverage gap identified:</strong> ${dim.gapNote}</div>
+        </div>
+      </td></tr>`;
+    }
+  });
+  html += '</tbody>';
+
+  table.innerHTML = html;
+}
+
+function renderResults() {
+  const dimCounts = computeRelevantDimsMap();
+  const bestId = computeBestMatch(dimCounts);
+  renderProfileChips();
+  renderBestMatchCallout(bestId, dimCounts);
+  renderMatrix();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  TAB OVERFLOW
+// ══════════════════════════════════════════════════════════════
+
+function initTabOverflow() {
+  const wrap = document.querySelector('.cat-tabs');
+  const moreBtn = document.getElementById('moreBtn');
+  const moreMenu = document.getElementById('moreMenu');
+  const tabs = Array.from(wrap.querySelectorAll('.cat-tab'));
+
+  function reflow() {
+    const containerWidth = wrap.getBoundingClientRect().width;
+    const moreBtnWidth = 80;
+    let usedWidth = moreBtnWidth;
+    let hidden = [];
+
+    tabs.forEach(tab => {
+      tab.style.display = 'inline-flex';
+      usedWidth += tab.getBoundingClientRect().width;
+      if (usedWidth > containerWidth) {
+        tab.style.display = 'none';
+        hidden.push(tab);
+      }
+    });
+
+    if (hidden.length === 0) {
+      moreBtn.style.display = 'none';
+    } else {
+      moreBtn.style.display = 'flex';
+      moreMenu.innerHTML = hidden.map(tab => {
+        const isActive = tab.classList.contains('active');
+        return `<div class="more-menu-item ${isActive ? 'active' : ''}" onclick="switchCatFromMenu(this, '${tab.textContent.trim()}')">${tab.innerHTML}</div>`;
+      }).join('');
+    }
+  }
+
+  reflow();
+  window.addEventListener('resize', reflow);
+}
+
+function switchCat(el) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function switchCatFromMenu(el, name) {
+  const tabs = document.querySelectorAll('.cat-tab');
+  tabs.forEach(t => {
+    if (t.textContent.trim().startsWith(name.split(' ')[0])) {
+      t.classList.add('active');
+    } else {
+      t.classList.remove('active');
+    }
+  });
+  document.getElementById('moreMenu').classList.remove('open');
+  document.getElementById('moreBtn').classList.remove('open');
+}
+
+function toggleMore(e) {
+  e.stopPropagation();
+  const menu = document.getElementById('moreMenu');
+  const btn  = document.getElementById('moreBtn');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+document.addEventListener('click', () => {
+  document.getElementById('moreMenu').classList.remove('open');
+  document.getElementById('moreBtn').classList.remove('open');
+});
+</script>
+</body>
+</html>

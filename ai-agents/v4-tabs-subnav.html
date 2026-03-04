@@ -10,29 +10,36 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
 
-    /* ── Category Tabs (above product list) ── */
+    /* ── Category Tab Bar (bottom of header) ── */
     .cat-tabs-wrap {
-      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
-      overflow-x: auto; margin-bottom: 16px; scrollbar-width: none;
+      overflow-x: auto; margin: 16px -48px 0; scrollbar-width: none;
+      border-top: 1px solid #e5e3f0;
     }
     .cat-tabs-wrap::-webkit-scrollbar { display: none; }
-    .cat-tabs { display: flex; align-items: center; padding: 0 4px; }
+    .cat-tabs { display: flex; align-items: center; padding: 0 48px; }
     .cat-tab {
-      padding: 11px 13px; font-size: 12px; font-weight: 600; color: #8b8fa8;
+      padding: 12px 14px; font-size: 13px; font-weight: 600; color: #8b8fa8;
       white-space: nowrap; cursor: pointer; border-bottom: 2px solid transparent;
       transition: color 0.12s, border-color 0.12s;
-      display: flex; align-items: center; gap: 5px; flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+      margin-bottom: -1px;
     }
     .cat-tab:hover { color: #5746b2; }
     .cat-tab.active { color: #5746b2; border-bottom-color: #5746b2; font-weight: 700; }
-    .cat-tab .tab-icon { font-size: 13px; }
-    .cat-tab .tab-count { font-size: 10px; font-weight: 700; background: #f0eeff; color: #5746b2; padding: 1px 5px; border-radius: 8px; }
+    .cat-tab .tab-icon { font-size: 14px; }
+    .cat-tab .tab-count { font-size: 10px; font-weight: 700; background: #f0eeff; color: #5746b2; padding: 1px 6px; border-radius: 10px; }
     .cat-tab.active .tab-count { background: #5746b2; color: white; }
+    .cat-tab-more {
+      padding: 12px 14px; font-size: 12px; font-weight: 700; color: #8b8fa8;
+      white-space: nowrap; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; gap: 4px; margin-left: auto;
+    }
+    .cat-tab-more:hover { color: #5746b2; }
 
     /* ── Page Header ── */
     .page-header {
       background: white; border-bottom: 1px solid #e5e3f0;
-      padding: 20px 48px 24px;
+      padding: 20px 48px 0;
     }
     .breadcrumb { font-size: 12px; color: #8b8fa8; margin-bottom: 10px; }
     .breadcrumb a { color: #8b8fa8; text-decoration: none; }
@@ -257,7 +264,21 @@
   <div class="header-inner">
     <div class="header-left">
       <h1>AI Agents</h1>
-      <p>AI agents autonomously complete multi-step workflows — researching, deciding, and acting without continuous human input. Select a use case below.</p>
+      <p>AI agents autonomously complete multi-step workflows — researching, deciding, and acting without continuous human input.</p>
+    </div>
+  </div>
+
+  <!-- Category tab bar — sits flush at the bottom of the header -->
+  <div class="cat-tabs-wrap">
+    <div class="cat-tabs">
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">💬</span> Customer Support <span class="tab-count">11</span></div>
+      <div class="cat-tab active" onclick="switchCat(this)"><span class="tab-icon">📬</span> SDR &amp; Outbound <span class="tab-count">6</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">⚙️</span> Software Engineering <span class="tab-count">8</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">✍️</span> Marketing &amp; Content <span class="tab-count">9</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🔍</span> Research &amp; Intelligence <span class="tab-count">7</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">📊</span> Data &amp; BI <span class="tab-count">6</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">👥</span> Recruiting <span class="tab-count">5</span></div>
+      <div class="cat-tab-more">More ▾</div>
     </div>
   </div>
 </div>
@@ -366,27 +387,6 @@
 
   <!-- Main content -->
   <div class="main-col">
-
-    <!-- Category tabs — use case selection -->
-    <div class="cat-tabs-wrap">
-      <div class="cat-tabs">
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">💬</span> Customer Support <span class="tab-count">11</span></div>
-        <div class="cat-tab active" onclick="switchCat(this)"><span class="tab-icon">📬</span> SDR &amp; Outbound <span class="tab-count">6</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">⚙️</span> Software Engineering <span class="tab-count">8</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">✍️</span> Marketing &amp; Content <span class="tab-count">9</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🔍</span> Research &amp; Intelligence <span class="tab-count">7</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">📊</span> Data &amp; BI <span class="tab-count">6</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🖥️</span> IT Helpdesk <span class="tab-count">5</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">👥</span> Recruiting &amp; Talent <span class="tab-count">5</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">📅</span> Meeting Intelligence <span class="tab-count">6</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">⚖️</span> Legal &amp; Compliance <span class="tab-count">4</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">💰</span> Finance &amp; Accounting <span class="tab-count">5</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🛡️</span> Security Operations <span class="tab-count">5</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🏢</span> HR Operations <span class="tab-count">4</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🏥</span> Healthcare <span class="tab-count">3</span></div>
-        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🏭</span> Supply Chain <span class="tab-count">3</span></div>
-      </div>
-    </div>
 
     <!-- Sort bar -->
     <div class="sort-bar">

@@ -114,25 +114,31 @@
     .browse-divider-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #b0b0c0; white-space: nowrap; }
 
     /* ── Browse Grid (cold state) ── */
-    .browse-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-    .browse-tile {
-      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
-      padding: 14px 12px; text-decoration: none; color: inherit;
-      display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
-      transition: border-color 0.12s, background 0.12s;
+    .browse-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .cat-tile {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 12px;
+      padding: 20px 18px; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
     }
-    .browse-tile:hover { border-color: #5746b2; background: #faf9ff; }
-    .browse-tile-icon { font-size: 18px; }
-    .browse-tile-name { font-size: 12px; font-weight: 700; color: #1a1a2e; line-height: 1.3; }
-    .browse-tile:hover .browse-tile-name { color: #5746b2; }
-    .browse-tile-count { font-size: 11px; color: #8b8fa8; }
-    .browse-more {
-      background: #f5f4fb; border: 1.5px dashed #e5e3f0; border-radius: 10px;
-      padding: 14px 12px; display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 600; color: #8b8fa8; text-decoration: none; cursor: pointer;
-      transition: border-color 0.12s, color 0.12s;
+    .cat-tile:hover {
+      border-color: #5746b2; box-shadow: 0 4px 20px rgba(87,70,178,0.12);
+      transform: translateY(-2px);
     }
-    .browse-more:hover { border-color: #5746b2; color: #5746b2; }
+    .cat-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .cat-name { font-size: 14px; font-weight: 700; color: #1a1a2e; line-height: 1.3; }
+    .cat-tile:hover .cat-name { color: #5746b2; }
+    .cat-desc { font-size: 12px; color: #8b8fa8; line-height: 1.5; flex: 1; }
+    .cat-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid #f0eeff; margin-top: auto; }
+    .cat-count { font-size: 12px; font-weight: 700; color: #5746b2; }
+    .cat-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 20px; }
+    .badge-hot { background: #fff3f0; color: #ff492c; }
+    .badge-new { background: #f0fdf4; color: #16a34a; }
+    .badge-emerging { background: #f5f4fb; color: #8b8fa8; }
   </style>
 </head>
 <body>
@@ -184,81 +190,112 @@
     </div>
 
     <div class="browse-grid">
-      <a class="browse-tile" href="./v1-use-case-first.html">
-        <div class="browse-tile-icon">💬</div>
-        <div class="browse-tile-name">Customer Support</div>
-        <div class="browse-tile-count">11 products</div>
+
+      <a class="cat-tile" href="./v1-use-case-first.html">
+        <div class="cat-icon" style="background:#fff3f0;">💬</div>
+        <div class="cat-name">Customer Support</div>
+        <div class="cat-desc">Autonomous ticket resolution, escalation routing, and voice agents</div>
+        <div class="cat-footer"><span class="cat-count">11 products</span><span class="cat-badge badge-hot">Most Evaluated</span></div>
       </a>
-      <a class="browse-tile" href="./v1-use-case-first.html">
-        <div class="browse-tile-icon">📬</div>
-        <div class="browse-tile-name">SDR &amp; Outbound</div>
-        <div class="browse-tile-count">6 products</div>
+
+      <a class="cat-tile" href="./v1-use-case-first.html">
+        <div class="cat-icon" style="background:#f0eeff;">📬</div>
+        <div class="cat-name">SDR &amp; Outbound</div>
+        <div class="cat-desc">Prospecting, personalized email, LinkedIn outreach, meeting booking</div>
+        <div class="cat-footer"><span class="cat-count">6 products</span><span class="cat-badge badge-hot">Trending</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">⚙️</div>
-        <div class="browse-tile-name">Software Engineering</div>
-        <div class="browse-tile-count">8 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#f0fdf4;">⚙️</div>
+        <div class="cat-name">Software Engineering</div>
+        <div class="cat-desc">Code generation, review, bug triage, test automation, documentation</div>
+        <div class="cat-footer"><span class="cat-count">8 products</span><span class="cat-badge badge-hot">Trending</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">✍️</div>
-        <div class="browse-tile-name">Marketing &amp; Content</div>
-        <div class="browse-tile-count">9 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#fef9c3;">✍️</div>
+        <div class="cat-name">Marketing &amp; Content</div>
+        <div class="cat-desc">Campaign creation, copy generation, SEO, social media management</div>
+        <div class="cat-footer"><span class="cat-count">9 products</span><span class="cat-badge badge-hot">Most Evaluated</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">🔍</div>
-        <div class="browse-tile-name">Research &amp; Intelligence</div>
-        <div class="browse-tile-count">7 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#eff6ff;">🔍</div>
+        <div class="cat-name">Research &amp; Intelligence</div>
+        <div class="cat-desc">Web research, competitive intelligence, literature review, report generation</div>
+        <div class="cat-footer"><span class="cat-count">7 products</span><span class="cat-badge badge-new">Growing</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">📊</div>
-        <div class="browse-tile-name">Data &amp; BI</div>
-        <div class="browse-tile-count">6 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#f0fdf4;">📊</div>
+        <div class="cat-name">Data &amp; BI</div>
+        <div class="cat-desc">Natural language queries, automated reporting, anomaly detection</div>
+        <div class="cat-footer"><span class="cat-count">6 products</span><span class="cat-badge badge-new">Growing</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">🖥️</div>
-        <div class="browse-tile-name">IT Helpdesk</div>
-        <div class="browse-tile-count">5 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#f5f3ff;">🖥️</div>
+        <div class="cat-name">IT Helpdesk</div>
+        <div class="cat-desc">Internal support tickets, access requests, password resets, onboarding</div>
+        <div class="cat-footer"><span class="cat-count">5 products</span><span class="cat-badge badge-new">Growing</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">👥</div>
-        <div class="browse-tile-name">Recruiting &amp; Talent</div>
-        <div class="browse-tile-count">5 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#fff7ed;">👥</div>
+        <div class="cat-name">Recruiting &amp; Talent</div>
+        <div class="cat-desc">Candidate sourcing, screening, outreach, and pipeline management</div>
+        <div class="cat-footer"><span class="cat-count">5 products</span><span class="cat-badge badge-new">Growing</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">📅</div>
-        <div class="browse-tile-name">Meeting Intelligence</div>
-        <div class="browse-tile-count">6 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#ecfeff;">📅</div>
+        <div class="cat-name">Meeting Intelligence</div>
+        <div class="cat-desc">Transcription, action items, follow-ups, CRM updates from conversations</div>
+        <div class="cat-footer"><span class="cat-count">6 products</span><span class="cat-badge badge-new">Growing</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">💰</div>
-        <div class="browse-tile-name">Finance &amp; Accounting</div>
-        <div class="browse-tile-count">5 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#faf5ff;">⚖️</div>
+        <div class="cat-name">Legal &amp; Compliance</div>
+        <div class="cat-desc">Contract review, clause extraction, regulatory monitoring, risk flagging</div>
+        <div class="cat-footer"><span class="cat-count">4 products</span><span class="cat-badge badge-emerging">Emerging</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">⚖️</div>
-        <div class="browse-tile-name">Legal &amp; Compliance</div>
-        <div class="browse-tile-count">4 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#f0fdf4;">💰</div>
+        <div class="cat-name">Finance &amp; Accounting</div>
+        <div class="cat-desc">Invoice processing, expense management, financial close automation</div>
+        <div class="cat-footer"><span class="cat-count">5 products</span><span class="cat-badge badge-emerging">Emerging</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">🛡️</div>
-        <div class="browse-tile-name">Security Operations</div>
-        <div class="browse-tile-count">5 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#fff1f2;">🛡️</div>
+        <div class="cat-name">Security Operations</div>
+        <div class="cat-desc">Threat detection, incident response, SOC automation, alert triage</div>
+        <div class="cat-footer"><span class="cat-count">5 products</span><span class="cat-badge badge-emerging">Emerging</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">🏢</div>
-        <div class="browse-tile-name">HR Operations</div>
-        <div class="browse-tile-count">4 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#fff7ed;">🏢</div>
+        <div class="cat-name">HR Operations</div>
+        <div class="cat-desc">Employee onboarding, policy Q&amp;A, offboarding, benefits administration</div>
+        <div class="cat-footer"><span class="cat-count">4 products</span><span class="cat-badge badge-emerging">Emerging</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">🏥</div>
-        <div class="browse-tile-name">Healthcare</div>
-        <div class="browse-tile-count">3 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#f0fdfa;">🏥</div>
+        <div class="cat-name">Healthcare</div>
+        <div class="cat-desc">Clinical documentation, prior authorization, appointment scheduling</div>
+        <div class="cat-footer"><span class="cat-count">3 products</span><span class="cat-badge badge-emerging">Emerging</span></div>
       </a>
-      <a class="browse-tile" href="#">
-        <div class="browse-tile-icon">🏭</div>
-        <div class="browse-tile-name">Supply Chain</div>
-        <div class="browse-tile-count">3 products</div>
+
+      <a class="cat-tile" href="#">
+        <div class="cat-icon" style="background:#fefce8;">🏭</div>
+        <div class="cat-name">Supply Chain</div>
+        <div class="cat-desc">Vendor sourcing, purchase order automation, inventory management</div>
+        <div class="cat-footer"><span class="cat-count">3 products</span><span class="cat-badge badge-emerging">Emerging</span></div>
       </a>
+
     </div>
   </div>
 

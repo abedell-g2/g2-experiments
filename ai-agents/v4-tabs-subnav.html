@@ -10,41 +10,29 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
 
-    /* ── Category Bar (top-level nav) ── */
-    .cat-bar {
-      background: white; border-bottom: 1px solid #e5e3f0;
-      padding: 0 48px; display: flex; align-items: center; gap: 0;
-      overflow-x: auto; position: sticky; top: 0; z-index: 100;
+    /* ── Category Tabs (above product list) ── */
+    .cat-tabs-wrap {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
+      overflow-x: auto; margin-bottom: 16px; scrollbar-width: none;
     }
-    .cat-bar-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: #8b8fa8; white-space: nowrap;
-      padding: 16px 20px 16px 0; border-right: 1px solid #e5e3f0; margin-right: 16px; flex-shrink: 0;
-    }
-    .cat-bar-item {
-      padding: 16px 14px; font-size: 13px; font-weight: 600; color: #8b8fa8;
+    .cat-tabs-wrap::-webkit-scrollbar { display: none; }
+    .cat-tabs { display: flex; align-items: center; padding: 0 4px; }
+    .cat-tab {
+      padding: 11px 13px; font-size: 12px; font-weight: 600; color: #8b8fa8;
       white-space: nowrap; cursor: pointer; border-bottom: 2px solid transparent;
-      transition: color 0.12s, border-color 0.12s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-      margin-bottom: -1px;
+      transition: color 0.12s, border-color 0.12s;
+      display: flex; align-items: center; gap: 5px; flex-shrink: 0;
     }
-    .cat-bar-item:hover { color: #5746b2; }
-    .cat-bar-item.active { color: #5746b2; border-bottom-color: #5746b2; font-weight: 700; }
-    .cat-bar-item .cb-icon { font-size: 14px; }
-    .cat-bar-item .cb-count { font-size: 10px; font-weight: 700; background: #f0eeff; color: #5746b2; padding: 1px 6px; border-radius: 10px; }
-    .cat-bar-item.active .cb-count { background: #5746b2; color: white; }
-
-    /* "More" overflow button */
-    .cat-bar-more {
-      padding: 16px 14px; font-size: 12px; font-weight: 700; color: #8b8fa8;
-      white-space: nowrap; cursor: pointer; flex-shrink: 0;
-      display: flex; align-items: center; gap: 4px;
-    }
-    .cat-bar-more:hover { color: #5746b2; }
+    .cat-tab:hover { color: #5746b2; }
+    .cat-tab.active { color: #5746b2; border-bottom-color: #5746b2; font-weight: 700; }
+    .cat-tab .tab-icon { font-size: 13px; }
+    .cat-tab .tab-count { font-size: 10px; font-weight: 700; background: #f0eeff; color: #5746b2; padding: 1px 5px; border-radius: 8px; }
+    .cat-tab.active .tab-count { background: #5746b2; color: white; }
 
     /* ── Page Header ── */
     .page-header {
       background: white; border-bottom: 1px solid #e5e3f0;
-      padding: 20px 48px 0;
+      padding: 20px 48px 24px;
     }
     .breadcrumb { font-size: 12px; color: #8b8fa8; margin-bottom: 10px; }
     .breadcrumb a { color: #8b8fa8; text-decoration: none; }
@@ -54,22 +42,6 @@
     .header-inner { display: flex; align-items: flex-end; gap: 0; justify-content: space-between; }
     .header-left h1 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
     .header-left p { font-size: 13px; color: #49495a; line-height: 1.5; max-width: 520px; padding-bottom: 14px; }
-
-    /* ── Sub-nav tabs (within category) ── */
-    .sub-tabs {
-      display: flex; align-items: center; gap: 0;
-      border-bottom: none; margin-top: 2px;
-    }
-    .sub-tab {
-      padding: 12px 18px; font-size: 13px; font-weight: 600; color: #8b8fa8;
-      cursor: pointer; border-bottom: 2px solid transparent;
-      transition: color 0.12s, border-color 0.12s;
-      white-space: nowrap; margin-bottom: -1px;
-    }
-    .sub-tab:hover { color: #1a1a2e; }
-    .sub-tab.active { color: #1a1a2e; border-bottom-color: #1a1a2e; font-weight: 700; }
-    .sub-tab .st-count { font-size: 11px; font-weight: 600; color: #8b8fa8; margin-left: 5px; }
-    .sub-tab.active .st-count { color: #49495a; }
 
     /* ── Body layout ── */
     .page-body { max-width: 1040px; margin: 0 auto; padding: 28px 48px 64px; display: flex; gap: 32px; }
@@ -275,55 +247,18 @@
 </head>
 <body>
 
-<!-- ── Category Bar (top-level entry point, pinned) ── -->
-<div class="cat-bar" id="catBar">
-  <div class="cat-bar-label">AI Agents</div>
-
-  <a class="cat-bar-item" href="./v1a-category-grid.html" onclick="return false;">
-    <span class="cb-icon">💬</span> Customer Support <span class="cb-count">11</span>
-  </a>
-  <a class="cat-bar-item active" href="#" onclick="return false;">
-    <span class="cb-icon">📬</span> SDR &amp; Outbound <span class="cb-count">6</span>
-  </a>
-  <a class="cat-bar-item" href="#" onclick="return false;">
-    <span class="cb-icon">⚙️</span> Software Engineering <span class="cb-count">8</span>
-  </a>
-  <a class="cat-bar-item" href="#" onclick="return false;">
-    <span class="cb-icon">✍️</span> Marketing &amp; Content <span class="cb-count">9</span>
-  </a>
-  <a class="cat-bar-item" href="#" onclick="return false;">
-    <span class="cb-icon">🔍</span> Research &amp; Intelligence <span class="cb-count">7</span>
-  </a>
-  <a class="cat-bar-item" href="#" onclick="return false;">
-    <span class="cb-icon">📊</span> Data &amp; BI <span class="cb-count">6</span>
-  </a>
-  <a class="cat-bar-item" href="#" onclick="return false;">
-    <span class="cb-icon">👥</span> Recruiting <span class="cb-count">5</span>
-  </a>
-  <div class="cat-bar-more">More ▾</div>
-</div>
-
-<!-- ── Page header (category-scoped) ── -->
+<!-- ── Page header ── -->
 <div class="page-header">
   <div class="breadcrumb">
     <a href="#">Software</a><span class="sep">›</span>
     <a href="#">Artificial Intelligence</a><span class="sep">›</span>
-    <a href="./v1a-category-grid.html">AI Agents</a><span class="sep">›</span>
-    <strong style="color:#1a1a2e;">SDR &amp; Outbound</strong>
+    <strong style="color:#1a1a2e;">AI Agents</strong>
   </div>
   <div class="header-inner">
     <div class="header-left">
-      <h1>AI SDR &amp; Outbound Agents</h1>
-      <p>Autonomous agents that prospect, write personalized outreach, and book meetings — without a human SDR in the loop. <strong>6 products</strong>, ranked by G2 Agentic Score.</p>
+      <h1>AI Agents</h1>
+      <p>AI agents autonomously complete multi-step workflows — researching, deciding, and acting without continuous human input. Select a use case below.</p>
     </div>
-  </div>
-
-  <!-- Sub-nav tabs: filtering WITHIN this category -->
-  <div class="sub-tabs">
-    <div class="sub-tab active" onclick="switchTab(this,'all')">All <span class="st-count">6</span></div>
-    <div class="sub-tab" onclick="switchTab(this,'native')">AI-Native SDRs <span class="st-count">4</span></div>
-    <div class="sub-tab" onclick="switchTab(this,'enhanced')">AI-Enhanced Platforms <span class="st-count">2</span></div>
-    <div class="sub-tab" onclick="switchTab(this,'voice')">Voice &amp; Phone <span class="st-count">1</span></div>
   </div>
 </div>
 
@@ -432,14 +367,24 @@
   <!-- Main content -->
   <div class="main-col">
 
-    <!-- Context callout — explains the sub-nav model -->
-    <div class="context-callout">
-      <div class="context-callout-icon">💡</div>
-      <div class="context-callout-text">
-        <strong>Tabs filter within this category.</strong> You're browsing <strong>SDR &amp; Outbound Agents</strong>.
-        Use the sub-tabs above to narrow by agent type, or
-        <a href="./v1a-category-grid.html" style="color:#5746b2;font-weight:700;">switch to a different use case ↗</a>
-        from the category bar at the top.
+    <!-- Category tabs — use case selection -->
+    <div class="cat-tabs-wrap">
+      <div class="cat-tabs">
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">💬</span> Customer Support <span class="tab-count">11</span></div>
+        <div class="cat-tab active" onclick="switchCat(this)"><span class="tab-icon">📬</span> SDR &amp; Outbound <span class="tab-count">6</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">⚙️</span> Software Engineering <span class="tab-count">8</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">✍️</span> Marketing &amp; Content <span class="tab-count">9</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🔍</span> Research &amp; Intelligence <span class="tab-count">7</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">📊</span> Data &amp; BI <span class="tab-count">6</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🖥️</span> IT Helpdesk <span class="tab-count">5</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">👥</span> Recruiting &amp; Talent <span class="tab-count">5</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">📅</span> Meeting Intelligence <span class="tab-count">6</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">⚖️</span> Legal &amp; Compliance <span class="tab-count">4</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">💰</span> Finance &amp; Accounting <span class="tab-count">5</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🛡️</span> Security Operations <span class="tab-count">5</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🏢</span> HR Operations <span class="tab-count">4</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🏥</span> Healthcare <span class="tab-count">3</span></div>
+        <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🏭</span> Supply Chain <span class="tab-count">3</span></div>
       </div>
     </div>
 
@@ -841,27 +786,11 @@
 </div><!-- /page-body -->
 
 <script>
-  function switchTab(el, type) {
-    document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  function switchCat(el) {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
-    const cards = document.querySelectorAll('.product-card');
-    cards.forEach(card => {
-      if (type === 'all') {
-        card.style.display = '';
-      } else {
-        const pill = card.querySelector('.sub-type-pill');
-        if (!pill) { card.style.display = 'none'; return; }
-        const match = {
-          'native': 'native',
-          'enhanced': 'enhanced',
-          'voice': 'voice'
-        }[type];
-        card.style.display = pill.classList.contains(match) ? '' : 'none';
-      }
-    });
-    // update count
-    const visible = [...document.querySelectorAll('.product-card')].filter(c => c.style.display !== 'none').length;
-    document.querySelector('.sort-bar-count').innerHTML = `<strong>${visible}</strong> products in SDR &amp; Outbound`;
+    // Scroll the active tab into view
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   }
 
   function toggleAut(el) {
@@ -873,25 +802,14 @@
   }
 
   function updateRange(input, valId, suffix) {
-    const pct = input.value + '%';
-    input.style.setProperty('--pct', pct);
+    input.style.setProperty('--pct', input.value + '%');
     document.getElementById(valId).textContent = input.value + suffix;
   }
 
   function updateRamp(input) {
-    const pct = (input.value / 90 * 100) + '%';
-    input.style.setProperty('--pct', pct);
+    input.style.setProperty('--pct', (input.value / 90 * 100) + '%');
     document.getElementById('rampVal').textContent = input.value + 'd';
   }
-
-  // Category bar click switches active state (visual demo)
-  document.querySelectorAll('.cat-bar-item').forEach(item => {
-    item.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.querySelectorAll('.cat-bar-item').forEach(i => i.classList.remove('active'));
-      this.classList.add('active');
-    });
-  });
 </script>
 
 </body>

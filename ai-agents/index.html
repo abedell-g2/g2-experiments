@@ -68,15 +68,6 @@
     .mock-cell { height: 6px; background: #e5e3f0; border-radius: 2px; }
     .mock-hex-sm { width: 14px; height: 16px; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); background: linear-gradient(160deg,#5746b2,#7c3aed); flex-shrink: 0; }
 
-    /* Context box */
-    .context-box { background: white; border: 1.5px solid #e5e3f0; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
-    .context-box h3 { font-size: 15px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-    .context-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .context-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5746b2; margin-bottom: 8px; }
-    .context-col ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
-    .context-col li { font-size: 13px; color: #49495a; display: flex; align-items: flex-start; gap: 6px; line-height: 1.4; }
-    .context-col li::before { content: '•'; color: #5746b2; font-weight: 900; flex-shrink: 0; }
-
     footer { text-align: center; padding: 32px; font-size: 13px; color: #999; border-top: 1px solid #e5e3f0; margin-top: 32px; }
   </style>
 </head>
@@ -87,361 +78,22 @@
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     All Experiments
   </a>
-  <h1>AI Agents — Category Page Redesign</h1>
-  <p class="subtitle">Three design concepts for a new AI Agents category page — built around use-case-first navigation, proprietary G2 Agentic Metrics, and buyer-stage awareness. Use case: AI SDR &amp; Outbound Agents.</p>
+  <h1>AI Agents — Category Page</h1>
+  <p class="subtitle">Five design concepts exploring use-case-first navigation, G2 Agentic Score metrics, and different buyer entry points.</p>
 </header>
 
 <main>
 
-  <!-- Context -->
-  <div class="context-box">
-    <h3>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5746b2" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-      Why this page needed a complete rethink
-    </h3>
-    <div class="context-grid">
-      <div class="context-col">
-        <h4>What's broken about the current design</h4>
-        <ul>
-          <li>Star ratings don't capture what matters for autonomous AI — they rate UX, not production reliability</li>
-          <li>"Best AI Agents" ranking is meaningless without use case context — the best SDR agent is not the best DevOps agent</li>
-          <li>No way to surface autonomy level, ramp time, or task completion — the dimensions buyers actually care about</li>
-          <li>Buyers who already have a shortlist are forced through a discovery flow they don't need</li>
-        </ul>
-      </div>
-      <div class="context-col">
-        <h4>G2 Agentic Score — new proprietary metrics</h4>
-        <ul>
-          <li><strong>Task Completion Rate:</strong> % of workflows completed without human rescue (40% weight)</li>
-          <li><strong>Reliability &amp; Error Recovery:</strong> Behavior under failure; consistency over time (30%)</li>
-          <li><strong>Business Impact:</strong> Time-to-ROI and reviewer-reported outcome quality (30%)</li>
-          <li>Composite = G2 Agentic Score (0–100), collected from structured review questions</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Category Navigation Sub-variants -->
-  <div class="section-label">Category Navigation — 5 Approaches</div>
-  <div class="section-title">How do you present 15 use cases without overwhelming tabs?</div>
-  <p class="section-desc">The tabs on V1 break down once there are more than 5–6 categories. These five sub-variants explore different ways to present all 15 use cases as a discovery surface — from visual grids to search to a pinned category bar.</p>
-
-  <div class="variants" style="margin-bottom:56px;grid-template-columns:repeat(3,1fr);">
-
-    <!-- 1A -->
-    <a class="variant-card" href="./v1a-category-grid.html" style="display:none;">
-      <div class="variant-preview" style="background:linear-gradient(135deg,#f8f7ff,#f0eeff);">
-        <div style="width:100%;">
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;">
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:5px;padding:6px;display:flex;flex-direction:column;gap:3px;">
-              <div style="font-size:10px;">💬</div>
-              <div style="height:4px;background:#1a1a2e;border-radius:2px;width:80%;"></div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;width:60%;"></div>
-            </div>
-            <div style="background:white;border:1.5px solid #5746b2;border-radius:5px;padding:6px;display:flex;flex-direction:column;gap:3px;background:#f8f7ff;">
-              <div style="font-size:10px;">📬</div>
-              <div style="height:4px;background:#5746b2;border-radius:2px;width:80%;"></div>
-              <div style="height:3px;background:#ddd8f8;border-radius:2px;width:60%;"></div>
-            </div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:5px;padding:6px;display:flex;flex-direction:column;gap:3px;">
-              <div style="font-size:10px;">⚙️</div>
-              <div style="height:4px;background:#1a1a2e;border-radius:2px;width:80%;"></div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;width:60%;"></div>
-            </div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:5px;padding:6px;display:flex;flex-direction:column;gap:3px;">
-              <div style="font-size:10px;">✍️</div>
-              <div style="height:4px;background:#1a1a2e;border-radius:2px;width:80%;"></div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;width:60%;"></div>
-            </div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:5px;padding:6px;display:flex;flex-direction:column;gap:3px;">
-              <div style="font-size:10px;">🔍</div>
-              <div style="height:4px;background:#1a1a2e;border-radius:2px;width:80%;"></div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;width:60%;"></div>
-            </div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:5px;padding:6px;display:flex;flex-direction:column;gap:3px;">
-              <div style="font-size:10px;">📊</div>
-              <div style="height:4px;background:#1a1a2e;border-radius:2px;width:80%;"></div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;width:60%;"></div>
-            </div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:5px;padding:6px;display:flex;flex-direction:column;gap:3px;">
-              <div style="font-size:10px;">🖥️</div>
-              <div style="height:4px;background:#1a1a2e;border-radius:2px;width:80%;"></div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;width:60%;"></div>
-            </div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:5px;padding:6px;display:flex;flex-direction:column;gap:3px;">
-              <div style="font-size:10px;">👥</div>
-              <div style="height:4px;background:#1a1a2e;border-radius:2px;width:80%;"></div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;width:60%;"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="variant-body">
-        <div class="variant-tag">1A</div>
-        <div class="variant-title">Equal-Weight Grid</div>
-        <div class="variant-desc">All 15 categories presented as uniform tiles. No hierarchy, no judgment — every use case gets equal real estate. Fully scannable in one view.</div>
-        <ul class="variant-features">
-          <li>4-column grid, all categories visible without scrolling</li>
-          <li>Icon, name, description, product count per tile</li>
-          <li>Trending / Growing / Emerging badges signal market maturity</li>
-          <li>Simple — works well for buyers who know what they're looking for</li>
-        </ul>
-        <div class="variant-cta"><span>Open 1A →</span></div>
-      </div>
-    </a>
-
-    <!-- 1B -->
-    <a class="variant-card" href="./v1b-featured-grid.html" style="display:none;">
-      <div class="variant-preview" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);">
-        <div style="width:100%;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px;">
-            <div style="background:white;border:1.5px solid #e5e3f0;border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:4px;">
-              <div style="display:flex;align-items:center;gap:5px;">
-                <div style="font-size:11px;">💬</div>
-                <div style="height:5px;background:#1a1a2e;border-radius:2px;flex:1;"></div>
-              </div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;width:70%;"></div>
-              <div style="display:flex;gap:2px;margin-top:2px;">
-                <div style="width:12px;height:12px;border-radius:3px;background:#f0fdf4;border:1px solid #e5e3f0;"></div>
-                <div style="width:12px;height:12px;border-radius:3px;background:#ede9fe;border:1px solid #e5e3f0;"></div>
-                <div style="width:12px;height:12px;border-radius:3px;background:#fff3f0;border:1px solid #e5e3f0;"></div>
-              </div>
-            </div>
-            <div style="background:white;border:1.5px solid #e5e3f0;border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:4px;">
-              <div style="display:flex;align-items:center;gap:5px;">
-                <div style="font-size:11px;">📬</div>
-                <div style="height:5px;background:#1a1a2e;border-radius:2px;flex:1;"></div>
-              </div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              <div style="height:3px;background:#e5e3f0;border-radius:2px;width:70%;"></div>
-              <div style="display:flex;gap:2px;margin-top:2px;">
-                <div style="width:12px;height:12px;border-radius:3px;background:#0f172a;"></div>
-                <div style="width:12px;height:12px;border-radius:3px;background:#ede9fe;border:1px solid #e5e3f0;"></div>
-                <div style="width:12px;height:12px;border-radius:3px;background:#e0f2fe;border:1px solid #e5e3f0;"></div>
-              </div>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;">
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:4px;padding:5px;display:flex;align-items:center;gap:3px;">
-              <span style="font-size:9px;">🔍</span><div style="height:3px;background:#e5e3f0;border-radius:2px;flex:1;"></div>
-            </div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:4px;padding:5px;display:flex;align-items:center;gap:3px;">
-              <span style="font-size:9px;">📊</span><div style="height:3px;background:#e5e3f0;border-radius:2px;flex:1;"></div>
-            </div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:4px;padding:5px;display:flex;align-items:center;gap:3px;">
-              <span style="font-size:9px;">🖥️</span><div style="height:3px;background:#e5e3f0;border-radius:2px;flex:1;"></div>
-            </div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:4px;padding:5px;display:flex;align-items:center;gap:3px;">
-              <span style="font-size:9px;">👥</span><div style="height:3px;background:#e5e3f0;border-radius:2px;flex:1;"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="variant-body">
-        <div class="variant-tag">1B</div>
-        <div class="variant-title">Featured + Overflow</div>
-        <div class="variant-desc">Top 4 categories get large "hero" tiles with example product logos. The remaining 7 sit in a compact mid-tier grid. Emerging categories appear as minimal chips at the bottom.</div>
-        <ul class="variant-features">
-          <li>Large 2-column cards for the 4 biggest categories, with mini product logos</li>
-          <li>Compact grid for 7 growing categories</li>
-          <li>Chip row for 4 emerging categories</li>
-          <li>Visual hierarchy signals where the most buying activity is</li>
-        </ul>
-        <div class="variant-cta"><span>Open 1B →</span></div>
-      </div>
-    </a>
-
-    <!-- 1C -->
-    <a class="variant-card" href="./v1c-grouped-by-role.html" style="display:none;">
-      <div class="variant-preview" style="background:linear-gradient(135deg,#fff7ed,#fef3c7);">
-        <div style="width:100%;">
-          <div style="margin-bottom:7px;">
-            <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;padding-bottom:4px;border-bottom:1.5px solid #ffd5cc;">
-              <div style="font-size:10px;">🚀</div>
-              <div style="height:4px;background:#c2410c;border-radius:2px;width:80px;opacity:0.7;"></div>
-            </div>
-            <div style="display:flex;gap:3px;">
-              <div style="background:white;border:1px solid #ffd5cc;border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;gap:2px;flex:1;">
-                <span style="font-size:9px;">📬</span><div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              </div>
-              <div style="background:white;border:1px solid #ffd5cc;border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;gap:2px;flex:1;">
-                <span style="font-size:9px;">💬</span><div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              </div>
-              <div style="background:white;border:1px solid #ffd5cc;border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;gap:2px;flex:1;">
-                <span style="font-size:9px;">✍️</span><div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              </div>
-            </div>
-          </div>
-          <div style="margin-bottom:7px;">
-            <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;padding-bottom:4px;border-bottom:1.5px solid #bbf7d0;">
-              <div style="font-size:10px;">⚙️</div>
-              <div style="height:4px;background:#15803d;border-radius:2px;width:80px;opacity:0.7;"></div>
-            </div>
-            <div style="display:flex;gap:3px;">
-              <div style="background:white;border:1px solid #bbf7d0;border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;gap:2px;flex:1;">
-                <span style="font-size:9px;">💻</span><div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              </div>
-              <div style="background:white;border:1px solid #bbf7d0;border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;gap:2px;flex:1;">
-                <span style="font-size:9px;">🖥️</span><div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              </div>
-              <div style="background:white;border:1px solid #bbf7d0;border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;gap:2px;flex:1;">
-                <span style="font-size:9px;">🛡️</span><div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;padding-bottom:4px;border-bottom:1.5px solid #bfdbfe;">
-              <div style="font-size:10px;">🧠</div>
-              <div style="height:4px;background:#1d4ed8;border-radius:2px;width:80px;opacity:0.7;"></div>
-            </div>
-            <div style="display:flex;gap:3px;">
-              <div style="background:white;border:1px solid #bfdbfe;border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;gap:2px;flex:1;">
-                <span style="font-size:9px;">🔍</span><div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              </div>
-              <div style="background:white;border:1px solid #bfdbfe;border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;gap:2px;flex:1;">
-                <span style="font-size:9px;">📊</span><div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              </div>
-              <div style="background:white;border:1px solid #bfdbfe;border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;gap:2px;flex:1;">
-                <span style="font-size:9px;">👥</span><div style="height:3px;background:#e5e3f0;border-radius:2px;"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="variant-body">
-        <div class="variant-tag">1C</div>
-        <div class="variant-title">Grouped by Role</div>
-        <div class="variant-desc">Categories organized by who uses them: Revenue &amp; Customer, Engineering &amp; Security, Knowledge &amp; Ops, Specialized Functions. Buyers self-identify by team, not use case label.</div>
-        <ul class="variant-features">
-          <li>4 role groups, each color-coded</li>
-          <li>Buyers navigate by team identity, not technical vocabulary</li>
-          <li>Emerging categories still visible, grouped under "Specialized Functions"</li>
-          <li>Total product count per group gives a sense of category depth</li>
-        </ul>
-        <div class="variant-cta"><span>Open 1C →</span></div>
-      </div>
-    </a>
-
-    <!-- V2-Search -->
-    <a class="variant-card" href="./v2-search.html">
-      <div class="variant-preview" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);">
-        <div style="width:100%;">
-          <!-- Search bar hero -->
-          <div style="background:white;border:1.5px solid #e5e3f0;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8b8fa8" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <div style="height:6px;background:#e5e3f0;border-radius:3px;flex:1;"></div>
-          </div>
-          <!-- Query chips -->
-          <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;">
-            <div style="background:#f0eeff;border:1px solid #c4bbf0;border-radius:20px;padding:3px 8px;font-size:8px;font-weight:700;color:#5746b2;">book meetings</div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:20px;padding:3px 8px;font-size:8px;font-weight:600;color:#8b8fa8;">SDR outbound</div>
-            <div style="background:white;border:1px solid #e5e3f0;border-radius:20px;padding:3px 8px;font-size:8px;font-weight:600;color:#8b8fa8;">support tickets</div>
-          </div>
-          <!-- Result panel -->
-          <div style="background:white;border:1.5px solid #5746b2;border-radius:8px;padding:8px 10px;">
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-              <span style="font-size:11px;">📬</span>
-              <div style="height:5px;background:#1a1a2e;border-radius:2px;width:70px;"></div>
-              <div style="height:5px;background:#5746b2;border-radius:10px;width:28px;margin-left:auto;"></div>
-            </div>
-            <div style="display:flex;gap:4px;">
-              <div style="flex:1;background:#f8f7ff;border:1px solid #e5e3f0;border-radius:5px;height:22px;"></div>
-              <div style="flex:1;background:#f8f7ff;border:1px solid #e5e3f0;border-radius:5px;height:22px;"></div>
-              <div style="flex:1;background:#f8f7ff;border:1px solid #e5e3f0;border-radius:5px;height:22px;"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="variant-body">
-        <div class="variant-tag">2 · Search</div>
-        <div class="variant-title">Search / Type-ahead</div>
-        <div class="variant-desc">A large search bar is the hero. Buyers describe what they need in natural language — or click a pre-baked query chip. Matching category + top products appear instantly.</div>
-        <ul class="variant-features">
-          <li>Full-width search hero with popular query chips</li>
-          <li>Live keyword-matching shows category + top 3 products</li>
-          <li>Cold state shows a browse grid as a fallback</li>
-          <li>Best for explorers who know their problem but not the product name</li>
-        </ul>
-        <div class="variant-cta"><span>Open Search →</span></div>
-      </div>
-    </a>
-
-    <!-- V4-Tabs-Subnav -->
-    <a class="variant-card" href="./v4-tabs-subnav.html">
-      <div class="variant-preview" style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);">
-        <div style="width:100%;">
-          <!-- Pinned category bar -->
-          <div style="background:white;border:1px solid #e5e3f0;border-radius:6px;padding:5px 8px;display:flex;align-items:center;gap:5px;margin-bottom:6px;">
-            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:22px;"></div>
-            <div style="height:16px;width:1px;background:#e5e3f0;"></div>
-            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:30px;"></div>
-            <div style="background:#f0eeff;border-radius:3px;padding:2px 5px;display:flex;align-items:center;gap:2px;">
-              <span style="font-size:8px;">📬</span>
-              <div style="height:4px;background:#5746b2;border-radius:2px;width:24px;"></div>
-            </div>
-            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:26px;"></div>
-            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:22px;"></div>
-          </div>
-          <!-- Category-scoped header with sub-tabs -->
-          <div style="background:white;border:1px solid #e5e3f0;border-radius:6px;padding:6px 8px;margin-bottom:5px;">
-            <div style="height:5px;background:#1a1a2e;border-radius:2px;width:110px;margin-bottom:3px;"></div>
-            <div style="height:3px;background:#e5e3f0;border-radius:2px;width:80px;margin-bottom:6px;"></div>
-            <!-- Sub-tabs -->
-            <div style="display:flex;gap:6px;border-top:1px solid #f0eeff;padding-top:5px;">
-              <div style="font-size:8px;font-weight:800;color:#1a1a2e;border-bottom:2px solid #1a1a2e;padding-bottom:3px;">All</div>
-              <div style="font-size:8px;font-weight:600;color:#8b8fa8;padding-bottom:3px;">AI-Native</div>
-              <div style="font-size:8px;font-weight:600;color:#8b8fa8;padding-bottom:3px;">Enhanced</div>
-              <div style="font-size:8px;font-weight:600;color:#8b8fa8;padding-bottom:3px;">Voice</div>
-            </div>
-          </div>
-          <!-- Mini product card -->
-          <div style="background:white;border:1px solid #e5e3f0;border-radius:6px;padding:6px 8px;display:flex;gap:6px;align-items:flex-start;">
-            <div style="width:16px;height:16px;background:#0f172a;border-radius:3px;flex-shrink:0;"></div>
-            <div style="flex:1;">
-              <div style="height:4px;background:#1a1a2e;border-radius:2px;width:60px;margin-bottom:3px;"></div>
-              <div style="background:#e5e3f0;height:3px;border-radius:2px;width:100%;margin-bottom:3px;"></div>
-              <div style="background:#f0eeff;border-radius:3px;padding:3px 5px;">
-                <div style="display:flex;gap:2px;">
-                  <div style="flex:1;background:#ddd8f8;border-radius:2px;height:8px;"></div>
-                  <div style="flex:1;background:#ddd8f8;border-radius:2px;height:8px;"></div>
-                  <div style="flex:1;background:#ddd8f8;border-radius:2px;height:8px;"></div>
-                </div>
-              </div>
-            </div>
-            <div style="width:16px;height:20px;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);background:linear-gradient(160deg,#5746b2,#7c3aed);flex-shrink:0;"></div>
-          </div>
-        </div>
-      </div>
-      <div class="variant-body">
-        <div class="variant-tag">4 · Sub-nav</div>
-        <div class="variant-title">Tabs as Sub-navigation</div>
-        <div class="variant-desc">Category selection lives in a pinned horizontal bar at the top of the page. Tabs are scoped to sub-filtering <em>within</em> a category — no tab overflow problem.</div>
-        <ul class="variant-features">
-          <li>Sticky category bar handles top-level navigation across all 15 use cases</li>
-          <li>Sub-tabs filter within a category (e.g. AI-Native vs AI-Enhanced)</li>
-          <li>Breadcrumb always shows current position in the hierarchy</li>
-          <li>Sidebar + sort bar for deeper filtering within the active category</li>
-        </ul>
-        <div class="variant-cta"><span>Open Sub-nav →</span></div>
-      </div>
-    </a>
-
-  </div>
-
-  <!-- Variants -->
-  <div class="section-label">Product List Variants</div>
-  <div class="section-title">Three approaches to the product list</div>
-  <p class="section-desc">Each variant takes a different primary entry point, but all share the same product data, G2 Agentic Metrics, and design language. They're not mutually exclusive — elements can be combined.</p>
+  <div class="section-label">5 Variants</div>
+  <div class="section-title">AI Agents — SDR &amp; Outbound</div>
+  <p class="section-desc">Each variant takes a different primary entry point. All share the same product data, G2 Agentic Metrics, and design language.</p>
 
   <div class="variants">
 
     <!-- V1 -->
     <a class="variant-card" href="./v1-use-case-first.html">
       <div class="variant-preview" style="background:linear-gradient(135deg,#f8f7ff,#f0eeff);">
-        <!-- Mini card mockup -->
         <div style="width:100%;">
-          <!-- Tabs mockup -->
           <div style="display:flex;gap:3px;margin-bottom:8px;">
             <div style="background:#5746b2;color:white;border-radius:4px 4px 0 0;padding:4px 8px;font-size:9px;font-weight:700;">SDR &amp; Outbound</div>
             <div style="background:#e5e3f0;border-radius:4px 4px 0 0;padding:4px 8px;font-size:9px;color:#8b8fa8;font-weight:600;">Support</div>
@@ -471,18 +123,17 @@
       <div class="variant-body">
         <div class="variant-tag">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
-          Variant 1
+          V1
         </div>
         <div class="variant-title">Use Case First</div>
-        <div class="variant-desc">The entire experience is organized around what you're trying to do. Use case tabs are the primary navigation. AI-specific filters replace the generic sidebar.</div>
+        <div class="variant-desc">Use case tabs are the primary nav. Buyers pick what they're trying to do and get a tailored product list with AI-specific filters.</div>
         <ul class="variant-features">
           <li>Use case tabs (SDR, Support, DevOps, Research, Ops)</li>
-          <li>AI-specific sidebar filters (Autonomy, Time-to-ROI, Completion Rate)</li>
-          <li>Full G2 Agentic Metrics panel on every product card</li>
-          <li>Works for all buyer modes without forcing a wizard</li>
+          <li>AI-specific sidebar (Autonomy, Time-to-ROI, Completion Rate)</li>
+          <li>G2 Agentic Metrics panel on every product card</li>
         </ul>
         <div class="variant-cta">
-          <span>Open Variant 1 →</span>
+          <span>Open V1 →</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
       </div>
@@ -517,18 +168,17 @@
       <div class="variant-body">
         <div class="variant-tag">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-          Variant 2
+          V2
         </div>
         <div class="variant-title">Guided Wizard</div>
-        <div class="variant-desc">A 3-step guided flow surfaces personalized top matches before the full product list. Skippable at any step — works for both explorers and shortlisters.</div>
+        <div class="variant-desc">A 3-step guided flow surfaces personalized top matches before the full product list. Skippable at any step.</div>
         <ul class="variant-features">
-          <li>3-step wizard: use case → autonomy preference → tech stack</li>
-          <li>"Your Top Matches" section with AI-generated match reasoning</li>
-          <li>Full product list below with compact comparison cards</li>
+          <li>Use case → autonomy preference → tech stack</li>
+          <li>"Your Top Matches" with AI-generated match reasoning</li>
           <li>Wizard collapses into a summary chip after completion</li>
         </ul>
         <div class="variant-cta">
-          <span>Open Variant 2 →</span>
+          <span>Open V2 →</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
       </div>
@@ -576,51 +226,123 @@
       <div class="variant-body">
         <div class="variant-tag">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M3 12h18M3 18h18M9 3v18M15 3v18"/></svg>
-          Variant 3
+          V3
         </div>
-        <div class="variant-title">Smart Comparison Table</div>
-        <div class="variant-desc">The primary UI is a structured comparison table. G2 Agentic Score columns replace the traditional list, letting buyers sort on the dimensions that matter to them.</div>
+        <div class="variant-title">Comparison Table</div>
+        <div class="variant-desc">A sortable comparison table with G2 Agentic Score columns. Buyers sort on the dimensions that matter to them, with a card view toggle.</div>
         <ul class="variant-features">
-          <li>Table-first with sortable G2 Agentic Score columns</li>
-          <li>Card / Compare view toggle</li>
-          <li>Filter chips for autonomy level and integrations</li>
-          <li>Score breakdown (Performance / Reliability / Impact) visible inline</li>
+          <li>Sortable columns (Score, Completion, Autonomy, Ramp)</li>
+          <li>Card / table view toggle</li>
+          <li>Score breakdown (Performance · Reliability · Impact) inline</li>
         </ul>
         <div class="variant-cta">
-          <span>Open Variant 3 →</span>
+          <span>Open V3 →</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
       </div>
     </a>
 
-  </div>
+    <!-- V4 -->
+    <a class="variant-card" href="./v4-tabs-subnav.html">
+      <div class="variant-preview" style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);">
+        <div style="width:100%;">
+          <div style="background:white;border:1px solid #e5e3f0;border-radius:6px;padding:5px 8px;display:flex;align-items:center;gap:5px;margin-bottom:6px;">
+            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:22px;"></div>
+            <div style="height:16px;width:1px;background:#e5e3f0;"></div>
+            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:30px;"></div>
+            <div style="background:#f0eeff;border-radius:3px;padding:2px 5px;display:flex;align-items:center;gap:2px;">
+              <span style="font-size:8px;">📬</span>
+              <div style="height:4px;background:#5746b2;border-radius:2px;width:24px;"></div>
+            </div>
+            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:26px;"></div>
+            <div style="height:4px;background:#e5e3f0;border-radius:2px;width:22px;"></div>
+          </div>
+          <div style="background:white;border:1px solid #e5e3f0;border-radius:6px;padding:6px 8px;margin-bottom:5px;">
+            <div style="height:5px;background:#1a1a2e;border-radius:2px;width:110px;margin-bottom:3px;"></div>
+            <div style="height:3px;background:#e5e3f0;border-radius:2px;width:80px;margin-bottom:6px;"></div>
+            <div style="display:flex;gap:6px;border-top:1px solid #f0eeff;padding-top:5px;">
+              <div style="font-size:8px;font-weight:800;color:#1a1a2e;border-bottom:2px solid #1a1a2e;padding-bottom:3px;">All</div>
+              <div style="font-size:8px;font-weight:600;color:#8b8fa8;padding-bottom:3px;">AI-Native</div>
+              <div style="font-size:8px;font-weight:600;color:#8b8fa8;padding-bottom:3px;">Enhanced</div>
+              <div style="font-size:8px;font-weight:600;color:#8b8fa8;padding-bottom:3px;">Voice</div>
+            </div>
+          </div>
+          <div style="background:white;border:1px solid #e5e3f0;border-radius:6px;padding:6px 8px;display:flex;gap:6px;align-items:flex-start;">
+            <div style="width:16px;height:16px;background:#0f172a;border-radius:3px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="height:4px;background:#1a1a2e;border-radius:2px;width:60px;margin-bottom:3px;"></div>
+              <div style="background:#e5e3f0;height:3px;border-radius:2px;width:100%;margin-bottom:3px;"></div>
+              <div style="background:#f0eeff;border-radius:3px;padding:3px 5px;">
+                <div style="display:flex;gap:2px;">
+                  <div style="flex:1;background:#ddd8f8;border-radius:2px;height:8px;"></div>
+                  <div style="flex:1;background:#ddd8f8;border-radius:2px;height:8px;"></div>
+                  <div style="flex:1;background:#ddd8f8;border-radius:2px;height:8px;"></div>
+                </div>
+              </div>
+            </div>
+            <div style="width:16px;height:20px;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);background:linear-gradient(160deg,#5746b2,#7c3aed);flex-shrink:0;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-body">
+        <div class="variant-tag">V4</div>
+        <div class="variant-title">Tabs as Sub-navigation</div>
+        <div class="variant-desc">Category selection lives in a pinned horizontal bar. Page tabs filter within the active category — no overflow problem.</div>
+        <ul class="variant-features">
+          <li>Sticky category bar handles all 15 use cases</li>
+          <li>Sub-tabs filter by agent type (AI-Native, Enhanced, Voice)</li>
+          <li>Sidebar + sort bar for deeper filtering within the active category</li>
+        </ul>
+        <div class="variant-cta">
+          <span>Open V4 →</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
 
-  <!-- Research context note -->
-  <div class="context-box">
-    <h3>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5746b2" stroke-width="2.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-      Research &amp; design notes
-    </h3>
-    <div class="context-grid">
-      <div class="context-col">
-        <h4>Use case: AI SDR &amp; Outbound Agents</h4>
-        <ul>
-          <li>A clean, specific, emerging category — distinct from general-purpose AI and established automation tools</li>
-          <li>Products: 11x (Alice), Artisan (Ava), AiSDR, Salesforge (Frank), Reply.io (Jason AI), Regie.ai</li>
-          <li>All product data is illustrative for prototype purposes — not sourced from live G2 reviews</li>
-          <li>G2 Agentic Score methodology is a design proposal, not an active G2 metric</li>
-        </ul>
+    <!-- V5 -->
+    <a class="variant-card" href="./v2-search.html">
+      <div class="variant-preview" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);">
+        <div style="width:100%;">
+          <div style="background:white;border:1.5px solid #e5e3f0;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8b8fa8" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <div style="height:6px;background:#e5e3f0;border-radius:3px;flex:1;"></div>
+          </div>
+          <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;">
+            <div style="background:#f0eeff;border:1px solid #c4bbf0;border-radius:20px;padding:3px 8px;font-size:8px;font-weight:700;color:#5746b2;">book meetings</div>
+            <div style="background:white;border:1px solid #e5e3f0;border-radius:20px;padding:3px 8px;font-size:8px;font-weight:600;color:#8b8fa8;">SDR outbound</div>
+            <div style="background:white;border:1px solid #e5e3f0;border-radius:20px;padding:3px 8px;font-size:8px;font-weight:600;color:#8b8fa8;">support tickets</div>
+          </div>
+          <div style="background:white;border:1.5px solid #5746b2;border-radius:8px;padding:8px 10px;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+              <span style="font-size:11px;">📬</span>
+              <div style="height:5px;background:#1a1a2e;border-radius:2px;width:70px;"></div>
+              <div style="height:5px;background:#5746b2;border-radius:10px;width:28px;margin-left:auto;"></div>
+            </div>
+            <div style="display:flex;gap:4px;">
+              <div style="flex:1;background:#f8f7ff;border:1px solid #e5e3f0;border-radius:5px;height:22px;"></div>
+              <div style="flex:1;background:#f8f7ff;border:1px solid #e5e3f0;border-radius:5px;height:22px;"></div>
+              <div style="flex:1;background:#f8f7ff;border:1px solid #e5e3f0;border-radius:5px;height:22px;"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="context-col">
-        <h4>Key buyer insights (from research)</h4>
-        <ul>
-          <li>95% of buyers choose from their Day One shortlist — most are validating, not discovering</li>
-          <li>Buyers trust independent review data; vendor-provided metrics rank lowest in credibility</li>
-          <li>Human-in-loop deployments outperform fully autonomous ones 2:1 for ROI — autonomy level is a key purchase criterion</li>
-          <li>Reliability (not intelligence) is the #1 production concern — completion rate &gt; benchmark score</li>
+      <div class="variant-body">
+        <div class="variant-tag">V5</div>
+        <div class="variant-title">Search / Type-ahead</div>
+        <div class="variant-desc">A large search bar is the hero. Describe what you need or pick a query chip — matching category and top products appear instantly.</div>
+        <ul class="variant-features">
+          <li>Full-width search with popular query chips</li>
+          <li>Instant keyword-matching to category + top 3 products</li>
+          <li>Browse grid as fallback for cold state</li>
         </ul>
+        <div class="variant-cta">
+          <span>Open V5 →</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
       </div>
-    </div>
+    </a>
+
   </div>
 
 </main>

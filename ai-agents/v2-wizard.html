@@ -214,7 +214,7 @@
     .matches-header p { font-size: 13px; color: #49495a; }
     .match-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
     .match-card { background: white; border: 2px solid #5746b2; border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
-    .match-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #5746b2, #7c3aed); }
+    .match-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #5746b2; }
     .match-rank-tag { position: absolute; top: 14px; right: 14px; background: #5746b2; color: white; font-size: 10px; font-weight: 700; border-radius: 20px; padding: 3px 8px; text-transform: uppercase; letter-spacing: 0.05em; }
     .match-card-logo { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; margin-bottom: 10px; }
     .match-card-name { font-size: 16px; font-weight: 800; margin-bottom: 2px; }
@@ -225,8 +225,8 @@
     .match-scores { display: flex; gap: 8px; margin-bottom: 14px; }
     .match-score-pill { background: #f0eeff; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-weight: 700; color: #5746b2; }
     .match-score-pill span { font-size: 10px; font-weight: 500; color: #8b8fa8; display: block; }
-    .btn-match-demo { width: 100%; background: #ff492c; color: white; border: none; border-radius: 7px; padding: 9px; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
-    .btn-match-demo:hover { background: #e03d22; }
+    .btn-match-demo { width: 100%; background: #5746b2; color: white; border: none; border-radius: 7px; padding: 9px; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .btn-match-demo:hover { background: #4535a0; }
     .section-divider { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
     .section-divider h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #8b8fa8; white-space: nowrap; }
     .section-divider-line { flex: 1; height: 1px; background: #e5e3f0; }
@@ -245,11 +245,11 @@
     .compact-actions { display: flex; gap: 8px; flex-shrink: 0; }
     .btn-sm-view { background: white; border: 1.5px solid #e5e3f0; border-radius: 6px; padding: 6px 12px; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; color: #49495a; }
     .btn-sm-view:hover { border-color: #5746b2; color: #5746b2; }
-    .g2-ai-hex-mini { width: 38px; height: 44px; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); background: linear-gradient(160deg, #5746b2 0%, #7c3aed 100%); display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+    .g2-ai-hex-mini { width: 38px; height: 38px; border-radius: 50%; background: #5746b2; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
     .g2-ai-hex-mini .snum { font-size: 13px; font-weight: 800; }
     .g2-grid-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; }
     .g2-grid-badge.leader { background: #fff3f0; color: #ff492c; border: 1px solid #ffd5cc; }
-    .g2-grid-badge.high-performer { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .g2-grid-badge.high-performer { background: #f0eeff; color: #5746b2; border: 1px solid #ddd8f8; }
     .g2-grid-badge.niche { background: #f5f4fb; color: #5746b2; border: 1px solid #ddd8f8; }
   </style>
 </head>
@@ -342,12 +342,12 @@
       <div style="margin-bottom:20px;">
         <div class="starters-label">Or start with a common use case</div>
         <div class="starters-row">
-          <button class="starter-chip" onclick="useStarter(this, 'Automatically follow up with sales leads and book meetings', 'SDR &amp; Outbound')">📬 Outbound sales</button>
-          <button class="starter-chip" onclick="useStarter(this, 'Resolve customer support tickets and route escalations automatically', 'Customer Support')">💬 Customer support</button>
-          <button class="starter-chip" onclick="useStarter(this, 'Review code, triage bugs, and automate testing workflows', 'Software Engineering')">⚙️ Code &amp; engineering</button>
-          <button class="starter-chip" onclick="useStarter(this, 'Research competitors and summarize market intelligence reports', 'Research &amp; Intelligence')">🔍 Research &amp; intel</button>
-          <button class="starter-chip" onclick="useStarter(this, 'Automate invoice processing and expense management', 'Finance &amp; Accounting')">💰 Finance ops</button>
-          <button class="starter-chip" onclick="useStarter(this, 'Source and screen job candidates, automate outreach', 'Recruiting')">👥 Recruiting</button>
+          <button class="starter-chip" onclick="useStarter(this, 'Automatically follow up with sales leads and book meetings', 'SDR &amp; Outbound')">Outbound sales</button>
+          <button class="starter-chip" onclick="useStarter(this, 'Resolve customer support tickets and route escalations automatically', 'Customer Support')">Customer support</button>
+          <button class="starter-chip" onclick="useStarter(this, 'Review code, triage bugs, and automate testing workflows', 'Software Engineering')">Code &amp; engineering</button>
+          <button class="starter-chip" onclick="useStarter(this, 'Research competitors and summarize market intelligence reports', 'Research &amp; Intelligence')">Research &amp; intel</button>
+          <button class="starter-chip" onclick="useStarter(this, 'Automate invoice processing and expense management', 'Finance &amp; Accounting')">Finance ops</button>
+          <button class="starter-chip" onclick="useStarter(this, 'Source and screen job candidates, automate outreach', 'Recruiting')">Recruiting</button>
         </div>
       </div>
 
@@ -436,7 +436,7 @@
         <button class="btn-back" onclick="goStep(2)">← Back</button>
         <div style="display:flex;align-items:center;gap:16px;">
           <button class="wizard-skip" onclick="skipWizard()">Skip to results</button>
-          <button class="btn-next" onclick="showResults()" style="background:#ff492c;">
+          <button class="btn-next" onclick="showResults()">
             Show My Matches
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
@@ -473,7 +473,7 @@
     <div class="match-cards">
       <div class="match-card">
         <span class="match-rank-tag">Best Match</span>
-        <div class="match-card-logo" style="background:#0f172a;color:white;font-size:11px;">11x</div>
+        <div class="match-card-logo" style="background:#f0eeff;color:#5746b2;font-size:11px;">11x</div>
         <div class="match-card-name">11x</div>
         <div class="match-card-tagline">Alice — fully autonomous AI SDR</div>
         <div class="match-why">
@@ -488,9 +488,9 @@
         <button class="btn-match-demo">Get a Demo</button>
       </div>
 
-      <div class="match-card" style="border-color:#7c3aed;">
-        <div class="match-rank-tag" style="background:#7c3aed;">Strong Fit</div>
-        <div class="match-card-logo" style="background:#e0f2fe;color:#0369a1;font-size:12px;">Ai</div>
+      <div class="match-card">
+        <div class="match-rank-tag">Strong Fit</div>
+        <div class="match-card-logo" style="background:#f0eeff;color:#5746b2;font-size:12px;">Ai</div>
         <div class="match-card-name">AiSDR</div>
         <div class="match-card-tagline">Hyper-personalized outbound at scale</div>
         <div class="match-why">
@@ -502,12 +502,12 @@
           <div class="match-score-pill"><span>Completion</span>84%</div>
           <div class="match-score-pill"><span>Ramp</span>6d</div>
         </div>
-        <button class="btn-match-demo" style="background:#7c3aed;">Get a Demo</button>
+        <button class="btn-match-demo">Get a Demo</button>
       </div>
 
-      <div class="match-card" style="border-color:#e5e3f0;">
-        <div class="match-rank-tag" style="background:#16a34a;">Also Consider</div>
-        <div class="match-card-logo" style="background:#ede9fe;color:#7c3aed;font-size:16px;font-weight:900;">A</div>
+      <div class="match-card">
+        <div class="match-rank-tag" style="background:#8b8fa8;">Also Consider</div>
+        <div class="match-card-logo" style="background:#f0eeff;color:#5746b2;font-size:16px;font-weight:900;">A</div>
         <div class="match-card-name">Artisan</div>
         <div class="match-card-tagline">Ava — multichannel outbound agent</div>
         <div class="match-why">
@@ -519,7 +519,7 @@
           <div class="match-score-pill"><span>Completion</span>87%</div>
           <div class="match-score-pill"><span>Ramp</span>8d</div>
         </div>
-        <button class="btn-match-demo" style="background:#16a34a;">Get a Demo</button>
+        <button class="btn-match-demo">Get a Demo</button>
       </div>
     </div>
 
@@ -530,7 +530,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#0f172a;color:white;font-size:10px;font-weight:900;">11x</div>
+      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:10px;font-weight:900;">11x</div>
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">11x</span><span class="g2-grid-badge leader">Leader</span></div>
         <div class="compact-desc">Alice — fully autonomous AI SDR for outbound prospecting and meeting booking</div>
@@ -545,7 +545,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#ede9fe;color:#7c3aed;font-size:14px;font-weight:900;">A</div>
+      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:14px;font-weight:900;">A</div>
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">Artisan</span><span class="g2-grid-badge high-performer">High Performer</span></div>
         <div class="compact-desc">Ava — multichannel outbound including email and LinkedIn sequencing</div>
@@ -560,7 +560,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#e0f2fe;color:#0369a1;font-size:11px;font-weight:900;">Ai</div>
+      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:11px;font-weight:900;">Ai</div>
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">AiSDR</span><span class="g2-grid-badge high-performer">High Performer</span></div>
         <div class="compact-desc">Hyper-personalized sequences driven by LinkedIn and CRM signals</div>
@@ -575,7 +575,7 @@
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#fef3c7;color:#b45309;font-size:10px;font-weight:900;">SF</div>
+      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:10px;font-weight:900;">SF</div>
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">Salesforge</span><span class="g2-grid-badge niche">Niche</span></div>
         <div class="compact-desc">Frank — volume cold email agent focused on deliverability and inbox placement</div>
@@ -585,12 +585,12 @@
         <div class="compact-metric"><div class="compact-metric-val">14d</div><div class="compact-metric-label">Ramp</div></div>
         <div class="compact-metric"><div class="compact-stars">★★★★</div><div class="compact-metric-label">4.3 · 29</div></div>
       </div>
-      <div class="g2-ai-hex-mini" style="background:linear-gradient(160deg,#6b7280,#9ca3af);"><span class="snum">71</span></div>
+      <div class="g2-ai-hex-mini" style="background:#9ca3af;"><span class="snum">71</span></div>
       <div class="compact-actions"><button class="btn-sm-view">View</button></div>
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#dcfce7;color:#16a34a;font-size:14px;font-weight:900;">R</div>
+      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:14px;font-weight:900;">R</div>
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">Reply.io</span><span class="g2-grid-badge leader">Leader</span></div>
         <div class="compact-desc">Jason AI — SDR agent built into a mature, widely adopted outbound platform</div>
@@ -600,12 +600,12 @@
         <div class="compact-metric"><div class="compact-metric-val">5d</div><div class="compact-metric-label">Ramp</div></div>
         <div class="compact-metric"><div class="compact-stars">★★★★★</div><div class="compact-metric-label">4.6 · 142</div></div>
       </div>
-      <div class="g2-ai-hex-mini" style="background:linear-gradient(160deg,#6b7280,#9ca3af);"><span class="snum">68</span></div>
+      <div class="g2-ai-hex-mini" style="background:#9ca3af;"><span class="snum">68</span></div>
       <div class="compact-actions"><button class="btn-sm-view">View</button></div>
     </div>
 
     <div class="compact-card">
-      <div class="compact-logo" style="background:#fee2e2;color:#dc2626;font-size:12px;font-weight:900;">Re</div>
+      <div class="compact-logo" style="background:#f0eeff;color:#5746b2;font-size:12px;font-weight:900;">Re</div>
       <div class="compact-info">
         <div class="compact-name-row"><span class="compact-name">Regie.ai</span><span class="g2-grid-badge niche">Niche</span></div>
         <div class="compact-desc">AI-native prospecting sequences layered into your existing Outreach or Salesloft stack</div>
@@ -615,7 +615,7 @@
         <div class="compact-metric"><div class="compact-metric-val">10d</div><div class="compact-metric-label">Ramp</div></div>
         <div class="compact-metric"><div class="compact-stars">★★★★</div><div class="compact-metric-label">4.2 · 22</div></div>
       </div>
-      <div class="g2-ai-hex-mini" style="background:linear-gradient(160deg,#6b7280,#9ca3af);"><span class="snum">65</span></div>
+      <div class="g2-ai-hex-mini" style="background:#9ca3af;"><span class="snum">65</span></div>
       <div class="compact-actions"><button class="btn-sm-view">View</button></div>
     </div>
 

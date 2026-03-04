@@ -54,14 +54,14 @@
     .sort-icon.asc { color: #5746b2; }
 
     /* G2 AI Score column header */
-    .th-ai-score { background: linear-gradient(135deg, #f8f7ff, #f0eeff); }
+    .th-ai-score { background: #f8f7ff; }
     .th-ai-score .th-inner { flex-direction: column; align-items: flex-start; gap: 2px; }
 
     /* Rows */
     .comparison-table tbody tr { border-bottom: 1px solid #f0eeff; transition: background 0.1s; }
     .comparison-table tbody tr:last-child { border-bottom: none; }
     .comparison-table tbody tr:hover { background: #faf9ff; }
-    .comparison-table tbody tr.top-match { background: linear-gradient(90deg, #faf9ff 0%, white 100%); }
+    .comparison-table tbody tr.top-match { background: #faf9ff; }
     .comparison-table tbody tr.top-match td:first-child { border-left: 3px solid #5746b2; }
 
     .comparison-table td { padding: 14px 16px; vertical-align: middle; border-bottom: 1px solid #f0eeff; }
@@ -77,21 +77,21 @@
     /* G2 AI Score cell */
     .score-cell { display: flex; align-items: center; gap: 8px; }
     .score-hex {
-      width: 42px; height: 48px;
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      width: 42px; height: 42px;
+      border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       color: white; font-size: 14px; font-weight: 800; flex-shrink: 0;
     }
-    .score-hex.top { background: linear-gradient(160deg, #5746b2, #7c3aed); }
-    .score-hex.mid { background: linear-gradient(160deg, #7c8fa8, #9ca3af); }
+    .score-hex.top { background: #5746b2; }
+    .score-hex.mid { background: #9ca3af; }
 
     /* Completion cell */
     .completion-cell { display: flex; flex-direction: column; gap: 4px; }
     .completion-num { font-size: 15px; font-weight: 800; }
     .completion-bar-track { width: 80px; height: 5px; background: #e5e3f0; border-radius: 3px; overflow: hidden; }
     .completion-bar-fill { height: 100%; border-radius: 3px; }
-    .bar-high { background: linear-gradient(90deg, #5746b2, #7c3aed); }
-    .bar-mid { background: linear-gradient(90deg, #f59e0b, #d97706); }
+    .bar-high { background: #5746b2; }
+    .bar-mid { background: #d97706; }
 
     /* Autonomy cell */
     .autonomy-cell { }
@@ -106,7 +106,7 @@
     .ramp-val { font-size: 15px; font-weight: 800; }
     .ramp-label { font-size: 11px; color: #8b8fa8; }
     .ramp-badge { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; margin-top: 2px; }
-    .ramp-fast { background: #f0fdf4; color: #16a34a; }
+    .ramp-fast { background: #f0eeff; color: #5746b2; }
     .ramp-slow { background: #fff7ed; color: #ea580c; }
 
     /* ROI cell */
@@ -122,8 +122,8 @@
 
     /* CTA cell */
     .cta-cell { display: flex; flex-direction: column; gap: 6px; }
-    .btn-demo-sm { background: #ff492c; color: white; border: none; border-radius: 6px; padding: 6px 14px; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
-    .btn-demo-sm:hover { background: #e03d22; }
+    .btn-demo-sm { background: #5746b2; color: white; border: none; border-radius: 6px; padding: 6px 14px; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .btn-demo-sm:hover { background: #4535a0; }
     .btn-profile-sm { background: white; color: #5746b2; border: 1.5px solid #5746b2; border-radius: 6px; padding: 6px 14px; font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
     .btn-profile-sm:hover { background: #f0eeff; }
 
@@ -136,7 +136,7 @@
 
     .g2-grid-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; }
     .g2-grid-badge.leader { background: #fff3f0; color: #ff492c; border: 1px solid #ffd5cc; }
-    .g2-grid-badge.high-performer { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .g2-grid-badge.high-performer { background: #f0eeff; color: #5746b2; border: 1px solid #ddd8f8; }
     .g2-grid-badge.niche { background: #f5f4fb; color: #5746b2; border: 1px solid #ddd8f8; }
 
     /* ── Score breakdown tooltip ── */
@@ -203,8 +203,8 @@
     <div class="score-legend-items">
       <span style="font-size:12px;color:#49495a;">Composite of:</span>
       <div class="legend-item"><div class="legend-dot" style="background:#5746b2;"></div> Task Completion Rate (40%)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#7c3aed;"></div> Reliability &amp; Error Recovery (30%)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#a78bfa;"></div> Business Impact &amp; ROI (30%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#8b8fa8;"></div> Reliability &amp; Error Recovery (30%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c4bbf0;"></div> Business Impact &amp; ROI (30%)</div>
     </div>
     <span style="font-size:11px;color:#8b8fa8;margin-left:auto;">All data sourced from verified G2 reviews</span>
   </div>
@@ -247,7 +247,7 @@
       <tr class="top-match">
         <td>
           <div class="product-cell">
-            <div class="product-cell-logo" style="background:#0f172a;color:white;font-size:10px;">11x</div>
+            <div class="product-cell-logo" style="background:#f0eeff;color:#5746b2;font-size:10px;">11x</div>
             <div class="product-cell-info">
               <div class="name">11x <span class="best-tag">TOP</span></div>
               <div class="tagline">Alice — AI SDR</div>
@@ -307,7 +307,7 @@
       <tr>
         <td>
           <div class="product-cell">
-            <div class="product-cell-logo" style="background:#ede9fe;color:#7c3aed;font-size:16px;font-weight:900;">A</div>
+            <div class="product-cell-logo" style="background:#f0eeff;color:#5746b2;font-size:16px;font-weight:900;">A</div>
             <div class="product-cell-info">
               <div class="name">Artisan</div>
               <div class="tagline">Ava — multichannel AI SDR</div>
@@ -317,7 +317,7 @@
         </td>
         <td>
           <div class="score-cell">
-            <div class="score-hex top" style="background:linear-gradient(160deg,#6366f1,#818cf8);">79</div>
+            <div class="score-hex top">79</div>
             <div>
               <div class="score-breakdown">Performance 32<br>Reliability 24<br>Impact 23</div>
             </div>
@@ -367,7 +367,7 @@
       <tr>
         <td>
           <div class="product-cell">
-            <div class="product-cell-logo" style="background:#e0f2fe;color:#0369a1;font-size:11px;">Ai</div>
+            <div class="product-cell-logo" style="background:#f0eeff;color:#5746b2;font-size:11px;">Ai</div>
             <div class="product-cell-info">
               <div class="name">AiSDR</div>
               <div class="tagline">Hyper-personalized outbound</div>
@@ -377,7 +377,7 @@
         </td>
         <td>
           <div class="score-cell">
-            <div class="score-hex top" style="background:linear-gradient(160deg,#0284c7,#38bdf8);">76</div>
+            <div class="score-hex top">76</div>
             <div>
               <div class="score-breakdown">Performance 31<br>Reliability 23<br>Impact 22</div>
             </div>
@@ -427,7 +427,7 @@
       <tr>
         <td>
           <div class="product-cell">
-            <div class="product-cell-logo" style="background:#fef3c7;color:#b45309;font-size:10px;font-weight:900;">SF</div>
+            <div class="product-cell-logo" style="background:#f0eeff;color:#5746b2;font-size:10px;font-weight:900;">SF</div>
             <div class="product-cell-info">
               <div class="name">Salesforge</div>
               <div class="tagline">Frank — volume cold email</div>
@@ -487,7 +487,7 @@
       <tr>
         <td>
           <div class="product-cell">
-            <div class="product-cell-logo" style="background:#dcfce7;color:#16a34a;font-size:14px;font-weight:900;">R</div>
+            <div class="product-cell-logo" style="background:#f0eeff;color:#5746b2;font-size:14px;font-weight:900;">R</div>
             <div class="product-cell-info">
               <div class="name">Reply.io</div>
               <div class="tagline">Jason AI — established platform</div>
@@ -547,7 +547,7 @@
       <tr>
         <td>
           <div class="product-cell">
-            <div class="product-cell-logo" style="background:#fee2e2;color:#dc2626;font-size:12px;font-weight:900;">Re</div>
+            <div class="product-cell-logo" style="background:#f0eeff;color:#5746b2;font-size:12px;font-weight:900;">Re</div>
             <div class="product-cell-info">
               <div class="name">Regie.ai</div>
               <div class="tagline">CRM-signal sequences</div>

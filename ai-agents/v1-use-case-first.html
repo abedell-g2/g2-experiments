@@ -94,9 +94,9 @@
     /* ── G2 Agentic Score Badge ── */
     .g2-ai-badge-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
     .g2-ai-hex {
-      width: 60px; height: 68px;
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      background: linear-gradient(160deg, #5746b2 0%, #7c3aed 100%);
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: #5746b2;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
       color: white;
     }
@@ -110,7 +110,7 @@
       border-radius: 20px; font-size: 11px; font-weight: 700;
     }
     .g2-grid-badge.leader { background: #fff3f0; color: #ff492c; border: 1px solid #ffd5cc; }
-    .g2-grid-badge.high-performer { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .g2-grid-badge.high-performer { background: #f0eeff; color: #5746b2; border: 1px solid #ddd8f8; }
     .g2-grid-badge.niche { background: #f5f4fb; color: #5746b2; border: 1px solid #ddd8f8; }
 
     /* ── Product Card ── */
@@ -135,7 +135,7 @@
 
     /* ── G2 Agentic Metrics Block ── */
     .agentic-metrics {
-      background: linear-gradient(135deg, #f8f7ff 0%, #f0eeff 100%);
+      background: #f8f7ff;
       border: 1.5px solid #ddd8f8; border-radius: 10px; padding: 14px 16px;
     }
     .agentic-metrics-label {
@@ -152,7 +152,7 @@
 
     .completion-bar-wrap { margin-top: 4px; }
     .completion-bar-track { height: 5px; background: #e5e3f0; border-radius: 3px; overflow: hidden; }
-    .completion-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #5746b2, #7c3aed); }
+    .completion-bar-fill { height: 100%; border-radius: 3px; background: #5746b2; }
 
     .autonomy-dots { display: flex; gap: 3px; margin-top: 4px; }
     .autonomy-dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -171,8 +171,8 @@
     .card-bottom-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     .btn-view { background: white; border: 1.5px solid #5746b2; color: #5746b2; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; padding: 7px 16px; border-radius: 7px; cursor: pointer; }
     .btn-view:hover { background: #5746b2; color: white; }
-    .btn-demo { background: #ff492c; border: none; color: white; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; padding: 7px 16px; border-radius: 7px; cursor: pointer; }
-    .btn-demo:hover { background: #e03d22; }
+    .btn-demo { background: #5746b2; border: none; color: white; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700; padding: 7px 16px; border-radius: 7px; cursor: pointer; }
+    .btn-demo:hover { background: #4535a0; }
 
     /* ── Rank Badge ── */
     .rank-badge { width: 22px; height: 22px; border-radius: 50%; background: #5746b2; color: white; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -182,7 +182,7 @@
 
     /* ── What's new callout ── */
     .new-metrics-banner {
-      background: linear-gradient(135deg, #5746b2, #7c3aed); color: white;
+      background: #5746b2; color: white;
       border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;
       display: flex; align-items: flex-start; gap: 16px;
     }
@@ -199,30 +199,30 @@
   <div style="max-width:1200px;margin:0 auto;padding:0;">
 
     <h1>AI Agents</h1>
-    <p class="subtitle">AI Agents autonomously complete multi-step workflows — researching, deciding, and acting without continuous human instruction. Choose your use case to see the agents built for your workflow.</p>
+    <p class="subtitle">AI Agents complete multi-step workflows autonomously. Choose a use case to see agents built for it.</p>
   </div>
 
   <!-- Category tab bar — sits flush at the bottom of the header -->
   <div class="cat-tabs-wrap">
     <div class="cat-tabs">
-      <div class="cat-tab active" onclick="switchCat(this)"><span class="tab-icon">📬</span> SDR &amp; Outbound <span class="tab-count">6</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">💬</span> Customer Support <span class="tab-count">11</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">⚙️</span> Software Engineering <span class="tab-count">8</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">✍️</span> Marketing &amp; Content <span class="tab-count">9</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🔍</span> Research &amp; Intelligence <span class="tab-count">7</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">📊</span> Data &amp; BI <span class="tab-count">6</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">👥</span> Recruiting <span class="tab-count">5</span></div>
+      <div class="cat-tab active" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span> SDR &amp; Outbound <span class="tab-count">6</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Customer Support <span class="tab-count">11</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> Software Engineering <span class="tab-count">8</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span> Marketing &amp; Content <span class="tab-count">9</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span> Research &amp; Intelligence <span class="tab-count">7</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Data &amp; BI <span class="tab-count">6</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Recruiting <span class="tab-count">5</span></div>
       <div class="cat-tab-more" id="moreBtn" onclick="toggleMore(event)">
         More ▾
         <div class="more-menu" id="moreMenu">
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🖥️</span> IT Helpdesk <span class="mi-count">5</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>📅</span> Meeting Intelligence <span class="mi-count">6</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>⚖️</span> Legal &amp; Compliance <span class="mi-count">4</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>💰</span> Finance &amp; Accounting <span class="mi-count">5</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🛡️</span> Security Operations <span class="mi-count">5</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🏢</span> HR Operations <span class="mi-count">4</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🏥</span> Healthcare <span class="mi-count">3</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🏭</span> Supply Chain <span class="mi-count">3</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> IT Helpdesk <span class="mi-count">5</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Meeting Intelligence <span class="mi-count">6</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Legal &amp; Compliance <span class="mi-count">4</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Finance &amp; Accounting <span class="mi-count">5</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Security Operations <span class="mi-count">5</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> HR Operations <span class="mi-count">4</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Healthcare <span class="mi-count">3</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Supply Chain <span class="mi-count">3</span></div>
         </div>
       </div>
     </div>
@@ -301,7 +301,7 @@
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       <div>
         <h4>Introducing G2 Agentic Score</h4>
-        <p>Traditional star ratings don't capture what matters for AI agents. G2 now collects performance data directly from verified users — completion rates, ramp time, and autonomy level — to help you evaluate what actually works in production.</p>
+        <p>Traditional star ratings miss what matters for AI agents. G2 now collects completion rates, ramp time, and autonomy level from verified users.</p>
         <div class="metrics-chips">
           <span class="chip">Task Completion Rate</span>
           <span class="chip">Ramp Time</span>
@@ -326,12 +326,12 @@
     <!-- ── CARD 1: 11x ── -->
     <div class="product-card">
       <div class="card-top">
-        <div class="product-logo" style="background:#0f172a;color:white;font-size:12px;font-weight:900;">11x</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:12px;font-weight:900;">11x</div>
         <div class="card-meta">
           <div class="card-name-row">
             <div class="rank-badge rank-1">1</div>
             <span class="card-name">11x</span>
-            <span class="g2-grid-badge leader">⬡ Leader</span>
+            <span class="g2-grid-badge leader">Leader</span>
           </div>
           <div class="card-tagline">Alice — the fully autonomous AI SDR that prospects, personalizes, and books meetings without human prompting.</div>
         </div>
@@ -344,7 +344,7 @@
         </div>
       </div>
 
-      <div class="card-desc">11x deploys Alice, a fully autonomous AI SDR that researches prospects using LinkedIn, company news, and intent signals — then writes individualized outreach and books meetings with no human input required. Built for teams wanting to scale outbound without scaling headcount.</div>
+      <div class="card-desc">Alice autonomously researches prospects, writes individualized outreach, and books meetings — no human input required.</div>
 
       <div class="agentic-metrics">
         <div class="agentic-metrics-label">
@@ -405,12 +405,12 @@
     <!-- ── CARD 2: Artisan ── -->
     <div class="product-card">
       <div class="card-top">
-        <div class="product-logo" style="background:#ede9fe;color:#7c3aed;font-size:18px;font-weight:900;">A</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:18px;font-weight:900;">A</div>
         <div class="card-meta">
           <div class="card-name-row">
             <div class="rank-badge rank-2">2</div>
             <span class="card-name">Artisan</span>
-            <span class="g2-grid-badge high-performer">⬡ High Performer</span>
+            <span class="g2-grid-badge high-performer">High Performer</span>
           </div>
           <div class="card-tagline">Ava handles your entire outbound pipeline — prospecting, research, email, and LinkedIn — start to finish.</div>
         </div>
@@ -423,7 +423,7 @@
         </div>
       </div>
 
-      <div class="card-desc">Artisan's Ava combines B2B data enrichment, email sequencing, and LinkedIn outreach into a single AI-native workflow. Strong at multichannel personalization — reviewers highlight email quality and the speed of getting first campaigns live.</div>
+      <div class="card-desc">Ava combines B2B enrichment, email sequencing, and LinkedIn outreach in a single AI-native workflow.</div>
 
       <div class="agentic-metrics">
         <div class="agentic-metrics-label">
@@ -484,12 +484,12 @@
     <!-- ── CARD 3: AiSDR ── -->
     <div class="product-card">
       <div class="card-top">
-        <div class="product-logo" style="background:#e0f2fe;color:#0369a1;font-size:13px;font-weight:900;">Ai</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:13px;font-weight:900;">Ai</div>
         <div class="card-meta">
           <div class="card-name-row">
             <div class="rank-badge rank-3">3</div>
             <span class="card-name">AiSDR</span>
-            <span class="g2-grid-badge high-performer">⬡ High Performer</span>
+            <span class="g2-grid-badge high-performer">High Performer</span>
           </div>
           <div class="card-tagline">Hyper-personalized outreach at the scale of a full SDR team — powered by live CRM and LinkedIn signals.</div>
         </div>
@@ -502,7 +502,7 @@
         </div>
       </div>
 
-      <div class="card-desc">AiSDR researches each prospect using LinkedIn activity, company news, and CRM history to write outreach that converts. Sequences run autonomously; the agent escalates only when a prospect replies. Fastest ramp time in this category.</div>
+      <div class="card-desc">Researches each prospect using LinkedIn and CRM history; sequences run autonomously until a prospect replies.</div>
 
       <div class="agentic-metrics">
         <div class="agentic-metrics-label">
@@ -563,17 +563,17 @@
     <!-- ── CARD 4: Salesforge ── -->
     <div class="product-card">
       <div class="card-top">
-        <div class="product-logo" style="background:#fef3c7;color:#b45309;font-size:11px;font-weight:900;">SF</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:11px;font-weight:900;">SF</div>
         <div class="card-meta">
           <div class="card-name-row">
             <div class="rank-badge" style="background:#8b8fa8;">4</div>
             <span class="card-name">Salesforge</span>
-            <span class="g2-grid-badge niche">⬡ Niche Player</span>
+            <span class="g2-grid-badge niche">Niche Player</span>
           </div>
           <div class="card-tagline">Frank, the AI cold email agent built for volume-focused outbound at enterprise scale.</div>
         </div>
         <div class="g2-ai-badge-wrap">
-          <div class="g2-ai-hex" style="background:linear-gradient(160deg,#6b7280,#9ca3af);">
+          <div class="g2-ai-hex" style="background:#9ca3af;">
             <span class="score-num">71</span>
             <span class="score-denom">/100</span>
           </div>
@@ -581,7 +581,7 @@
         </div>
       </div>
 
-      <div class="card-desc">Salesforge's Frank manages cold email deliverability, A/B tests subject lines, and personalizes messages based on real-time company signals. Best for high-volume outbound where deliverability and inbox placement are the primary concern.</div>
+      <div class="card-desc">Frank manages email deliverability, A/B testing, and personalization at scale — best for volume-focused outbound teams.</div>
 
       <div class="agentic-metrics">
         <div class="agentic-metrics-label">
@@ -593,7 +593,7 @@
             <div class="metric-name">Completion Rate</div>
             <div class="metric-value">79%</div>
             <div class="completion-bar-wrap">
-              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:79%;background:linear-gradient(90deg,#f59e0b,#d97706);"></div></div>
+              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:79%;background:#d97706;"></div></div>
             </div>
             <div class="metric-sub">tasks without rescue</div>
           </div>
@@ -642,17 +642,17 @@
     <!-- ── CARD 5: Reply.io ── -->
     <div class="product-card">
       <div class="card-top">
-        <div class="product-logo" style="background:#dcfce7;color:#16a34a;font-size:18px;font-weight:900;">R</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:18px;font-weight:900;">R</div>
         <div class="card-meta">
           <div class="card-name-row">
             <div class="rank-badge" style="background:#8b8fa8;">5</div>
             <span class="card-name">Reply.io</span>
-            <span class="g2-grid-badge leader">⬡ Leader</span>
+            <span class="g2-grid-badge leader">Leader</span>
           </div>
           <div class="card-tagline">Jason AI: the SDR agent layered onto the industry's most established outbound platform.</div>
         </div>
         <div class="g2-ai-badge-wrap">
-          <div class="g2-ai-hex" style="background:linear-gradient(160deg,#6b7280,#9ca3af);">
+          <div class="g2-ai-hex" style="background:#9ca3af;">
             <span class="score-num">68</span>
             <span class="score-denom">/100</span>
           </div>
@@ -660,7 +660,7 @@
         </div>
       </div>
 
-      <div class="card-desc">Jason AI is Reply.io's SDR agent, built on top of one of the most widely adopted outbound platforms. The G2 Agentic Score is lower partly due to Reply.io's roots as a human-operated tool — but the breadth of integrations and volume of validated reviews makes it a strong choice for mature outbound orgs.</div>
+      <div class="card-desc">Jason AI layers autonomous outbound onto Reply.io's established platform — strong on integrations and review volume.</div>
 
       <div class="agentic-metrics">
         <div class="agentic-metrics-label">
@@ -672,7 +672,7 @@
             <div class="metric-name">Completion Rate</div>
             <div class="metric-value">76%</div>
             <div class="completion-bar-wrap">
-              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:76%;background:linear-gradient(90deg,#f59e0b,#d97706);"></div></div>
+              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:76%;background:#d97706;"></div></div>
             </div>
             <div class="metric-sub">tasks without rescue</div>
           </div>
@@ -722,17 +722,17 @@
     <!-- ── CARD 6: Regie.ai ── -->
     <div class="product-card">
       <div class="card-top">
-        <div class="product-logo" style="background:#fee2e2;color:#dc2626;font-size:13px;font-weight:900;">Re</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:13px;font-weight:900;">Re</div>
         <div class="card-meta">
           <div class="card-name-row">
             <div class="rank-badge" style="background:#8b8fa8;">6</div>
             <span class="card-name">Regie.ai</span>
-            <span class="g2-grid-badge niche">⬡ Niche Player</span>
+            <span class="g2-grid-badge niche">Niche Player</span>
           </div>
           <div class="card-tagline">AI-native prospecting sequences powered by CRM signals — built to complement your existing outbound stack.</div>
         </div>
         <div class="g2-ai-badge-wrap">
-          <div class="g2-ai-hex" style="background:linear-gradient(160deg,#6b7280,#9ca3af);">
+          <div class="g2-ai-hex" style="background:#9ca3af;">
             <span class="score-num">65</span>
             <span class="score-denom">/100</span>
           </div>
@@ -740,7 +740,7 @@
         </div>
       </div>
 
-      <div class="card-desc">Regie.ai generates and executes prospecting sequences using intent signals from your CRM. Unlike the fully AI-native SDRs above, Regie.ai is designed to slot into existing stacks (Outreach, Salesloft) rather than replace them — ideal for RevOps-mature teams who want AI augmentation, not replacement.</div>
+      <div class="card-desc">Generates and executes prospecting sequences from CRM intent signals — built to slot into existing stacks, not replace them.</div>
 
       <div class="agentic-metrics">
         <div class="agentic-metrics-label">
@@ -752,7 +752,7 @@
             <div class="metric-name">Completion Rate</div>
             <div class="metric-value">73%</div>
             <div class="completion-bar-wrap">
-              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:73%;background:linear-gradient(90deg,#f59e0b,#d97706);"></div></div>
+              <div class="completion-bar-track"><div class="completion-bar-fill" style="width:73%;background:#d97706;"></div></div>
             </div>
             <div class="metric-sub">tasks without rescue</div>
           </div>

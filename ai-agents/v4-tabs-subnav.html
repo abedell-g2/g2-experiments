@@ -162,9 +162,9 @@
       display: flex; flex-direction: column; align-items: center; gap: 2px;
     }
     .g2-score-hex {
-      width: 36px; height: 42px;
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      background: linear-gradient(160deg, #5746b2, #7c3aed);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #5746b2;
       display: flex; align-items: center; justify-content: center;
     }
     .g2-score-hex span { font-size: 11px; font-weight: 900; color: white; }
@@ -204,7 +204,7 @@
     .metric-value { font-size: 14px; font-weight: 800; color: #1a1a2e; }
     .metric-sub { font-size: 10px; color: #8b8fa8; }
     .metric-bar-track { background: #e5e3f0; border-radius: 2px; height: 4px; margin-top: 2px; }
-    .metric-bar { background: linear-gradient(90deg, #5746b2, #7c3aed); height: 100%; border-radius: 2px; }
+    .metric-bar { background: #5746b2; height: 100%; border-radius: 2px; }
     .autonomy-visual { display: flex; gap: 3px; margin-top: 3px; }
     .a-dot { width: 9px; height: 9px; border-radius: 50%; background: #e5e3f0; }
     .a-dot.on { background: #5746b2; }
@@ -216,12 +216,12 @@
     }
     .card-actions { display: flex; flex-direction: column; gap: 7px; width: 100%; }
     .btn-primary {
-      background: #ff492c; color: white; font-family: Figtree, sans-serif;
+      background: #5746b2; color: white; font-family: Figtree, sans-serif;
       font-size: 13px; font-weight: 700; border: none; border-radius: 8px;
       padding: 9px 14px; cursor: pointer; text-align: center; text-decoration: none; display: block;
       transition: background 0.12s;
     }
-    .btn-primary:hover { background: #e03c22; }
+    .btn-primary:hover { background: #4535a0; }
     .btn-secondary {
       background: white; color: #5746b2; font-family: Figtree, sans-serif;
       font-size: 13px; font-weight: 700; border: 1.5px solid #5746b2; border-radius: 8px;
@@ -242,7 +242,7 @@
       align-self: flex-start;
     }
     .sub-type-pill.native { background: #f0eeff; color: #5746b2; }
-    .sub-type-pill.enhanced { background: #f0fdf4; color: #16a34a; }
+    .sub-type-pill.enhanced { background: #f5f4fb; color: #8b8fa8; }
 
     /* ── "Change Category" flyout hint ── */
     .change-cat-hint {
@@ -281,24 +281,24 @@
   <!-- Category tab bar — sits flush at the bottom of the header -->
   <div class="cat-tabs-wrap">
     <div class="cat-tabs">
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">💬</span> Customer Support <span class="tab-count">11</span></div>
-      <div class="cat-tab active" onclick="switchCat(this)"><span class="tab-icon">📬</span> SDR &amp; Outbound <span class="tab-count">6</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">⚙️</span> Software Engineering <span class="tab-count">8</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">✍️</span> Marketing &amp; Content <span class="tab-count">9</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🔍</span> Research &amp; Intelligence <span class="tab-count">7</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">📊</span> Data &amp; BI <span class="tab-count">6</span></div>
-      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">👥</span> Recruiting <span class="tab-count">5</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Customer Support <span class="tab-count">11</span></div>
+      <div class="cat-tab active" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span> SDR &amp; Outbound <span class="tab-count">6</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> Software Engineering <span class="tab-count">8</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span> Marketing &amp; Content <span class="tab-count">9</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span> Research &amp; Intelligence <span class="tab-count">7</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Data &amp; BI <span class="tab-count">6</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Recruiting <span class="tab-count">5</span></div>
       <div class="cat-tab-more" id="moreBtn" onclick="toggleMore(event)">
         More ▾
         <div class="more-menu" id="moreMenu">
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🖥️</span> IT Helpdesk <span class="mi-count">5</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>📅</span> Meeting Intelligence <span class="mi-count">6</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>⚖️</span> Legal &amp; Compliance <span class="mi-count">4</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>💰</span> Finance &amp; Accounting <span class="mi-count">5</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🛡️</span> Security Operations <span class="mi-count">5</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🏢</span> HR Operations <span class="mi-count">4</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🏥</span> Healthcare <span class="mi-count">3</span></div>
-          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🏭</span> Supply Chain <span class="mi-count">3</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> IT Helpdesk <span class="mi-count">5</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Meeting Intelligence <span class="mi-count">6</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Legal &amp; Compliance <span class="mi-count">4</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Finance &amp; Accounting <span class="mi-count">5</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Security Operations <span class="mi-count">5</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> HR Operations <span class="mi-count">4</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Healthcare <span class="mi-count">3</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Supply Chain <span class="mi-count">3</span></div>
         </div>
       </div>
     </div>
@@ -435,7 +435,7 @@
     <!-- Product: 11x (Alice) -->
     <div class="product-card">
       <div class="card-left">
-        <div class="product-logo" style="background:#0f172a;color:white;font-size:11px;">11x</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:11px;">11x</div>
         <div class="g2-score-badge">
           <div class="g2-score-hex"><span>87</span></div>
           <div class="g2-score-label">Agentic<br>Score</div>
@@ -447,7 +447,7 @@
           <span class="grid-badge badge-leader">Leader</span>
           <span class="sub-type-pill native">AI-Native SDR</span>
         </div>
-        <p class="product-tagline">Fully autonomous AI sales rep — researches prospects, crafts personalized multi-channel sequences, and books meetings directly to your calendar. No human touchpoints required.</p>
+        <p class="product-tagline">Fully autonomous AI SDR — prospects, personalizes, and books meetings without human input.</p>
         <div class="stars">
           <span class="star-val">4.5</span>
           <div class="star-icons">★★★★<span style="opacity:0.4">★</span></div>
@@ -497,7 +497,7 @@
     <!-- Product: Artisan (Ava) -->
     <div class="product-card">
       <div class="card-left">
-        <div class="product-logo" style="background:#ede9fe;color:#7c3aed;font-size:14px;font-weight:900;">A</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:14px;font-weight:900;">A</div>
         <div class="g2-score-badge">
           <div class="g2-score-hex"><span>82</span></div>
           <div class="g2-score-label">Agentic<br>Score</div>
@@ -509,7 +509,7 @@
           <span class="grid-badge badge-leader">Leader</span>
           <span class="sub-type-pill native">AI-Native SDR</span>
         </div>
-        <p class="product-tagline">AI BDR that handles everything from prospect research through multi-touch outbound. Integrates with Salesforce and HubSpot, updates pipeline automatically after each touch.</p>
+        <p class="product-tagline">AI BDR covering research, multi-touch outbound, and CRM updates end-to-end.</p>
         <div class="stars">
           <span class="star-val">4.3</span>
           <div class="star-icons">★★★★<span style="opacity:0.4">★</span></div>
@@ -559,7 +559,7 @@
     <!-- Product: AiSDR -->
     <div class="product-card">
       <div class="card-left">
-        <div class="product-logo" style="background:#e0f2fe;color:#0369a1;font-size:9px;font-weight:800;">AiSDR</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:9px;font-weight:800;">AiSDR</div>
         <div class="g2-score-badge">
           <div class="g2-score-hex"><span>78</span></div>
           <div class="g2-score-label">Agentic<br>Score</div>
@@ -571,7 +571,7 @@
           <span class="grid-badge badge-high">High Performer</span>
           <span class="sub-type-pill native">AI-Native SDR</span>
         </div>
-        <p class="product-tagline">Human-like AI SDR with persona tuning. Handles inbound lead response and outbound prospecting from a single queue. Strong review sentiment on personalization quality.</p>
+        <p class="product-tagline">Human-like AI SDR handling both inbound and outbound from a single queue.</p>
         <div class="stars">
           <span class="star-val">4.4</span>
           <div class="star-icons">★★★★<span style="opacity:0.4">★</span></div>
@@ -621,7 +621,7 @@
     <!-- Product: Salesforge (Frank) -->
     <div class="product-card">
       <div class="card-left">
-        <div class="product-logo" style="background:#fef3c7;color:#b45309;font-size:9px;font-weight:800;">SF</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:9px;font-weight:800;">SF</div>
         <div class="g2-score-badge">
           <div class="g2-score-hex"><span>74</span></div>
           <div class="g2-score-label">Agentic<br>Score</div>
@@ -633,7 +633,7 @@
           <span class="grid-badge badge-high">High Performer</span>
           <span class="sub-type-pill enhanced">AI-Enhanced Platform</span>
         </div>
-        <p class="product-tagline">Outbound sales platform with AI agent layer. Strong email deliverability infrastructure, hyper-personalized first lines at scale. Best for teams with existing playbooks.</p>
+        <p class="product-tagline">Volume outbound platform with AI agent layer and strong email deliverability.</p>
         <div class="stars">
           <span class="star-val">4.2</span>
           <div class="star-icons">★★★★<span style="opacity:0.4">★</span></div>
@@ -683,7 +683,7 @@
     <!-- Product: Reply.io (Jason AI) -->
     <div class="product-card">
       <div class="card-left">
-        <div class="product-logo" style="background:#dcfce7;color:#16a34a;font-size:13px;font-weight:900;">R</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:13px;font-weight:900;">R</div>
         <div class="g2-score-badge">
           <div class="g2-score-hex"><span>71</span></div>
           <div class="g2-score-label">Agentic<br>Score</div>
@@ -695,7 +695,7 @@
           <span class="grid-badge badge-high">High Performer</span>
           <span class="sub-type-pill enhanced">AI-Enhanced Platform</span>
         </div>
-        <p class="product-tagline">Multi-channel outreach platform with Jason AI agent for autonomous sequence management. Strong on LinkedIn + email combination. Well-established product with large review base.</p>
+        <p class="product-tagline">Established multi-channel platform with Jason AI for autonomous outbound sequence management.</p>
         <div class="stars">
           <span class="star-val">4.6</span>
           <div class="star-icons">★★★★★</div>
@@ -745,7 +745,7 @@
     <!-- Product: Regie.ai -->
     <div class="product-card">
       <div class="card-left">
-        <div class="product-logo" style="background:#faf5ff;color:#7c3aed;font-size:9px;font-weight:800;">Regie</div>
+        <div class="product-logo" style="background:#f0eeff;color:#5746b2;font-size:9px;font-weight:800;">Regie</div>
         <div class="g2-score-badge">
           <div class="g2-score-hex"><span>68</span></div>
           <div class="g2-score-label">Agentic<br>Score</div>
@@ -757,7 +757,7 @@
           <span class="grid-badge badge-niche">Niche</span>
           <span class="sub-type-pill native">AI-Native SDR</span>
         </div>
-        <p class="product-tagline">AI-driven content generation for outbound, with an agent layer that creates and manages sales sequences. Strong on content quality; growing autonomy capabilities.</p>
+        <p class="product-tagline">AI content agent for outbound sequences, built to layer into your existing sales stack.</p>
         <div class="stars">
           <span class="star-val">4.1</span>
           <div class="star-icons">★★★★<span style="opacity:0.4">★</span></div>

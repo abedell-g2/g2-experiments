@@ -576,12 +576,12 @@ const JOBS = [
 
 const CONTEXT_QS = [
   {
-    id: 'team-size', label: 'How big is your SDR team?', multi: false,
-    options: ['Solo / 1 rep', '2–10 reps', '11–50 reps', '50+ reps'],
+    id: 'team-size', label: 'How many people will be using this?', multi: false,
+    options: ['Just me', '2–10 people', '11–50 people', '50+ people'],
   },
   {
-    id: 'crm', label: 'Which CRM(s) do you use?', multi: true,
-    options: ['HubSpot', 'Salesforce', 'Pipedrive', 'None', 'Other'],
+    id: 'crm', label: 'Any integrations we should factor in?', multi: true,
+    options: ['HubSpot', 'Salesforce', 'Pipedrive', 'Slack', 'Other'],
   },
   {
     id: 'oversight', label: 'How much human oversight do you want?', multi: false,
@@ -589,7 +589,7 @@ const CONTEXT_QS = [
   },
   {
     id: 'priority', label: "What's your top priority?", multi: false,
-    options: ['Speed to pipeline', 'Message quality', 'Low ramp time', 'Budget efficiency'],
+    options: ['Speed to results', 'Output quality', 'Easy setup', 'Budget efficiency'],
   },
 ];
 

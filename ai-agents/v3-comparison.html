@@ -106,8 +106,8 @@
       position: absolute; left: calc(100% + 10px); top: 50%;
       transform: translateY(-50%);
       background: #1a1a2e; color: white;
-      border-radius: 8px; padding: 10px 14px;
-      font-size: 11px; line-height: 1.8; white-space: nowrap;
+      border-radius: 8px; padding: 10px 16px;
+      font-size: 11px; min-width: 158px;
       z-index: 500; pointer-events: none;
       opacity: 0; visibility: hidden;
       transition: opacity 0.15s, visibility 0.15s;
@@ -118,7 +118,8 @@
       transform: translateY(-50%);
       border: 5px solid transparent; border-right-color: #1a1a2e;
     }
-    .score-popover strong { font-weight: 800; color: white; margin-left: 4px; float: right; padding-left: 16px; }
+    .sp-row { display: flex; align-items: center; justify-content: space-between; line-height: 1.9; }
+    .sp-row strong { font-weight: 800; color: white; }
     .score-cell:hover .score-popover { opacity: 1; visibility: visible; }
 
     /* Completion cell */
@@ -327,7 +328,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex top">84</div>
-            <div class="score-popover">Performance <strong>36</strong><br>Reliability <strong>26</strong><br>Impact <strong>22</strong></div>
+            <div class="score-popover"><div class="sp-row"><span>Performance</span><strong>36</strong></div><div class="sp-row"><span>Reliability</span><strong>26</strong></div><div class="sp-row"><span>Impact</span><strong>22</strong></div></div>
           </div>
         </td>
         <td>
@@ -385,7 +386,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex top">79</div>
-            <div class="score-popover">Performance <strong>32</strong><br>Reliability <strong>24</strong><br>Impact <strong>23</strong></div>
+            <div class="score-popover"><div class="sp-row"><span>Performance</span><strong>32</strong></div><div class="sp-row"><span>Reliability</span><strong>24</strong></div><div class="sp-row"><span>Impact</span><strong>23</strong></div></div>
           </div>
         </td>
         <td>
@@ -443,7 +444,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex top">76</div>
-            <div class="score-popover">Performance <strong>31</strong><br>Reliability <strong>23</strong><br>Impact <strong>22</strong></div>
+            <div class="score-popover"><div class="sp-row"><span>Performance</span><strong>31</strong></div><div class="sp-row"><span>Reliability</span><strong>23</strong></div><div class="sp-row"><span>Impact</span><strong>22</strong></div></div>
           </div>
         </td>
         <td>
@@ -501,7 +502,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex mid">71</div>
-            <div class="score-popover">Performance <strong>27</strong><br>Reliability <strong>22</strong><br>Impact <strong>22</strong></div>
+            <div class="score-popover"><div class="sp-row"><span>Performance</span><strong>27</strong></div><div class="sp-row"><span>Reliability</span><strong>22</strong></div><div class="sp-row"><span>Impact</span><strong>22</strong></div></div>
           </div>
         </td>
         <td>
@@ -559,7 +560,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex mid">68</div>
-            <div class="score-popover">Performance <strong>25</strong><br>Reliability <strong>22</strong><br>Impact <strong>21</strong></div>
+            <div class="score-popover"><div class="sp-row"><span>Performance</span><strong>25</strong></div><div class="sp-row"><span>Reliability</span><strong>22</strong></div><div class="sp-row"><span>Impact</span><strong>21</strong></div></div>
           </div>
         </td>
         <td>
@@ -617,7 +618,7 @@
         <td>
           <div class="score-cell">
             <div class="score-hex mid">65</div>
-            <div class="score-popover">Performance <strong>23</strong><br>Reliability <strong>21</strong><br>Impact <strong>21</strong></div>
+            <div class="score-popover"><div class="sp-row"><span>Performance</span><strong>23</strong></div><div class="sp-row"><span>Reliability</span><strong>21</strong></div><div class="sp-row"><span>Impact</span><strong>21</strong></div></div>
           </div>
         </td>
         <td>

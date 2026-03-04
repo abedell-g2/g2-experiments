@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Agents — Category Grid (1A) | G2 Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+
+    /* ── Page Header ── */
+    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 28px 48px 24px; }
+    .breadcrumb { font-size: 12px; color: #8b8fa8; margin-bottom: 12px; }
+    .breadcrumb a { color: #8b8fa8; text-decoration: none; }
+    .breadcrumb a:hover { color: #5746b2; }
+    .header-inner { max-width: 960px; }
+    .header-inner h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+    .header-inner p { font-size: 14px; color: #49495a; line-height: 1.6; max-width: 540px; }
+
+    /* ── Body ── */
+    .page-body { max-width: 960px; margin: 0 auto; padding: 36px 48px 64px; }
+
+    /* ── Section label ── */
+    .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #8b8fa8; margin-bottom: 16px; }
+
+    /* ── Category Grid ── */
+    .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+    .cat-tile {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 12px;
+      padding: 20px 18px; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+      cursor: pointer;
+    }
+    .cat-tile:hover {
+      border-color: #5746b2; box-shadow: 0 4px 20px rgba(87,70,178,0.12);
+      transform: translateY(-2px);
+    }
+    .cat-tile.active { border-color: #5746b2; background: #f8f7ff; }
+
+    .cat-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .cat-name { font-size: 14px; font-weight: 700; color: #1a1a2e; line-height: 1.3; }
+    .cat-tile:hover .cat-name { color: #5746b2; }
+    .cat-desc { font-size: 12px; color: #8b8fa8; line-height: 1.5; flex: 1; }
+    .cat-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid #f0eeff; margin-top: auto; }
+    .cat-count { font-size: 12px; font-weight: 700; color: #5746b2; }
+    .cat-badge {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 2px 7px; border-radius: 20px;
+    }
+    .badge-hot { background: #fff3f0; color: #ff492c; }
+    .badge-new { background: #f0fdf4; color: #16a34a; }
+    .badge-emerging { background: #f5f4fb; color: #8b8fa8; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="#">Software</a> ›
+    <a href="#">Artificial Intelligence</a> ›
+    <strong style="color:#1a1a2e;">AI Agents</strong>
+  </div>
+  <div class="header-inner">
+    <h1>AI Agents</h1>
+    <p>AI agents autonomously complete multi-step workflows — researching, deciding, and acting without continuous human input. Choose the use case closest to what you're trying to solve.</p>
+  </div>
+</div>
+
+<div class="page-body">
+  <div class="section-label">Browse by use case · 15 categories · 106 products</div>
+
+  <div class="cat-grid">
+
+    <a class="cat-tile" href="./v1-use-case-first.html">
+      <div class="cat-icon" style="background:#fff3f0;">💬</div>
+      <div class="cat-name">Customer Support</div>
+      <div class="cat-desc">Autonomous ticket resolution, escalation routing, and voice agents</div>
+      <div class="cat-footer">
+        <span class="cat-count">11 products</span>
+        <span class="cat-badge badge-hot">Most Evaluated</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="./v1-use-case-first.html">
+      <div class="cat-icon" style="background:#f0eeff;">📬</div>
+      <div class="cat-name">SDR &amp; Outbound</div>
+      <div class="cat-desc">Prospecting, personalized email, LinkedIn outreach, meeting booking</div>
+      <div class="cat-footer">
+        <span class="cat-count">6 products</span>
+        <span class="cat-badge badge-hot">Trending</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#f0fdf4;">⚙️</div>
+      <div class="cat-name">Software Engineering</div>
+      <div class="cat-desc">Code generation, review, bug triage, test automation, documentation</div>
+      <div class="cat-footer">
+        <span class="cat-count">8 products</span>
+        <span class="cat-badge badge-hot">Trending</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#fef9c3;">✍️</div>
+      <div class="cat-name">Marketing &amp; Content</div>
+      <div class="cat-desc">Campaign creation, copy generation, SEO, social media management</div>
+      <div class="cat-footer">
+        <span class="cat-count">9 products</span>
+        <span class="cat-badge badge-hot">Most Evaluated</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#eff6ff;">🔍</div>
+      <div class="cat-name">Research &amp; Intelligence</div>
+      <div class="cat-desc">Web research, competitive intelligence, literature review, report generation</div>
+      <div class="cat-footer">
+        <span class="cat-count">7 products</span>
+        <span class="cat-badge badge-new">Growing</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#f0fdf4;">📊</div>
+      <div class="cat-name">Data &amp; BI</div>
+      <div class="cat-desc">Natural language queries, automated reporting, anomaly detection</div>
+      <div class="cat-footer">
+        <span class="cat-count">6 products</span>
+        <span class="cat-badge badge-new">Growing</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#f5f3ff;">🖥️</div>
+      <div class="cat-name">IT Helpdesk</div>
+      <div class="cat-desc">Internal support tickets, access requests, password resets, onboarding</div>
+      <div class="cat-footer">
+        <span class="cat-count">5 products</span>
+        <span class="cat-badge badge-new">Growing</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#fff7ed;">👥</div>
+      <div class="cat-name">Recruiting &amp; Talent</div>
+      <div class="cat-desc">Candidate sourcing, screening, outreach, and pipeline management</div>
+      <div class="cat-footer">
+        <span class="cat-count">5 products</span>
+        <span class="cat-badge badge-new">Growing</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#ecfeff;">📅</div>
+      <div class="cat-name">Meeting Intelligence</div>
+      <div class="cat-desc">Transcription, action items, follow-ups, CRM updates from conversations</div>
+      <div class="cat-footer">
+        <span class="cat-count">6 products</span>
+        <span class="cat-badge badge-new">Growing</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#faf5ff;">⚖️</div>
+      <div class="cat-name">Legal &amp; Compliance</div>
+      <div class="cat-desc">Contract review, clause extraction, regulatory monitoring, risk flagging</div>
+      <div class="cat-footer">
+        <span class="cat-count">4 products</span>
+        <span class="cat-badge badge-emerging">Emerging</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#f0fdf4;">💰</div>
+      <div class="cat-name">Finance &amp; Accounting</div>
+      <div class="cat-desc">Invoice processing, expense management, financial close automation</div>
+      <div class="cat-footer">
+        <span class="cat-count">5 products</span>
+        <span class="cat-badge badge-emerging">Emerging</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#fff1f2;">🛡️</div>
+      <div class="cat-name">Security Operations</div>
+      <div class="cat-desc">Threat detection, incident response, SOC automation, alert triage</div>
+      <div class="cat-footer">
+        <span class="cat-count">5 products</span>
+        <span class="cat-badge badge-emerging">Emerging</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#f0fdfa;">🏥</div>
+      <div class="cat-name">Healthcare</div>
+      <div class="cat-desc">Clinical documentation, prior authorization, appointment scheduling</div>
+      <div class="cat-footer">
+        <span class="cat-count">3 products</span>
+        <span class="cat-badge badge-emerging">Emerging</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#fefce8;">🏭</div>
+      <div class="cat-name">Supply Chain</div>
+      <div class="cat-desc">Vendor sourcing, purchase order automation, inventory management</div>
+      <div class="cat-footer">
+        <span class="cat-count">3 products</span>
+        <span class="cat-badge badge-emerging">Emerging</span>
+      </div>
+    </a>
+
+    <a class="cat-tile" href="#">
+      <div class="cat-icon" style="background:#fff7ed;">🏢</div>
+      <div class="cat-name">HR Operations</div>
+      <div class="cat-desc">Employee onboarding, policy Q&amp;A, offboarding, benefits administration</div>
+      <div class="cat-footer">
+        <span class="cat-count">4 products</span>
+        <span class="cat-badge badge-emerging">Emerging</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+</body>
+</html>

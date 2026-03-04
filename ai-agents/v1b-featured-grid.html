@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Agents — Featured + Grid (1B) | G2 Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+
+    /* ── Page Header ── */
+    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 28px 48px 24px; }
+    .breadcrumb { font-size: 12px; color: #8b8fa8; margin-bottom: 12px; }
+    .breadcrumb a { color: #8b8fa8; text-decoration: none; }
+    .breadcrumb a:hover { color: #5746b2; }
+    .header-inner h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+    .header-inner p { font-size: 14px; color: #49495a; line-height: 1.6; max-width: 540px; }
+
+    /* ── Body ── */
+    .page-body { max-width: 1040px; margin: 0 auto; padding: 36px 48px 64px; }
+
+    /* ── Section labels ── */
+    .section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+    .section-head h2 { font-size: 15px; font-weight: 800; color: #1a1a2e; }
+    .section-head span { font-size: 12px; color: #8b8fa8; }
+
+    /* ── Featured Cards (large, 2-col) ── */
+    .featured-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 36px; }
+
+    .feat-card {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 14px;
+      padding: 24px; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      position: relative; overflow: hidden;
+    }
+    .feat-card:hover { border-color: #5746b2; box-shadow: 0 6px 28px rgba(87,70,178,0.13); }
+    .feat-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #5746b2, #7c3aed); opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .feat-card:hover::after { opacity: 1; }
+
+    .feat-card-top { display: flex; align-items: flex-start; gap: 14px; }
+    .feat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+    .feat-card-title h3 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+    .feat-card:hover h3 { color: #5746b2; }
+    .feat-card-title p { font-size: 13px; color: #49495a; line-height: 1.5; }
+
+    .feat-product-logos { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .feat-logo {
+      width: 28px; height: 28px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 800; border: 1px solid #e5e3f0;
+      flex-shrink: 0;
+    }
+    .feat-logo-more { font-size: 11px; color: #8b8fa8; font-weight: 600; }
+
+    .feat-card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f0eeff; padding-top: 12px; }
+    .feat-count { font-size: 13px; font-weight: 700; color: #5746b2; }
+    .feat-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 20px; }
+    .badge-most { background: #fff3f0; color: #ff492c; }
+    .badge-trending { background: #f0eeff; color: #5746b2; }
+
+    /* ── More Categories (compact chips) ── */
+    .more-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
+
+    .more-tile {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
+      padding: 14px 16px; text-decoration: none; color: inherit;
+      display: flex; align-items: center; gap: 10px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .more-tile:hover { border-color: #5746b2; background: #faf9ff; }
+    .more-icon { font-size: 18px; flex-shrink: 0; }
+    .more-info { min-width: 0; }
+    .more-name { font-size: 13px; font-weight: 700; color: #1a1a2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .more-tile:hover .more-name { color: #5746b2; }
+    .more-count { font-size: 11px; color: #8b8fa8; margin-top: 1px; }
+
+    /* ── Emerging (compact row) ── */
+    .emerging-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .emerging-chip {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 8px;
+      padding: 8px 14px; text-decoration: none; color: #49495a;
+      font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 7px;
+      transition: border-color 0.15s;
+    }
+    .emerging-chip:hover { border-color: #5746b2; color: #5746b2; }
+    .emerging-chip .chip-count { font-size: 11px; color: #8b8fa8; }
+    .emerging-chip .chip-icon { font-size: 14px; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="#">Software</a> ›
+    <a href="#">Artificial Intelligence</a> ›
+    <strong style="color:#1a1a2e;">AI Agents</strong>
+  </div>
+  <div class="header-inner">
+    <h1>AI Agents</h1>
+    <p>AI agents autonomously complete multi-step workflows — researching, deciding, and acting without continuous human input. Choose the use case closest to what you're trying to solve.</p>
+  </div>
+</div>
+
+<div class="page-body">
+
+  <!-- Featured Categories -->
+  <div class="section-head">
+    <h2>Most evaluated categories</h2>
+    <span>Active buying, broad product selection</span>
+  </div>
+
+  <div class="featured-grid">
+
+    <a class="feat-card" href="./v1-use-case-first.html">
+      <div class="feat-card-top">
+        <div class="feat-icon" style="background:#fff3f0;">💬</div>
+        <div class="feat-card-title">
+          <h3>Customer Support</h3>
+          <p>Fully autonomous ticket resolution, escalation routing, live chat, and voice agents that handle customer issues end-to-end.</p>
+        </div>
+      </div>
+      <div class="feat-product-logos">
+        <div class="feat-logo" style="background:#f0fdf4;color:#16a34a;">Fi</div>
+        <div class="feat-logo" style="background:#ede9fe;color:#7c3aed;">Ad</div>
+        <div class="feat-logo" style="background:#fff3f0;color:#ff492c;">De</div>
+        <div class="feat-logo" style="background:#eff6ff;color:#2563eb;">Ft</div>
+        <div class="feat-logo" style="background:#fef3c7;color:#b45309;">Cr</div>
+        <span class="feat-logo-more">+6 more</span>
+      </div>
+      <div class="feat-card-footer">
+        <span class="feat-count">11 products</span>
+        <span class="feat-badge badge-most">Most Evaluated</span>
+      </div>
+    </a>
+
+    <a class="feat-card" href="./v1-use-case-first.html">
+      <div class="feat-card-top">
+        <div class="feat-icon" style="background:#f0eeff;">📬</div>
+        <div class="feat-card-title">
+          <h3>SDR &amp; Outbound</h3>
+          <p>Prospecting, personalized email writing, LinkedIn sequencing, and autonomous meeting booking — without a human SDR.</p>
+        </div>
+      </div>
+      <div class="feat-product-logos">
+        <div class="feat-logo" style="background:#0f172a;color:white;font-size:8px;">11x</div>
+        <div class="feat-logo" style="background:#ede9fe;color:#7c3aed;font-size:12px;font-weight:900;">A</div>
+        <div class="feat-logo" style="background:#e0f2fe;color:#0369a1;font-size:9px;">Ai</div>
+        <div class="feat-logo" style="background:#fef3c7;color:#b45309;font-size:8px;">SF</div>
+        <div class="feat-logo" style="background:#dcfce7;color:#16a34a;font-size:12px;font-weight:900;">R</div>
+        <span class="feat-logo-more">+1 more</span>
+      </div>
+      <div class="feat-card-footer">
+        <span class="feat-count">6 products</span>
+        <span class="feat-badge badge-trending">Trending</span>
+      </div>
+    </a>
+
+    <a class="feat-card" href="#">
+      <div class="feat-card-top">
+        <div class="feat-icon" style="background:#f0fdf4;">⚙️</div>
+        <div class="feat-card-title">
+          <h3>Software Engineering</h3>
+          <p>Code generation, automated review, bug triage, test writing, and CI/CD pipeline agents that work alongside your eng team.</p>
+        </div>
+      </div>
+      <div class="feat-product-logos">
+        <div class="feat-logo" style="background:#1a1a2e;color:white;font-size:9px;">Dv</div>
+        <div class="feat-logo" style="background:#f0fdf4;color:#16a34a;font-size:9px;">GH</div>
+        <div class="feat-logo" style="background:#eff6ff;color:#2563eb;font-size:9px;">Cu</div>
+        <div class="feat-logo" style="background:#faf5ff;color:#7c3aed;font-size:9px;">Co</div>
+        <div class="feat-logo" style="background:#fff7ed;color:#c2410c;font-size:9px;">Cl</div>
+        <span class="feat-logo-more">+3 more</span>
+      </div>
+      <div class="feat-card-footer">
+        <span class="feat-count">8 products</span>
+        <span class="feat-badge badge-trending">Trending</span>
+      </div>
+    </a>
+
+    <a class="feat-card" href="#">
+      <div class="feat-card-top">
+        <div class="feat-icon" style="background:#fef9c3;">✍️</div>
+        <div class="feat-card-title">
+          <h3>Marketing &amp; Content</h3>
+          <p>Campaign planning, copy generation, SEO content, ad creative, and multi-channel publishing agents.</p>
+        </div>
+      </div>
+      <div class="feat-product-logos">
+        <div class="feat-logo" style="background:#fff3f0;color:#ff492c;font-size:9px;">Ja</div>
+        <div class="feat-logo" style="background:#eff6ff;color:#2563eb;font-size:9px;">Cp</div>
+        <div class="feat-logo" style="background:#f0fdf4;color:#16a34a;font-size:9px;">Wr</div>
+        <div class="feat-logo" style="background:#faf5ff;color:#7c3aed;font-size:9px;">Pe</div>
+        <div class="feat-logo" style="background:#fef3c7;color:#b45309;font-size:9px;">Hy</div>
+        <span class="feat-logo-more">+4 more</span>
+      </div>
+      <div class="feat-card-footer">
+        <span class="feat-count">9 products</span>
+        <span class="feat-badge badge-most">Most Evaluated</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Growing Categories -->
+  <div class="section-head">
+    <h2>Growing categories</h2>
+    <span>Active deployments, established buying activity</span>
+  </div>
+
+  <div class="more-grid" style="margin-bottom:36px;">
+    <a class="more-tile" href="#">
+      <div class="more-icon">🔍</div>
+      <div class="more-info">
+        <div class="more-name">Research &amp; Intelligence</div>
+        <div class="more-count">7 products</div>
+      </div>
+    </a>
+    <a class="more-tile" href="#">
+      <div class="more-icon">📊</div>
+      <div class="more-info">
+        <div class="more-name">Data &amp; BI</div>
+        <div class="more-count">6 products</div>
+      </div>
+    </a>
+    <a class="more-tile" href="#">
+      <div class="more-icon">🖥️</div>
+      <div class="more-info">
+        <div class="more-name">IT Helpdesk</div>
+        <div class="more-count">5 products</div>
+      </div>
+    </a>
+    <a class="more-tile" href="#">
+      <div class="more-icon">👥</div>
+      <div class="more-info">
+        <div class="more-name">Recruiting &amp; Talent</div>
+        <div class="more-count">5 products</div>
+      </div>
+    </a>
+    <a class="more-tile" href="#">
+      <div class="more-icon">📅</div>
+      <div class="more-info">
+        <div class="more-name">Meeting Intelligence</div>
+        <div class="more-count">6 products</div>
+      </div>
+    </a>
+    <a class="more-tile" href="#">
+      <div class="more-icon">🏢</div>
+      <div class="more-info">
+        <div class="more-name">HR Operations</div>
+        <div class="more-count">4 products</div>
+      </div>
+    </a>
+    <a class="more-tile" href="#">
+      <div class="more-icon">💰</div>
+      <div class="more-info">
+        <div class="more-name">Finance &amp; Accounting</div>
+        <div class="more-count">5 products</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Emerging Categories -->
+  <div class="section-head">
+    <h2>Emerging categories</h2>
+    <span>Early-stage market, fewer products but growing fast</span>
+  </div>
+
+  <div class="emerging-row">
+    <a class="emerging-chip" href="#">
+      <span class="chip-icon">⚖️</span> Legal &amp; Compliance <span class="chip-count">4 products</span>
+    </a>
+    <a class="emerging-chip" href="#">
+      <span class="chip-icon">🛡️</span> Security Operations <span class="chip-count">5 products</span>
+    </a>
+    <a class="emerging-chip" href="#">
+      <span class="chip-icon">🏥</span> Healthcare <span class="chip-count">3 products</span>
+    </a>
+    <a class="emerging-chip" href="#">
+      <span class="chip-icon">🏭</span> Supply Chain <span class="chip-count">3 products</span>
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Agents — Grouped by Role (1C) | G2 Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Figtree, sans-serif; background: #f5f4fb; color: #1a1a2e; font-size: 14px; }
+
+    /* ── Page Header ── */
+    .page-header { background: white; border-bottom: 1px solid #e5e3f0; padding: 28px 48px 24px; }
+    .breadcrumb { font-size: 12px; color: #8b8fa8; margin-bottom: 12px; }
+    .breadcrumb a { color: #8b8fa8; text-decoration: none; }
+    .breadcrumb a:hover { color: #5746b2; }
+    .header-inner h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+    .header-inner p { font-size: 14px; color: #49495a; line-height: 1.6; max-width: 540px; }
+
+    /* ── Body ── */
+    .page-body { max-width: 1040px; margin: 0 auto; padding: 36px 48px 64px; }
+
+    /* ── Role Group ── */
+    .role-group { margin-bottom: 40px; }
+
+    .role-header {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
+      padding-bottom: 12px; border-bottom: 1.5px solid #e5e3f0;
+    }
+    .role-icon-wrap {
+      width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+    }
+    .role-header-text h2 { font-size: 16px; font-weight: 800; color: #1a1a2e; margin-bottom: 2px; }
+    .role-header-text p { font-size: 12px; color: #8b8fa8; }
+    .role-total { margin-left: auto; font-size: 12px; color: #8b8fa8; font-weight: 600; white-space: nowrap; }
+
+    /* ── Category tiles within a group ── */
+    .role-tiles { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .role-tile {
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
+      padding: 16px 18px; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 6px;
+      width: calc(25% - 8px); min-width: 180px;
+      transition: border-color 0.15s, box-shadow 0.12s;
+      position: relative;
+    }
+    .role-tile:hover { border-color: #5746b2; box-shadow: 0 3px 16px rgba(87,70,178,0.1); }
+
+    .role-tile-top { display: flex; align-items: center; gap: 9px; }
+    .role-tile-icon { font-size: 18px; flex-shrink: 0; }
+    .role-tile-name { font-size: 14px; font-weight: 700; color: #1a1a2e; }
+    .role-tile:hover .role-tile-name { color: #5746b2; }
+    .role-tile-desc { font-size: 12px; color: #8b8fa8; line-height: 1.5; }
+    .role-tile-count { font-size: 11px; font-weight: 700; color: #5746b2; }
+
+    /* Hot indicator dot */
+    .hot-dot {
+      position: absolute; top: 12px; right: 12px;
+      width: 7px; height: 7px; border-radius: 50%; background: #ff492c;
+    }
+    .new-dot {
+      position: absolute; top: 12px; right: 12px;
+      width: 7px; height: 7px; border-radius: 50%; background: #16a34a;
+    }
+
+    /* ── Role color themes ── */
+    .theme-revenue .role-icon-wrap { background: #fff3f0; }
+    .theme-revenue .role-header { border-color: #ffd5cc; }
+    .theme-revenue .role-header-text h2 { color: #c2410c; }
+
+    .theme-engineering .role-icon-wrap { background: #f0fdf4; }
+    .theme-engineering .role-header { border-color: #bbf7d0; }
+    .theme-engineering .role-header-text h2 { color: #15803d; }
+
+    .theme-knowledge .role-icon-wrap { background: #eff6ff; }
+    .theme-knowledge .role-header { border-color: #bfdbfe; }
+    .theme-knowledge .role-header-text h2 { color: #1d4ed8; }
+
+    .theme-specialized .role-icon-wrap { background: #faf5ff; }
+    .theme-specialized .role-header { border-color: #e9d5ff; }
+    .theme-specialized .role-header-text h2 { color: #7e22ce; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="#">Software</a> ›
+    <a href="#">Artificial Intelligence</a> ›
+    <strong style="color:#1a1a2e;">AI Agents</strong>
+  </div>
+  <div class="header-inner">
+    <h1>AI Agents</h1>
+    <p>AI agents autonomously complete multi-step workflows — researching, deciding, and acting without continuous human input. Find the agents built for your team.</p>
+  </div>
+</div>
+
+<div class="page-body">
+
+  <!-- ── Revenue & Customer Teams ── -->
+  <div class="role-group theme-revenue">
+    <div class="role-header">
+      <div class="role-icon-wrap">🚀</div>
+      <div class="role-header-text">
+        <h2>For Revenue &amp; Customer Teams</h2>
+        <p>Sales, marketing, and customer experience</p>
+      </div>
+      <div class="role-total">26 products</div>
+    </div>
+    <div class="role-tiles">
+
+      <a class="role-tile" href="./v1-use-case-first.html">
+        <div class="hot-dot"></div>
+        <div class="role-tile-top">
+          <span class="role-tile-icon">📬</span>
+          <span class="role-tile-name">SDR &amp; Outbound</span>
+        </div>
+        <div class="role-tile-desc">Prospecting, personalized email, LinkedIn outreach, meeting booking</div>
+        <div class="role-tile-count">6 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="hot-dot"></div>
+        <div class="role-tile-top">
+          <span class="role-tile-icon">💬</span>
+          <span class="role-tile-name">Customer Support</span>
+        </div>
+        <div class="role-tile-desc">Autonomous ticket resolution, escalation routing, voice agents</div>
+        <div class="role-tile-count">11 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="role-tile-top">
+          <span class="role-tile-icon">✍️</span>
+          <span class="role-tile-name">Marketing &amp; Content</span>
+        </div>
+        <div class="role-tile-desc">Campaign creation, copy generation, SEO content, ad creative</div>
+        <div class="role-tile-count">9 products</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── Engineering Teams ── -->
+  <div class="role-group theme-engineering">
+    <div class="role-header">
+      <div class="role-icon-wrap">⚙️</div>
+      <div class="role-header-text">
+        <h2>For Engineering &amp; Security Teams</h2>
+        <p>Software development, operations, and security</p>
+      </div>
+      <div class="role-total">18 products</div>
+    </div>
+    <div class="role-tiles">
+
+      <a class="role-tile" href="#">
+        <div class="hot-dot"></div>
+        <div class="role-tile-top">
+          <span class="role-tile-icon">💻</span>
+          <span class="role-tile-name">Software Engineering</span>
+        </div>
+        <div class="role-tile-desc">Code generation, review, bug triage, test automation, documentation</div>
+        <div class="role-tile-count">8 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="role-tile-top">
+          <span class="role-tile-icon">🖥️</span>
+          <span class="role-tile-name">IT Helpdesk</span>
+        </div>
+        <div class="role-tile-desc">Internal support, access requests, onboarding automation</div>
+        <div class="role-tile-count">5 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="new-dot"></div>
+        <div class="role-tile-top">
+          <span class="role-tile-icon">🛡️</span>
+          <span class="role-tile-name">Security Operations</span>
+        </div>
+        <div class="role-tile-desc">Threat detection, incident response, SOC automation, alert triage</div>
+        <div class="role-tile-count">5 products</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── Knowledge & Ops Teams ── -->
+  <div class="role-group theme-knowledge">
+    <div class="role-header">
+      <div class="role-icon-wrap">🧠</div>
+      <div class="role-header-text">
+        <h2>For Knowledge &amp; Operations Teams</h2>
+        <p>Research, data, HR, and productivity</p>
+      </div>
+      <div class="role-total">28 products</div>
+    </div>
+    <div class="role-tiles">
+
+      <a class="role-tile" href="#">
+        <div class="new-dot"></div>
+        <div class="role-tile-top">
+          <span class="role-tile-icon">🔍</span>
+          <span class="role-tile-name">Research &amp; Intelligence</span>
+        </div>
+        <div class="role-tile-desc">Web research, competitive intelligence, literature review</div>
+        <div class="role-tile-count">7 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="role-tile-top">
+          <span class="role-tile-icon">📊</span>
+          <span class="role-tile-name">Data &amp; BI</span>
+        </div>
+        <div class="role-tile-desc">Natural language queries, automated reporting, anomaly detection</div>
+        <div class="role-tile-count">6 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="role-tile-top">
+          <span class="role-tile-icon">📅</span>
+          <span class="role-tile-name">Meeting Intelligence</span>
+        </div>
+        <div class="role-tile-desc">Transcription, action items, follow-ups, CRM updates</div>
+        <div class="role-tile-count">6 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="role-tile-top">
+          <span class="role-tile-icon">👥</span>
+          <span class="role-tile-name">Recruiting &amp; Talent</span>
+        </div>
+        <div class="role-tile-desc">Candidate sourcing, screening, outreach, pipeline management</div>
+        <div class="role-tile-count">5 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="role-tile-top">
+          <span class="role-tile-icon">🏢</span>
+          <span class="role-tile-name">HR Operations</span>
+        </div>
+        <div class="role-tile-desc">Onboarding, policy Q&amp;A, offboarding, benefits administration</div>
+        <div class="role-tile-count">4 products</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── Specialized Functions ── -->
+  <div class="role-group theme-specialized">
+    <div class="role-header">
+      <div class="role-icon-wrap">⚖️</div>
+      <div class="role-header-text">
+        <h2>For Specialized &amp; Regulated Functions</h2>
+        <p>Finance, legal, healthcare, and supply chain</p>
+      </div>
+      <div class="role-total">15 products</div>
+    </div>
+    <div class="role-tiles">
+
+      <a class="role-tile" href="#">
+        <div class="new-dot"></div>
+        <div class="role-tile-top">
+          <span class="role-tile-icon">⚖️</span>
+          <span class="role-tile-name">Legal &amp; Compliance</span>
+        </div>
+        <div class="role-tile-desc">Contract review, regulatory monitoring, risk flagging</div>
+        <div class="role-tile-count">4 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="new-dot"></div>
+        <div class="role-tile-top">
+          <span class="role-tile-icon">💰</span>
+          <span class="role-tile-name">Finance &amp; Accounting</span>
+        </div>
+        <div class="role-tile-desc">Invoice processing, expense management, close automation</div>
+        <div class="role-tile-count">5 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="new-dot"></div>
+        <div class="role-tile-top">
+          <span class="role-tile-icon">🏥</span>
+          <span class="role-tile-name">Healthcare</span>
+        </div>
+        <div class="role-tile-desc">Clinical documentation, prior auth, patient scheduling</div>
+        <div class="role-tile-count">3 products</div>
+      </a>
+
+      <a class="role-tile" href="#">
+        <div class="new-dot"></div>
+        <div class="role-tile-top">
+          <span class="role-tile-icon">🏭</span>
+          <span class="role-tile-name">Supply Chain</span>
+        </div>
+        <div class="role-tile-desc">Vendor sourcing, PO automation, inventory management</div>
+        <div class="role-tile-count">3 products</div>
+      </a>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

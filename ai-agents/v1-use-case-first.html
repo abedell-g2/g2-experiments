@@ -215,8 +215,9 @@
     .cw-label { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 6px; }
     .cw-weight { font-size: 12px; font-weight: 800; color: white; }
     .cw-slider { width: 100%; accent-color: white; cursor: pointer; }
-    .cw-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
-    .cw-info { font-size: 11px; color: rgba(255,255,255,0.55); }
+    .cw-slider::-webkit-slider-runnable-track { background: rgba(0,0,0,0.3); height: 4px; border-radius: 2px; }
+    .cw-slider::-moz-range-track { background: rgba(0,0,0,0.3); height: 4px; border-radius: 2px; }
+    .cw-footer { display: flex; align-items: center; justify-content: flex-end; margin-top: 14px; }
     .cw-reset { font-family: Figtree, sans-serif; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); background: none; border: none; cursor: pointer; padding: 0; }
     .cw-reset:hover { color: white; }
   </style>
@@ -358,7 +359,6 @@
           </div>
         </div>
         <div class="cw-footer">
-          <span class="cw-info">Scores are normalized relative to all listed products.</span>
           <button class="cw-reset" onclick="resetWeights()">Reset to defaults</button>
         </div>
       </div>

@@ -652,7 +652,8 @@
     const ta = document.getElementById('aiTextarea');
     ta.value = text;
     hideSuggestion();
-    showDetected(category);
+    hideDetected();
+    document.getElementById('summaryUC').textContent = category;
     document.getElementById('btnStep1').disabled = false;
     ta.focus();
   }

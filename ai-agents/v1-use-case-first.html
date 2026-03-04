@@ -19,21 +19,46 @@
     .page-header h1 { font-size: 26px; font-weight: 800; color: #1a1a2e; margin-bottom: 6px; }
     .page-header .subtitle { font-size: 14px; color: #49495a; max-width: 600px; line-height: 1.5; margin-bottom: 20px; }
 
-    /* ── Use Case Tabs ── */
-    .uc-tabs { display: flex; gap: 2px; border-bottom: none; }
-    .uc-tab {
-      padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
-      border: 1.5px solid transparent; border-bottom: none; border-radius: 8px 8px 0 0;
-      color: #49495a; background: #f5f4fb; text-decoration: none; display: flex; align-items: center; gap: 6px;
+    /* ── Category Tab Bar (bottom of header) ── */
+    .cat-tabs-wrap {
+      overflow: visible; margin: 16px -32px 0;
+      border-top: 1px solid #e5e3f0;
+    }
+    .cat-tabs { display: flex; align-items: center; padding: 0 32px; }
+    .cat-tab {
+      padding: 12px 14px; font-size: 13px; font-weight: 600; color: #8b8fa8;
+      white-space: nowrap; cursor: pointer; border-bottom: 2px solid transparent;
+      transition: color 0.12s, border-color 0.12s;
+      display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
       margin-bottom: -1px;
     }
-    .uc-tab:hover { background: #ede9ff; color: #5746b2; }
-    .uc-tab.active {
-      background: white; color: #5746b2; border-color: #e5e3f0;
-      border-bottom-color: white; font-weight: 700;
+    .cat-tab:hover { color: #5746b2; }
+    .cat-tab.active { color: #5746b2; border-bottom-color: #5746b2; font-weight: 700; }
+    .cat-tab .tab-icon { font-size: 14px; }
+    .cat-tab .tab-count { font-size: 10px; font-weight: 700; background: #f0eeff; color: #5746b2; padding: 1px 6px; border-radius: 10px; }
+    .cat-tab.active .tab-count { background: #5746b2; color: white; }
+    .cat-tab-more {
+      padding: 12px 14px; font-size: 12px; font-weight: 700; color: #8b8fa8;
+      white-space: nowrap; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; gap: 4px; position: relative;
+      margin-bottom: -1px;
     }
-    .uc-tab .tab-count { background: #f0eeff; color: #5746b2; border-radius: 20px; padding: 1px 7px; font-size: 11px; font-weight: 700; }
-    .uc-tab.active .tab-count { background: #5746b2; color: white; }
+    .cat-tab-more:hover { color: #5746b2; }
+    .cat-tab-more.open { color: #5746b2; border-bottom: 2px solid #5746b2; }
+    .more-menu {
+      display: none; position: absolute; top: calc(100% + 1px); left: 0;
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 10px;
+      padding: 6px 0; min-width: 220px; z-index: 200;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    .more-menu.open { display: block; }
+    .more-menu-item {
+      padding: 10px 16px; font-size: 13px; font-weight: 600; color: #49495a;
+      display: flex; align-items: center; gap: 8px; cursor: pointer;
+    }
+    .more-menu-item:hover { background: #f8f7ff; color: #5746b2; }
+    .more-menu-item.active { color: #5746b2; background: #f0eeff; }
+    .more-menu-item .mi-count { font-size: 11px; color: #8b8fa8; margin-left: auto; }
 
     /* ── Layout ── */
     .page-body { max-width: 1200px; margin: 0 auto; padding: 24px 32px; display: flex; gap: 24px; align-items: flex-start; }
@@ -182,27 +207,31 @@
     </div>
     <h1>AI Agents</h1>
     <p class="subtitle">AI Agents autonomously complete multi-step workflows — researching, deciding, and acting without continuous human instruction. Choose your use case to see the agents built for your workflow.</p>
+  </div>
 
-    <!-- Use Case Tabs -->
-    <div class="uc-tabs">
-      <a class="uc-tab active" href="#">
-        SDR &amp; Outbound <span class="tab-count">6</span>
-      </a>
-      <a class="uc-tab" href="#">
-        Customer Support <span class="tab-count">11</span>
-      </a>
-      <a class="uc-tab" href="#">
-        DevOps &amp; Code <span class="tab-count">8</span>
-      </a>
-      <a class="uc-tab" href="#">
-        Research &amp; Analysis <span class="tab-count">9</span>
-      </a>
-      <a class="uc-tab" href="#">
-        Internal Ops <span class="tab-count">7</span>
-      </a>
-      <a class="uc-tab" href="#">
-        Finance &amp; Legal <span class="tab-count">5</span>
-      </a>
+  <!-- Category tab bar — sits flush at the bottom of the header -->
+  <div class="cat-tabs-wrap">
+    <div class="cat-tabs">
+      <div class="cat-tab active" onclick="switchCat(this)"><span class="tab-icon">📬</span> SDR &amp; Outbound <span class="tab-count">6</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">💬</span> Customer Support <span class="tab-count">11</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">⚙️</span> Software Engineering <span class="tab-count">8</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">✍️</span> Marketing &amp; Content <span class="tab-count">9</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">🔍</span> Research &amp; Intelligence <span class="tab-count">7</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">📊</span> Data &amp; BI <span class="tab-count">6</span></div>
+      <div class="cat-tab" onclick="switchCat(this)"><span class="tab-icon">👥</span> Recruiting <span class="tab-count">5</span></div>
+      <div class="cat-tab-more" id="moreBtn" onclick="toggleMore(event)">
+        More ▾
+        <div class="more-menu" id="moreMenu">
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🖥️</span> IT Helpdesk <span class="mi-count">5</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>📅</span> Meeting Intelligence <span class="mi-count">6</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>⚖️</span> Legal &amp; Compliance <span class="mi-count">4</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>💰</span> Finance &amp; Accounting <span class="mi-count">5</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🛡️</span> Security Operations <span class="mi-count">5</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🏢</span> HR Operations <span class="mi-count">4</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🏥</span> Healthcare <span class="mi-count">3</span></div>
+          <div class="more-menu-item" onclick="switchCatFromMenu(this, event)"><span>🏭</span> Supply Chain <span class="mi-count">3</span></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -778,6 +807,36 @@
 
   </main>
 </div>
+
+<script>
+  function switchCat(el) {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.more-menu-item').forEach(i => i.classList.remove('active'));
+    document.getElementById('moreBtn').classList.remove('open');
+    document.getElementById('moreMenu').classList.remove('open');
+    el.classList.add('active');
+  }
+
+  function toggleMore(e) {
+    e.stopPropagation();
+    document.getElementById('moreBtn').classList.toggle('open');
+    document.getElementById('moreMenu').classList.toggle('open');
+  }
+
+  function switchCatFromMenu(el, e) {
+    e.stopPropagation();
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.more-menu-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('moreBtn').classList.add('open');
+    document.getElementById('moreMenu').classList.remove('open');
+  }
+
+  document.addEventListener('click', function() {
+    document.getElementById('moreBtn').classList.remove('open');
+    document.getElementById('moreMenu').classList.remove('open');
+  });
+</script>
 
 </body>
 </html>

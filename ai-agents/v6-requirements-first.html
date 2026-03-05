@@ -303,13 +303,13 @@
       display: flex; align-items: center; justify-content: center;
       height: 46px; white-space: nowrap; letter-spacing: -0.01em;
     }
-    .heat-1 { background: #6657be; color: white; }
-    .heat-2 { background: #8278cb; color: white; }
-    .heat-3 { background: #9d97d7; color: #1e1560; }
-    .heat-4 { background: #b5b1e2; color: #2a1c85; }
-    .heat-5 { background: #cac7ec; color: #3d2d9e; }
-    .heat-6 { background: #dbd9f4; color: #5746b2; }
-    .heat-7 { background: #eae8fb; color: #8b80c8; }
+    .heat-1 { background: #4e7a5f; color: white; }
+    .heat-2 { background: #6e9c7d; color: white; }
+    .heat-3 { background: #97b9a9; color: #1a3d28; }
+    .heat-4 { background: #c7a542; color: #3a2400; }
+    .heat-5 { background: #c98660; color: white; }
+    .heat-6 { background: #c07070; color: white; }
+    .heat-7 { background: #e6cecd; color: #8b3e3e; }
 
     /* Gap note — inset within the dimension cell */
     .dim-gap-note {
@@ -1027,9 +1027,12 @@ function taskSymbol(norm) {
 }
 
 function taskHeatClass(norm) {
-  if (norm >= 75) return 'heat-2';
-  if (norm >= 50) return 'heat-4';
-  if (norm >= 25) return 'heat-6';
+  if (norm >= 86) return 'heat-1';
+  if (norm >= 72) return 'heat-2';
+  if (norm >= 58) return 'heat-3';
+  if (norm >= 44) return 'heat-4';
+  if (norm >= 30) return 'heat-5';
+  if (norm >= 16) return 'heat-6';
   return 'heat-7';
 }
 

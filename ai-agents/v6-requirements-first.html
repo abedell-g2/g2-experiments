@@ -21,7 +21,7 @@
     .page-header a:hover { color: #5746b2; }
 
     /* ── V6 Wrapper ── */
-    .v6-wrap { max-width: 920px; margin: 0 auto; padding: 52px 32px 80px; }
+    .v6-wrap { max-width: 1140px; margin: 0 auto; padding: 52px 40px 80px; }
 
     /* ── Step Indicator ── */
     .steps-bar { display: flex; align-items: center; margin: 0 0 56px; }
@@ -189,8 +189,8 @@
     .bm-prod-name { font-size: 14px; font-weight: 800; }
 
     /* ── Matrix ── */
-    .matrix-wrapper { overflow-x: auto; border-radius: 12px; border: 1.5px solid #e5e3f0; background: white; }
-    .matrix-table { width: 100%; min-width: 900px; border-collapse: collapse; }
+    .matrix-wrapper { border-radius: 12px; border: 1.5px solid #e5e3f0; background: white; }
+    .matrix-table { width: 100%; border-collapse: collapse; }
 
     /* Header */
     .matrix-table thead th { border-bottom: 2px solid #e5e3f0; }
@@ -199,16 +199,12 @@
       background: #faf9ff; padding: 14px 16px;
       text-align: left; font-size: 11px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.08em; color: #8b8fa8;
-      width: 210px; min-width: 210px;
+      width: 190px; min-width: 190px;
       border-right: 1.5px solid #e5e3f0;
       box-shadow: 2px 0 4px rgba(0,0,0,0.04);
     }
-    .prod-th { padding: 12px 8px; text-align: center; min-width: 125px; }
-    .prod-th.best-col {
-      background: #f0eeff;
-      border-left: 2px solid #5746b2;
-      border-right: 2px solid #5746b2;
-    }
+    .prod-th { padding: 12px 6px; text-align: center; }
+    .prod-th.best-col { background: #f5f3ff; }
     .prod-th-inner { display: flex; flex-direction: column; align-items: center; gap: 6px; }
     .prod-logo-sm {
       width: 32px; height: 32px; border-radius: 8px;
@@ -229,7 +225,7 @@
     .dim-td {
       position: sticky; left: 0; z-index: 5;
       background: white; padding: 12px 16px;
-      width: 210px; min-width: 210px;
+      width: 190px; min-width: 190px;
       border-right: 1.5px solid #e5e3f0;
       box-shadow: 2px 0 4px rgba(0,0,0,0.04);
       transition: border-left 0.15s;
@@ -245,12 +241,8 @@
     .rel-high .dim-rel-dot { background: #5746b2; }
     .rel-medium .dim-rel-dot { background: #a78bfa; }
 
-    .score-td { padding: 10px 8px; text-align: center; vertical-align: middle; }
-    .score-td.best-col {
-      background: #faf9ff;
-      border-left: 2px solid #5746b2;
-      border-right: 2px solid #5746b2;
-    }
+    .score-td { padding: 8px 6px; text-align: center; vertical-align: middle; }
+    .score-td.best-col { background: #f5f3ff; }
 
     /* Heat cells */
     .heat-cell {
@@ -262,16 +254,13 @@
     .heat-yellow { background: #a99de0; color: white; }
     .heat-red    { background: #e2dff8; color: #7a6ec4; }
 
-    /* Gap banner rows */
-    .gap-row td { padding: 0; }
-    .gap-banner {
-      display: flex; align-items: flex-start; gap: 10px;
-      background: #fffbeb; border-top: 1.5px solid #fde68a;
-      border-bottom: 1.5px solid #fde68a; padding: 10px 20px;
+    /* Gap note — inset within the dimension cell */
+    .dim-gap-note {
+      margin-top: 8px; padding: 6px 8px;
+      background: #fffbeb; border-radius: 6px;
+      border-left: 2px solid #f59e0b;
+      font-size: 10px; color: #92400e; line-height: 1.45;
     }
-    .gap-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
-    .gap-banner-text { font-size: 12px; color: #92400e; line-height: 1.5; }
-    .gap-banner-text strong { font-weight: 700; }
 
     /* Last row bottom corners */
     .matrix-table tbody tr:last-child td:first-child { border-radius: 0 0 0 10px; }
@@ -906,10 +895,15 @@ function renderMatrix() {
     const relClass = relCount >= 2 ? 'rel-high' : relCount === 1 ? 'rel-medium' : '';
     const dotHtml  = relClass ? `<span class="dim-rel-dot"></span>` : '';
 
+    const gapHtml = dim.gap
+      ? `<div class="dim-gap-note">⚠ ${dim.gapNote}</div>`
+      : '';
+
     html += `<tr>`;
     html += `<td class="dim-td ${relClass}">
       <div class="dim-td-name">${dotHtml}${dim.name}</div>
       <div class="dim-td-desc">${dim.desc}</div>
+      ${gapHtml}
     </td>`;
 
     sortedProducts.forEach(p => {
@@ -921,16 +915,6 @@ function renderMatrix() {
       </td>`;
     });
     html += `</tr>`;
-
-    // Insert gap banner AFTER this dimension row if it has a gap
-    if (dim.gap) {
-      html += `<tr class="gap-row"><td colspan="${sortedProducts.length + 1}">
-        <div class="gap-banner">
-          <span class="gap-icon">⚠️</span>
-          <div class="gap-banner-text"><strong>Coverage gap identified:</strong> ${dim.gapNote}</div>
-        </div>
-      </td></tr>`;
-    }
   });
   html += '</tbody>';
 

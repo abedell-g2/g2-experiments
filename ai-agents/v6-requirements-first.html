@@ -853,7 +853,7 @@ function renderBestMatchCallout(bestId, dimCounts) {
       <img src="https://www.google.com/s2/favicons?domain=${best.domain}&sz=64" alt="${best.name}" onerror="this.style.display='none';this.parentElement.textContent='${best.name[0]}'">
     </div>
     <div class="bm-body">
-      <div class="bm-badge">⚡ Best match</div>
+      <div class="bm-badge">Best match</div>
       <div class="bm-prod-name">${best.name}</div>
       <div class="bm-tagline">${best.tagline}</div>
       <div class="bm-highlights">Leads on ${highlights} based on your selected tasks.</div>
@@ -888,7 +888,7 @@ function renderMatrix() {
           <img src="https://www.google.com/s2/favicons?domain=${p.domain}&sz=32" alt="${p.name}" onerror="this.style.display='none'">
         </div>
         <div class="prod-th-name">${p.name}</div>
-        ${isBest ? '<div class="best-match-badge">⚡ Best Match</div>' : ''}
+        ${isBest ? '<div class="best-match-badge">Best Match</div>' : ''}
       </div>
     </th>`;
   });

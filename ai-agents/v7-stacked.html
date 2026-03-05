@@ -424,7 +424,6 @@
       </div>
       <div class="jobs-grid" id="jobsGrid"><!-- rendered by JS --></div>
       <div class="card-footer">
-        <span class="card-footer-left" id="taskFooterCount">4 tasks selected</span>
         <button class="btn-continue" onclick="advanceToContext()">Continue →</button>
       </div>
     </div>
@@ -751,8 +750,6 @@ function useStarter(text) {
 function updateTaskFooter() {
   const count = state.selectedJobs.size;
   document.getElementById('jobsSelCount').textContent = count + ' selected';
-  const footer = document.getElementById('taskFooterCount');
-  if (footer) footer.textContent = count + ' task' + (count !== 1 ? 's' : '') + ' selected';
 }
 
 function renderJobsGrid() {

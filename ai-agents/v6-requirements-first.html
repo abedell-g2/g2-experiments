@@ -256,9 +256,11 @@
       display: flex; align-items: center; justify-content: center;
       height: 46px; white-space: nowrap; letter-spacing: -0.01em;
     }
-    .heat-green  { background: #5746b2; color: white; }
-    .heat-yellow { background: #a99de0; color: white; }
-    .heat-red    { background: #e2dff8; color: #7a6ec4; }
+    .heat-1 { background: #3b2d9a; color: white; }
+    .heat-2 { background: #5746b2; color: white; }
+    .heat-3 { background: #7a6ec8; color: white; }
+    .heat-4 { background: #bfb9e8; color: #3d2d9e; }
+    .heat-5 { background: #e8e4fb; color: #8b80c8; }
 
     /* Gap note — inset within the dimension cell */
     .dim-gap-note {
@@ -437,9 +439,11 @@
 
     <div class="matrix-legend">
       <span class="legend-label">Scale</span>
+      <div class="legend-item"><div class="legend-bar" style="background:#3b2d9a;border-radius:4px;"></div> Excellent</div>
       <div class="legend-item"><div class="legend-bar" style="background:#5746b2;border-radius:4px;"></div> Strong</div>
-      <div class="legend-item"><div class="legend-bar" style="background:#a99de0;border-radius:4px;"></div> Moderate</div>
-      <div class="legend-item"><div class="legend-bar" style="background:#e2dff8;border-radius:4px;border:1px solid #d4d0ea;"></div> Weak</div>
+      <div class="legend-item"><div class="legend-bar" style="background:#7a6ec8;border-radius:4px;"></div> Good</div>
+      <div class="legend-item"><div class="legend-bar" style="background:#bfb9e8;border-radius:4px;"></div> Moderate</div>
+      <div class="legend-item"><div class="legend-bar" style="background:#e8e4fb;border-radius:4px;border:1px solid #d4d0ea;"></div> Weak</div>
       <div class="legend-rel">
         <span class="legend-label">Note</span>
         <div class="legend-rel-item" style="font-weight:500;color:#8b8fa8;">Each row uses its own unit &amp; threshold</div>
@@ -798,15 +802,12 @@ function formatValue(dim, value) {
 
 // Map a raw value to a heat color class using dimension-specific thresholds
 function heatColor(dim, value) {
-  if (dim.higherIsBetter) {
-    if (value >= dim.thresholds.green)  return 'heat-green';
-    if (value >= dim.thresholds.yellow) return 'heat-yellow';
-    return 'heat-red';
-  } else {
-    if (value <= dim.thresholds.green)  return 'heat-green';
-    if (value <= dim.thresholds.yellow) return 'heat-yellow';
-    return 'heat-red';
-  }
+  const n = normalizeScore(dim, value);
+  if (n >= 80) return 'heat-1';
+  if (n >= 60) return 'heat-2';
+  if (n >= 40) return 'heat-3';
+  if (n >= 20) return 'heat-4';
+  return 'heat-5';
 }
 
 function computeBestMatch(dimCounts) {

@@ -25,11 +25,11 @@
 
     /* ── Animations ── */
     @keyframes cardReveal {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .card-entering { animation: cardReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
-    .results-entering { animation: cardReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .card-entering { animation: cardReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .results-entering { animation: cardReveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
     /* ── Flow Card ── */
     .flow-card {
@@ -44,7 +44,7 @@
       width: 2px; height: 24px;
       background: linear-gradient(to bottom, #c4bbf0, #e5e3f0);
       border-radius: 2px; margin: 0 auto;
-      opacity: 0; transition: opacity 0.4s ease 0.2s;
+      opacity: 0; transition: opacity 0.6s ease 0.35s;
     }
     .flow-connector.visible { opacity: 1; }
 
@@ -625,27 +625,37 @@ window.addEventListener('DOMContentLoaded', () => {
 function revealCard(n) {
   const card = document.getElementById('card-' + n);
   card.classList.remove('flow-card-hidden');
-  // Trigger animation by forcing reflow then adding class
+  // Trigger animation by forcing reflow
   card.classList.remove('card-entering');
   void card.offsetWidth;
   card.classList.add('card-entering');
   // Show connector above this card
   const conn = document.getElementById('conn-' + (n - 1));
   if (conn) conn.classList.add('visible');
-  // Scroll the new card into view
-  setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 80);
+  // Smooth scroll to new card with breathing room above
+  setTimeout(() => {
+    const rect = card.getBoundingClientRect();
+    window.scrollTo({ top: window.scrollY + rect.top - 80, behavior: 'smooth' });
+  }, 160);
 }
 
 function collapseCard(n) {
   const inner = document.getElementById('card-' + n + '-inner');
   const done  = document.getElementById('card-' + n + '-done');
-  inner.style.display = 'none';
-  done.style.opacity = '0';
-  done.style.display = 'flex';
-  requestAnimationFrame(() => {
-    done.style.transition = 'opacity 0.25s ease';
-    done.style.opacity = '1';
-  });
+  // Fade out content first
+  inner.style.transition = 'opacity 0.2s ease';
+  inner.style.opacity = '0';
+  setTimeout(() => {
+    inner.style.display = 'none';
+    inner.style.opacity = '';
+    inner.style.transition = '';
+    done.style.opacity = '0';
+    done.style.display = 'flex';
+    requestAnimationFrame(() => {
+      done.style.transition = 'opacity 0.4s ease';
+      done.style.opacity = '1';
+    });
+  }, 200);
 }
 
 function editCard(n) {
@@ -676,8 +686,11 @@ function advanceToTasks() {
   const text = document.getElementById('problemText').value.trim();
   document.getElementById('card-1-summary').textContent = text || 'No problem entered';
   collapseCard(1);
-  revealCard(2);
-  updateTaskFooter();
+  // Reveal after collapse animation completes
+  setTimeout(() => {
+    revealCard(2);
+    updateTaskFooter();
+  }, 280);
 }
 
 // Step 2 → 3
@@ -685,7 +698,7 @@ function advanceToContext() {
   const selected = JOBS.filter(j => state.selectedJobs.has(j.id));
   document.getElementById('card-2-summary').textContent = selected.map(j => j.name).join(' · ');
   collapseCard(2);
-  revealCard(3);
+  setTimeout(() => revealCard(3), 280);
 }
 
 // Step 3 → Results
@@ -706,8 +719,11 @@ function showResults() {
     resultsEl.classList.remove('results-entering');
     void resultsEl.offsetWidth;
     resultsEl.classList.add('results-entering');
-    setTimeout(() => resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
-  }, 350);
+    setTimeout(() => {
+      const rect = resultsEl.getBoundingClientRect();
+      window.scrollTo({ top: window.scrollY + rect.top - 60, behavior: 'smooth' });
+    }, 200);
+  }, 420);
 }
 
 // ══════════════════════════════════════════════════════════════

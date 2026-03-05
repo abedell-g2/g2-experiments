@@ -213,7 +213,6 @@
       border-right: 1.5px solid #e5e3f0; box-shadow: 2px 0 4px rgba(0,0,0,0.04);
     }
     .task-col-th { padding: 10px 8px; text-align: center; border-bottom: 2px solid #e5e3f0; vertical-align: top; }
-    .task-col-icon { font-size: 18px; display: block; margin-bottom: 5px; }
     .task-col-name { font-size: 11px; font-weight: 700; color: #1a1a2e; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     .task-col-th.task-winner-col .task-col-name { color: #5746b2; }
 
@@ -224,15 +223,6 @@
       border-right: 1.5px solid #e5e3f0; box-shadow: 2px 0 4px rgba(0,0,0,0.04);
     }
     .prod-row-inner { display: flex; align-items: center; gap: 11px; }
-    .prod-rank {
-      width: 22px; height: 22px; border-radius: 50%;
-      font-size: 11px; font-weight: 800; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .rank-1 { background: #f59e0b; color: white; }
-    .rank-2 { background: #94a3b8; color: white; }
-    .rank-3 { background: #b07d3a; color: white; }
-    .rank-n { background: #e4e3ef; color: #6b6b85; }
     .prod-logo-row {
       width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
       border: 1.5px solid #e5e3f0; background: #f8f7ff;
@@ -1031,8 +1021,7 @@ function taskSymbol(norm) {
 
 function taskHeatClass(norm) {
   if (norm >= 62) return 'heat-2';
-  if (norm >= 38) return 'heat-4';
-  return 'heat-6';
+  return 'heat-7';
 }
 
 function renderTaskMatrix() {
@@ -1065,7 +1054,6 @@ function renderTaskMatrix() {
   selectedJobs.forEach((job, ji) => {
     const isWinnerCol = false; // highlighted per-row below
     html += `<th class="task-col-th">
-      <span class="task-col-icon">${job.icon}</span>
       <div class="task-col-name">${job.name}</div>
     </th>`;
   });
@@ -1074,13 +1062,10 @@ function renderTaskMatrix() {
   // ── Body: one row per product ──
   html += '<tbody>';
   ranked.forEach(({ p, total }, ri) => {
-    const rankClass = ri === 0 ? 'rank-1' : ri === 1 ? 'rank-2' : ri === 2 ? 'rank-3' : 'rank-n';
-
     html += '<tr>';
     // Product cell
     html += `<td class="task-prod-td">
       <div class="prod-row-inner">
-        <div class="prod-rank ${rankClass}"></div>
         <div class="prod-logo-row">
           <img src="https://www.google.com/s2/favicons?domain=${p.domain}&sz=32" alt="${p.name}" onerror="this.style.display='none'">
         </div>

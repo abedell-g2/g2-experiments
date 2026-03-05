@@ -103,7 +103,7 @@
     .problem-textarea {
       width: 100%; border: none; outline: none; resize: none;
       font-family: Figtree, sans-serif; font-size: 15px; color: #1a1a2e;
-      line-height: 1.65; min-height: 90px; background: transparent;
+      line-height: 1.65; min-height: 52px; background: transparent; overflow: hidden;
       margin-bottom: 14px;
     }
     .problem-textarea::placeholder { color: #c4c3d8; }
@@ -387,7 +387,7 @@
         <h2>What problem do you need AI to help solve?</h2>
         <p>Describe your situation and we'll map it to the specific tasks your AI agent needs to handle.</p>
       </div>
-      <textarea class="problem-textarea" id="problemText" rows="3" placeholder="Describe the problem you need AI to solve…">Our SDR team spends most of their day on manual prospect research and writing first-touch emails. I want an AI agent that can identify prospects in our ICP, research them, write personalized outreach, send follow-ups, and only loop in a human rep once there's a real conversation — ideally it books the meeting too.</textarea>
+      <textarea class="problem-textarea" id="problemText" placeholder="Describe the problem you need AI to solve…" oninput="autoResize(this)">Our SDR team spends most of their day on manual prospect research and writing first-touch emails. I want an AI agent that can identify prospects in our ICP, research them, write personalized outreach, send follow-ups, and only loop in a human rep once there's a real conversation — ideally it books the meeting too.</textarea>
       <div class="starter-chips">
         <span class="starter-label">Try:</span>
         <button class="starter-chip" onclick="useStarter('We\'re struggling with ')">We're struggling with…</button>
@@ -613,9 +613,15 @@ const state = {
 //  INIT
 // ══════════════════════════════════════════════════════════════
 
+function autoResize(ta) {
+  ta.style.height = 'auto';
+  ta.style.height = ta.scrollHeight + 'px';
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   renderJobsGrid();
   renderContextQuestions();
+  autoResize(document.getElementById('problemText'));
 });
 
 // ══════════════════════════════════════════════════════════════
@@ -733,6 +739,7 @@ function showResults() {
 function useStarter(text) {
   const ta = document.getElementById('problemText');
   ta.value = text;
+  autoResize(ta);
   ta.focus();
   ta.setSelectionRange(text.length, text.length);
 }
@@ -750,7 +757,7 @@ function updateTaskFooter() {
 
 function renderJobsGrid() {
   const grid = document.getElementById('jobsGrid');
-  const taskCards = JOBS.map(job => {
+  const taskCards = JOBS.slice(0, 5).map(job => {
     const sel = state.selectedJobs.has(job.id);
     return `
       <div class="job-card ${sel ? 'selected' : ''}" id="job-${job.id}" onclick="toggleJob('${job.id}')">

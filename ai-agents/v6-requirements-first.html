@@ -204,10 +204,49 @@
     .view-btn.active { background: white; color: #5746b2; box-shadow: 0 1px 5px rgba(0,0,0,0.1); }
     .view-btn:not(.active):hover { color: #5746b2; }
 
-    /* Task dim tags (By Task view) */
-    .task-dim-tag {
-      display: inline-block; font-size: 10px; font-weight: 600; color: #9b9ab0;
-      background: #f5f3ff; border-radius: 4px; padding: 1px 6px; margin: 3px 2px 0 0;
+    /* ── By Task view ── */
+    .task-prod-th {
+      position: sticky; left: 0; z-index: 10;
+      background: #faf9ff; padding: 14px 16px; text-align: left;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b8fa8;
+      width: 230px; min-width: 230px;
+      border-right: 1.5px solid #e5e3f0; box-shadow: 2px 0 4px rgba(0,0,0,0.04);
+    }
+    .task-col-th { padding: 10px 8px; text-align: center; border-bottom: 2px solid #e5e3f0; vertical-align: top; }
+    .task-col-icon { font-size: 18px; display: block; margin-bottom: 5px; }
+    .task-col-name { font-size: 11px; font-weight: 700; color: #1a1a2e; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .task-col-th.task-winner-col .task-col-name { color: #5746b2; }
+
+    .task-prod-td {
+      position: sticky; left: 0; z-index: 5;
+      background: white; padding: 14px 16px;
+      width: 230px; min-width: 230px;
+      border-right: 1.5px solid #e5e3f0; box-shadow: 2px 0 4px rgba(0,0,0,0.04);
+    }
+    .prod-row-inner { display: flex; align-items: center; gap: 11px; }
+    .prod-rank {
+      width: 22px; height: 22px; border-radius: 50%;
+      font-size: 11px; font-weight: 800; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .rank-1 { background: #f59e0b; color: white; }
+    .rank-2 { background: #94a3b8; color: white; }
+    .rank-3 { background: #b07d3a; color: white; }
+    .rank-n { background: #e4e3ef; color: #6b6b85; }
+    .prod-logo-row {
+      width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+      border: 1.5px solid #e5e3f0; background: #f8f7ff;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .prod-logo-row img { width: 22px; height: 22px; object-fit: contain; }
+    .prod-row-info { flex: 1; min-width: 0; }
+    .prod-row-name { font-size: 13px; font-weight: 800; color: #1a1a2e; }
+    .prod-row-tag  { font-size: 11px; color: #8b8fa8; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .task-score-td { padding: 8px 6px; text-align: center; vertical-align: middle; }
+    .task-symbol-cell {
+      border-radius: 8px; height: 42px; font-size: 15px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
     }
 
     /* ── Matrix ── */
@@ -984,60 +1023,85 @@ function renderMatrix() {
   table.innerHTML = html;
 }
 
+function taskSymbol(norm) {
+  if (norm >= 62) return '✓';
+  if (norm >= 38) return '∼';
+  return '—';
+}
+
+function taskHeatClass(norm) {
+  if (norm >= 62) return 'heat-2';
+  if (norm >= 38) return 'heat-4';
+  return 'heat-6';
+}
+
 function renderTaskMatrix() {
-  const dimCounts = computeRelevantDimsMap();
-  const bestId    = computeBestMatch(dimCounts);
-  const sortedProducts = getSortedProducts(dimCounts, bestId);
+  const dimCounts  = computeRelevantDimsMap();
+  const bestId     = computeBestMatch(dimCounts);
   const selectedJobs = JOBS.filter(j => state.selectedJobs.has(j.id));
+
+  // Rank products by composite score across ALL selected tasks
+  const ranked = [...PRODUCTS].map(p => {
+    const total = selectedJobs.reduce((sum, job) => {
+      return sum + job.dims.reduce((s, d) => s + normalizeScore(DIMENSIONS[d], SCORES[p.id][d]), 0) / job.dims.length;
+    }, 0) / selectedJobs.length;
+    return { p, total };
+  }).sort((a, b) => b.total - a.total);
+
+  // For each task, find which product ranks best
+  const taskWinners = selectedJobs.map(job => {
+    return ranked.reduce((best, { p }) => {
+      const score = job.dims.reduce((s, d) => s + normalizeScore(DIMENSIONS[d], SCORES[p.id][d]), 0) / job.dims.length;
+      const bestScore = job.dims.reduce((s, d) => s + normalizeScore(DIMENSIONS[d], SCORES[best.id][d]), 0) / job.dims.length;
+      return score > bestScore ? p : best;
+    }, ranked[0].p);
+  });
 
   let html = '';
 
-  // ── Header ──
+  // ── Header: sticky product col + one col per task ──
   html += '<thead><tr>';
-  html += '<th class="dim-th">Task</th>';
-  sortedProducts.forEach(p => {
-    const isBest = p.id === bestId;
-    html += `<th class="prod-th ${isBest ? 'best-col' : ''}">
-      <div class="prod-th-inner">
-        <div class="prod-logo-sm">
-          <img src="https://www.google.com/s2/favicons?domain=${p.domain}&sz=32" alt="${p.name}" onerror="this.style.display='none'">
-        </div>
-        <div class="prod-th-name">${p.name}</div>
-        ${isBest ? '<div class="best-match-badge">Best Match</div>' : ''}
-      </div>
+  html += '<th class="task-prod-th">Product</th>';
+  selectedJobs.forEach((job, ji) => {
+    const isWinnerCol = false; // highlighted per-row below
+    html += `<th class="task-col-th">
+      <span class="task-col-icon">${job.icon}</span>
+      <div class="task-col-name">${job.name}</div>
     </th>`;
   });
   html += '</tr></thead>';
 
-  // ── Body — one row per selected task ──
+  // ── Body: one row per product ──
   html += '<tbody>';
-  selectedJobs.forEach(job => {
-    const dimTags = job.dims.map(d => `<span class="task-dim-tag">${DIMENSIONS[d].name}</span>`).join('');
-
-    // Per-product composite score = avg normalized score across this task's dims
-    const taskScores = sortedProducts.map(p => {
-      const avg = job.dims.reduce((s, d) => s + normalizeScore(DIMENSIONS[d], SCORES[p.id][d]), 0) / job.dims.length;
-      return { p, avg };
-    });
-
-    // Best product for this specific task
-    const taskBestId = taskScores.reduce((best, cur) => cur.avg > best.avg ? cur : best).p.id;
+  ranked.forEach(({ p, total }, ri) => {
+    const rankClass = ri === 0 ? 'rank-1' : ri === 1 ? 'rank-2' : ri === 2 ? 'rank-3' : 'rank-n';
 
     html += '<tr>';
-    html += `<td class="dim-td">
-      <div class="dim-td-name">${job.icon} ${job.name}</div>
-      <div style="margin-top:5px;">${dimTags}</div>
-      ${job.gap ? `<div class="dim-gap-note">⚠ Limited coverage across all vendors</div>` : ''}
+    // Product cell
+    html += `<td class="task-prod-td">
+      <div class="prod-row-inner">
+        <div class="prod-rank ${rankClass}">${ri + 1}</div>
+        <div class="prod-logo-row">
+          <img src="https://www.google.com/s2/favicons?domain=${p.domain}&sz=32" alt="${p.name}" onerror="this.style.display='none'">
+        </div>
+        <div class="prod-row-info">
+          <div class="prod-row-name">${p.name}</div>
+          <div class="prod-row-tag">${p.tagline}</div>
+        </div>
+      </div>
     </td>`;
 
-    taskScores.forEach(({ p, avg }) => {
-      const color  = heatColorFromNorm(avg);
-      const isBestCol = p.id === bestId;
-      const isTaskBest = p.id === taskBestId;
-      html += `<td class="score-td ${isBestCol ? 'best-col' : ''}">
-        <div class="heat-cell ${color}" style="${isTaskBest ? 'outline:2px solid #5746b2;outline-offset:-2px;' : ''}">${Math.round(avg)}</div>
+    // Task score cells
+    selectedJobs.forEach((job, ji) => {
+      const norm   = job.dims.reduce((s, d) => s + normalizeScore(DIMENSIONS[d], SCORES[p.id][d]), 0) / job.dims.length;
+      const color  = taskHeatClass(norm);
+      const symbol = taskSymbol(norm);
+      const isTaskWinner = taskWinners[ji].id === p.id;
+      html += `<td class="task-score-td">
+        <div class="task-symbol-cell ${color}" style="${isTaskWinner ? 'outline:2px solid #5746b2;outline-offset:-2px;' : ''}">${symbol}</div>
       </td>`;
     });
+
     html += '</tr>';
   });
   html += '</tbody>';

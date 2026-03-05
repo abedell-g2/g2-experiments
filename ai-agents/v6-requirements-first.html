@@ -194,6 +194,22 @@
     .bm-tagline { font-size: 13px; color: #6b6b85; margin-bottom: 5px; }
     .bm-highlights { font-size: 12px; color: #8b8fa8; line-height: 1.5; }
 
+    /* ── View Toggle ── */
+    .view-toggle { display: flex; gap: 3px; background: #ede9fe; border-radius: 50px; padding: 3px; width: fit-content; margin-bottom: 20px; }
+    .view-btn {
+      font-family: Figtree, sans-serif; font-size: 13px; font-weight: 700;
+      color: #8b8fa8; background: none; border: none;
+      border-radius: 50px; padding: 8px 22px; cursor: pointer; transition: all 0.15s;
+    }
+    .view-btn.active { background: white; color: #5746b2; box-shadow: 0 1px 5px rgba(0,0,0,0.1); }
+    .view-btn:not(.active):hover { color: #5746b2; }
+
+    /* Task dim tags (By Task view) */
+    .task-dim-tag {
+      display: inline-block; font-size: 10px; font-weight: 600; color: #9b9ab0;
+      background: #f5f3ff; border-radius: 4px; padding: 1px 6px; margin: 3px 2px 0 0;
+    }
+
     /* ── Matrix ── */
     .matrix-wrapper { border-radius: 12px; border: 1.5px solid #e5e3f0; background: white; }
     .matrix-table { width: 100%; border-collapse: collapse; }
@@ -435,27 +451,53 @@
 
     <div class="best-match-callout" id="bestMatchCallout"><!-- rendered by JS --></div>
 
-    <div class="matrix-wrapper">
-      <table class="matrix-table" id="matrixTable"><!-- rendered by JS --></table>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-overall" onclick="setView('overall')">Overall</button>
+      <button class="view-btn" id="btn-task" onclick="setView('task')">By Task</button>
     </div>
 
-    <div class="matrix-legend">
-      <span class="legend-label">Scale</span>
-      <div class="legend-item"><div class="legend-bar" style="background:#3b2d9a;border-radius:4px;"></div> Excellent</div>
-      <div class="legend-item"><div class="legend-bar" style="background:#5746b2;border-radius:4px;"></div> Strong</div>
-      <div class="legend-item"><div class="legend-bar" style="background:#7264c4;border-radius:4px;"></div> Good</div>
-      <div class="legend-item"><div class="legend-bar" style="background:#9e96d6;border-radius:4px;"></div> Fair</div>
-      <div class="legend-item"><div class="legend-bar" style="background:#bfb9e8;border-radius:4px;"></div> Moderate</div>
-      <div class="legend-item"><div class="legend-bar" style="background:#d5d1f2;border-radius:4px;"></div> Limited</div>
-      <div class="legend-item"><div class="legend-bar" style="background:#eae8fb;border-radius:4px;border:1px solid #d4d0ea;"></div> Weak</div>
-      <div class="legend-rel">
-        <span class="legend-label">Note</span>
-        <div class="legend-rel-item" style="font-weight:500;color:#8b8fa8;">Each row uses its own unit &amp; threshold</div>
+    <div id="view-overall">
+      <div class="matrix-wrapper">
+        <table class="matrix-table" id="matrixTable"><!-- rendered by JS --></table>
       </div>
-      <div class="legend-rel">
-        <span class="legend-label">Relevance</span>
-        <div class="legend-rel-item"><div class="legend-bar" style="background:#5746b2;"></div> High — core to your tasks</div>
-        <div class="legend-rel-item"><div class="legend-bar" style="background:#c4bbf0;"></div> Medium — referenced by 1 task</div>
+      <div class="matrix-legend">
+        <span class="legend-label">Scale</span>
+        <div class="legend-item"><div class="legend-bar" style="background:#3b2d9a;border-radius:4px;"></div> Excellent</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#5746b2;border-radius:4px;"></div> Strong</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#7264c4;border-radius:4px;"></div> Good</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#9e96d6;border-radius:4px;"></div> Fair</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#bfb9e8;border-radius:4px;"></div> Moderate</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#d5d1f2;border-radius:4px;"></div> Limited</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#eae8fb;border-radius:4px;border:1px solid #d4d0ea;"></div> Weak</div>
+        <div class="legend-rel">
+          <span class="legend-label">Note</span>
+          <div class="legend-rel-item" style="font-weight:500;color:#8b8fa8;">Each row uses its own unit &amp; threshold</div>
+        </div>
+        <div class="legend-rel">
+          <span class="legend-label">Relevance</span>
+          <div class="legend-rel-item"><div class="legend-bar" style="background:#5746b2;"></div> High — core to your tasks</div>
+          <div class="legend-rel-item"><div class="legend-bar" style="background:#c4bbf0;"></div> Medium — referenced by 1 task</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-task" style="display:none;">
+      <div class="matrix-wrapper">
+        <table class="matrix-table" id="taskMatrix"><!-- rendered by JS --></table>
+      </div>
+      <div class="matrix-legend">
+        <span class="legend-label">Scale</span>
+        <div class="legend-item"><div class="legend-bar" style="background:#3b2d9a;border-radius:4px;"></div> Excellent</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#5746b2;border-radius:4px;"></div> Strong</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#7264c4;border-radius:4px;"></div> Good</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#9e96d6;border-radius:4px;"></div> Fair</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#bfb9e8;border-radius:4px;"></div> Moderate</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#d5d1f2;border-radius:4px;"></div> Limited</div>
+        <div class="legend-item"><div class="legend-bar" style="background:#eae8fb;border-radius:4px;border:1px solid #d4d0ea;"></div> Weak</div>
+        <div class="legend-rel">
+          <span class="legend-label">Note</span>
+          <div class="legend-rel-item" style="font-weight:500;color:#8b8fa8;">Score = avg. normalized performance across each task's key dimensions</div>
+        </div>
       </div>
     </div>
 
@@ -602,6 +644,7 @@ const state = {
   currentStep: 1,
   selectedJobs: new Set(['sequences', 'personalize', 'qualify', 'book-meetings']),
   context: { 'team-size': null, crm: new Set(), oversight: null, priority: null },
+  currentView: 'overall',
 };
 
 // ══════════════════════════════════════════════════════════════
@@ -805,8 +848,7 @@ function formatValue(dim, value) {
 }
 
 // Map a raw value to a heat color class using dimension-specific thresholds
-function heatColor(dim, value) {
-  const n = normalizeScore(dim, value);
+function heatColorFromNorm(n) {
   if (n >= 86) return 'heat-1';
   if (n >= 72) return 'heat-2';
   if (n >= 58) return 'heat-3';
@@ -814,6 +856,21 @@ function heatColor(dim, value) {
   if (n >= 30) return 'heat-5';
   if (n >= 16) return 'heat-6';
   return 'heat-7';
+}
+
+function heatColor(dim, value) {
+  return heatColorFromNorm(normalizeScore(dim, value));
+}
+
+// Returns products sorted: best match first, then by normalized relevant score
+function getSortedProducts(dimCounts, bestId) {
+  return [...PRODUCTS].sort((a, b) => {
+    if (a.id === bestId) return -1;
+    if (b.id === bestId) return 1;
+    const sA = dimCounts.reduce((s, c, d) => s + (c > 0 ? normalizeScore(DIMENSIONS[d], SCORES[a.id][d]) * c : 0), 0);
+    const sB = dimCounts.reduce((s, c, d) => s + (c > 0 ? normalizeScore(DIMENSIONS[d], SCORES[b.id][d]) * c : 0), 0);
+    return sB - sA;
+  });
 }
 
 function computeBestMatch(dimCounts) {
@@ -872,14 +929,7 @@ function renderMatrix() {
   const dimCounts = computeRelevantDimsMap();
   const bestId    = computeBestMatch(dimCounts);
 
-  // Sort products: best match first, then by normalized relevant score desc
-  const sortedProducts = [...PRODUCTS].sort((a, b) => {
-    if (a.id === bestId) return -1;
-    if (b.id === bestId) return 1;
-    const scoreA = dimCounts.reduce((sum, c, d) => sum + (c > 0 ? normalizeScore(DIMENSIONS[d], SCORES[a.id][d]) * c : 0), 0);
-    const scoreB = dimCounts.reduce((sum, c, d) => sum + (c > 0 ? normalizeScore(DIMENSIONS[d], SCORES[b.id][d]) * c : 0), 0);
-    return scoreB - scoreA;
-  });
+  const sortedProducts = getSortedProducts(dimCounts, bestId);
 
   const table = document.getElementById('matrixTable');
   let html = '';
@@ -934,12 +984,83 @@ function renderMatrix() {
   table.innerHTML = html;
 }
 
+function renderTaskMatrix() {
+  const dimCounts = computeRelevantDimsMap();
+  const bestId    = computeBestMatch(dimCounts);
+  const sortedProducts = getSortedProducts(dimCounts, bestId);
+  const selectedJobs = JOBS.filter(j => state.selectedJobs.has(j.id));
+
+  let html = '';
+
+  // ── Header ──
+  html += '<thead><tr>';
+  html += '<th class="dim-th">Task</th>';
+  sortedProducts.forEach(p => {
+    const isBest = p.id === bestId;
+    html += `<th class="prod-th ${isBest ? 'best-col' : ''}">
+      <div class="prod-th-inner">
+        <div class="prod-logo-sm">
+          <img src="https://www.google.com/s2/favicons?domain=${p.domain}&sz=32" alt="${p.name}" onerror="this.style.display='none'">
+        </div>
+        <div class="prod-th-name">${p.name}</div>
+        ${isBest ? '<div class="best-match-badge">Best Match</div>' : ''}
+      </div>
+    </th>`;
+  });
+  html += '</tr></thead>';
+
+  // ── Body — one row per selected task ──
+  html += '<tbody>';
+  selectedJobs.forEach(job => {
+    const dimTags = job.dims.map(d => `<span class="task-dim-tag">${DIMENSIONS[d].name}</span>`).join('');
+
+    // Per-product composite score = avg normalized score across this task's dims
+    const taskScores = sortedProducts.map(p => {
+      const avg = job.dims.reduce((s, d) => s + normalizeScore(DIMENSIONS[d], SCORES[p.id][d]), 0) / job.dims.length;
+      return { p, avg };
+    });
+
+    // Best product for this specific task
+    const taskBestId = taskScores.reduce((best, cur) => cur.avg > best.avg ? cur : best).p.id;
+
+    html += '<tr>';
+    html += `<td class="dim-td">
+      <div class="dim-td-name">${job.icon} ${job.name}</div>
+      <div style="margin-top:5px;">${dimTags}</div>
+      ${job.gap ? `<div class="dim-gap-note">⚠ Limited coverage across all vendors</div>` : ''}
+    </td>`;
+
+    taskScores.forEach(({ p, avg }) => {
+      const color  = heatColorFromNorm(avg);
+      const isBestCol = p.id === bestId;
+      const isTaskBest = p.id === taskBestId;
+      html += `<td class="score-td ${isBestCol ? 'best-col' : ''}">
+        <div class="heat-cell ${color}" style="${isTaskBest ? 'outline:2px solid #5746b2;outline-offset:-2px;' : ''}">${Math.round(avg)}</div>
+      </td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody>';
+
+  document.getElementById('taskMatrix').innerHTML = html;
+}
+
+function setView(view) {
+  state.currentView = view;
+  document.getElementById('view-overall').style.display = view === 'overall' ? '' : 'none';
+  document.getElementById('view-task').style.display    = view === 'task'    ? '' : 'none';
+  document.getElementById('btn-overall').classList.toggle('active', view === 'overall');
+  document.getElementById('btn-task').classList.toggle('active', view === 'task');
+}
+
 function renderResults() {
   const dimCounts = computeRelevantDimsMap();
   const bestId = computeBestMatch(dimCounts);
   renderProfileChips();
   renderBestMatchCallout(bestId, dimCounts);
   renderMatrix();
+  renderTaskMatrix();
+  setView(state.currentView);
 }
 
 </script>

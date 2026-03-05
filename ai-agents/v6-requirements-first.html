@@ -172,21 +172,27 @@
     .btn-refine:hover { border-color: #5746b2; color: #5746b2; }
 
     .best-match-callout {
-      background: #5746b2; color: white; border-radius: 12px;
-      padding: 18px 22px; margin-bottom: 24px;
-      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      background: white; border: 1.5px solid #e5e3f0; border-radius: 16px;
+      padding: 20px 24px; margin-bottom: 24px;
+      display: flex; align-items: center; gap: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
-    .bm-icon { font-size: 22px; flex-shrink: 0; }
-    .bm-text { flex: 1; min-width: 200px; }
-    .bm-text h4 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
-    .bm-text p { font-size: 12px; opacity: 0.9; line-height: 1.5; }
-    .bm-product {
-      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
-      background: rgba(255,255,255,0.15); border-radius: 10px; padding: 10px 16px;
+    .bm-logo {
+      width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+      background: #f0eeff; border: 1.5px solid #e5e3f0;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
-    .bm-logo { width: 32px; height: 32px; border-radius: 7px; background: white; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    .bm-logo img { width: 22px; height: 22px; object-fit: contain; }
-    .bm-prod-name { font-size: 14px; font-weight: 800; }
+    .bm-logo img { width: 32px; height: 32px; object-fit: contain; }
+    .bm-body { flex: 1; }
+    .bm-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      color: #5746b2; background: #f0eeff; border-radius: 20px; padding: 3px 10px;
+      margin-bottom: 7px;
+    }
+    .bm-prod-name { font-size: 17px; font-weight: 900; color: #1a1a2e; margin-bottom: 3px; }
+    .bm-tagline { font-size: 13px; color: #6b6b85; margin-bottom: 5px; }
+    .bm-highlights { font-size: 12px; color: #8b8fa8; line-height: 1.5; }
 
     /* ── Matrix ── */
     .matrix-wrapper { border-radius: 12px; border: 1.5px solid #e5e3f0; background: white; }
@@ -843,14 +849,14 @@ function renderBestMatchCallout(bestId, dimCounts) {
     .slice(0, 3);
   const highlights = relevant.map(x => `${DIMENSIONS[x.i].name} (${formatValue(DIMENSIONS[x.i], x.raw)})`).join(', ');
   document.getElementById('bestMatchCallout').innerHTML = `
-    <div class="bm-icon">⚡</div>
-    <div class="bm-text">
-      <h4>Best match for your requirements: ${best.name}</h4>
-      <p>Leads on the dimensions most relevant to your selected jobs: ${highlights}.</p>
+    <div class="bm-logo">
+      <img src="https://www.google.com/s2/favicons?domain=${best.domain}&sz=64" alt="${best.name}" onerror="this.style.display='none';this.parentElement.textContent='${best.name[0]}'">
     </div>
-    <div class="bm-product">
-      <div class="bm-logo"><img src="https://www.google.com/s2/favicons?domain=${best.domain}&sz=32" alt="${best.name}" onerror="this.style.display='none';this.parentElement.textContent='${best.name[0]}'"></div>
+    <div class="bm-body">
+      <div class="bm-badge">⚡ Best match</div>
       <div class="bm-prod-name">${best.name}</div>
+      <div class="bm-tagline">${best.tagline}</div>
+      <div class="bm-highlights">Leads on ${highlights} based on your selected tasks.</div>
     </div>
   `;
 }

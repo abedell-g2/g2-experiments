@@ -706,7 +706,7 @@ function updateStepIndicator(current) {
     item.classList.remove('active', 'done');
     if (i < current) {
       item.classList.add('done');
-      num.innerHTML = '<span class="step-done-check">✓</span>';
+      num.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>';
     } else if (i === current) {
       item.classList.add('active');
       num.textContent = i;
@@ -1014,7 +1014,7 @@ function renderMatrix() {
 }
 
 function taskSymbol(norm) {
-  if (norm >= 62) return '✓';
+  if (norm >= 62) return '<svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>';
   if (norm >= 38) return '∼';
   return '—';
 }

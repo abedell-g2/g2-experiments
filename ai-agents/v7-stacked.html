@@ -399,7 +399,7 @@
       </div>
     </div>
     <div class="card-done" id="card-1-done" style="display:none;">
-      <div class="card-done-check">✓</div>
+      <div class="card-done-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></div>
       <div class="card-done-content">
         <div class="card-done-label">Your Problem</div>
         <div class="card-done-summary" id="card-1-summary"></div>
@@ -429,7 +429,7 @@
       </div>
     </div>
     <div class="card-done" id="card-2-done" style="display:none;">
-      <div class="card-done-check">✓</div>
+      <div class="card-done-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></div>
       <div class="card-done-content">
         <div class="card-done-label">AI Tasks</div>
         <div class="card-done-summary" id="card-2-summary"></div>
@@ -455,7 +455,7 @@
       </div>
     </div>
     <div class="card-done" id="card-3-done" style="display:none;">
-      <div class="card-done-check">✓</div>
+      <div class="card-done-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></div>
       <div class="card-done-content">
         <div class="card-done-label">Your Setup</div>
         <div class="card-done-summary" id="card-3-summary"></div>
@@ -981,7 +981,7 @@ function renderMatrix() {
 }
 
 function taskSymbol(norm) {
-  if (norm >= 62) return '✓';
+  if (norm >= 62) return '<svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>';
   if (norm >= 38) return '∼';
   return '—';
 }
